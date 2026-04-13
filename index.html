@@ -277,19 +277,91 @@
           stat3:"98%", stat3l:"Satisfaction",
         },
         courses: {
-          heading:"Our Courses", sub:"Choose the path that fits your level and goals",
-          lDur:"Duration", lTui:"Tuition", lCon:"What You'll Learn", enroll:"Enroll Now →",
-          popular:"⭐ Most Popular",
-          items:[
-            { name:"Starter Spark", level:"Beginner", emoji:"🌱", dur:"3 months", tui:"2,500,000 VND/month",
-              content:["Alphabet & Phonics","500+ Everyday Words","Simple Sentences","Greetings & Introductions","Numbers, Dates & Time"],
-              bg:"#EEF0FF", border:"#93A3F8", accent:"#031383" },
-            { name:"Rising Voice", level:"Intermediate", emoji:"🔥", dur:"4 months", tui:"3,200,000 VND/month",
-              content:["Grammar Deep-Dive","Real-Life Conversations","Listening Comprehension","Email & Basic Writing","Speaking Confidence Drills"],
-              bg:"#F0EEFF", border:"#A89CF5", accent:"#4338CA", featured:true },
-            { name:"Fluent Pro", level:"Advanced", emoji:"🚀", dur:"5 months", tui:"4,000,000 VND/month",
-              content:["Business & Academic English","Debate & Public Speaking","IELTS / TOEIC Prep","Presentation Skills","Native-Speed Comprehension"],
-              bg:"#EEF6FF", border:"#6BB5F5", accent:"#1E40AF" },
+          heading:"Our Courses", sub:"Three tracks, multiple levels — find exactly where you belong",
+          lDur:"Duration", lTui:"Tuition / month", lCon:"What You'll Learn", enroll:"Enroll Now →",
+          enrollContact:"Contact Us →",
+          groups:[
+            {
+              id:"basic",
+              label:"Everyday Communication",
+              labelVI:"Giao Tiếp Cơ Bản",
+              emoji:"💬",
+              desc:"Build confident, natural spoken English from the very beginning.",
+              color:"#031383", colorLight:"#EEF0FF", colorBorder:"#BFC8FF",
+              levels:[
+                {
+                  name:"Speak Up", level:"Beginner", levelNum:1,
+                  dur:"3 months", tui:"2,500,000 VND",
+                  target:"Complete beginners — zero English required",
+                  content:["Pronunciation & phonics fundamentals","500+ essential daily vocabulary","Basic sentence structures","Greetings, introductions & small talk","Listening to simple, clear speech"],
+                },
+                {
+                  name:"Stand Out", level:"Elementary", levelNum:2,
+                  dur:"3 months", tui:"2,800,000 VND",
+                  target:"Can say simple things but need more range",
+                  content:["Expand to 1,200+ words","Past, present & future tenses","Short conversations on familiar topics","Asking & answering questions fluently","Simple storytelling & descriptions"],
+                },
+                {
+                  name:"Be Heard", level:"Pre-Intermediate", levelNum:3,
+                  dur:"4 months", tui:"3,200,000 VND",
+                  target:"Basic communicator wanting more fluency",
+                  content:["Connected speech & natural rhythm","Conversation strategies & fillers","Talking about opinions & feelings","Understanding fast natural speech","Short presentations & summaries"],
+                  featured:true,
+                },
+              ]
+            },
+            {
+              id:"advanced",
+              label:"Advanced Communication",
+              labelVI:"Giao Tiếp Nâng Cao",
+              emoji:"🚀",
+              desc:"Express complex ideas clearly, persuasively and confidently.",
+              color:"#4338CA", colorLight:"#F0EEFF", colorBorder:"#C4B5FD",
+              levels:[
+                {
+                  name:"Be Fluent", level:"Intermediate", levelNum:1,
+                  dur:"4 months", tui:"3,500,000 VND",
+                  target:"Pre-intermediate graduates or equivalent",
+                  content:["Fluent multi-topic conversations","Debate & express nuanced opinions","Advanced listening comprehension","Idioms, collocations & natural phrases","Narrating, persuading & negotiating"],
+                },
+                {
+                  name:"Be Impactful", level:"Upper Intermediate", levelNum:2,
+                  dur:"4 months", tui:"4,000,000 VND",
+                  target:"Intermediate students aiming for near-native fluency",
+                  content:["Near-native speed conversations","Public speaking & storytelling","Complex grammar with native accuracy","Critical thinking & argumentation","IELTS / TOEIC speaking readiness"],
+                  featured:true,
+                },
+              ]
+            },
+            {
+              id:"business",
+              label:"Business English",
+              labelVI:"Tiếng Anh Công Sở",
+              emoji:"💼",
+              desc:"Professional English skills for the modern workplace.",
+              color:"#1E40AF", colorLight:"#EEF6FF", colorBorder:"#93C5FD",
+              levels:[
+                {
+                  name:"Workplace Starter", level:"Elementary", levelNum:1,
+                  dur:"3 months", tui:"3,000,000 VND",
+                  target:"Beginners entering an English-speaking work environment",
+                  content:["Professional introductions & emails","Meeting room language basics","Workplace vocabulary & etiquette","Simple reports & messages","Telephone & video call essentials"],
+                },
+                {
+                  name:"Workplace Pro", level:"Pre-Intermediate", levelNum:2,
+                  dur:"3 months", tui:"3,500,000 VND",
+                  target:"Can handle basic tasks, needs more confidence",
+                  content:["Business correspondence & proposals","Presenting data & ideas clearly","Participating actively in meetings","Customer & partner communication","Problem-solving discussions"],
+                },
+                {
+                  name:"Workplace Expert", level:"Intermediate", levelNum:3,
+                  dur:"4 months", tui:"4,000,000 VND",
+                  target:"Ready for senior or international roles",
+                  content:["Leading meetings & negotiations","Persuasive presentations & pitches","Cross-cultural communication","Advanced business writing","Strategic & analytical language"],
+                  featured:true,
+                },
+              ]
+            },
           ]
         },
         roadmap: {
@@ -381,19 +453,91 @@
           stat3:"98%", stat3l:"Hài Lòng",
         },
         courses: {
-          heading:"Khóa Học Của Chúng Tôi", sub:"Chọn lộ trình phù hợp với trình độ và mục tiêu của bạn",
-          lDur:"Thời Lượng", lTui:"Học Phí", lCon:"Nội Dung Học", enroll:"Đăng Ký Ngay →",
-          popular:"⭐ Phổ Biến Nhất",
-          items:[
-            { name:"Khởi Động", level:"Sơ Cấp", emoji:"🌱", dur:"3 tháng", tui:"2.500.000 VND/tháng",
-              content:["Bảng chữ cái & Phát âm","500+ Từ vựng hàng ngày","Câu đơn giản","Chào hỏi & Tự giới thiệu","Số đếm, Ngày tháng & Giờ"],
-              bg:"#EEF0FF", border:"#93A3F8", accent:"#031383" },
-            { name:"Vươn Lên", level:"Trung Cấp", emoji:"🔥", dur:"4 tháng", tui:"3.200.000 VND/tháng",
-              content:["Ngữ pháp chuyên sâu","Hội thoại thực tế","Nghe hiểu","Viết email & văn bản","Luyện nói tự tin"],
-              bg:"#F0EEFF", border:"#A89CF5", accent:"#4338CA", featured:true },
-            { name:"Thành Thạo", level:"Nâng Cao", emoji:"🚀", dur:"5 tháng", tui:"4.000.000 VND/tháng",
-              content:["Tiếng Anh kinh doanh & học thuật","Tranh luận & Thuyết trình","Luyện thi IELTS / TOEIC","Kỹ năng thuyết trình","Nghe tốc độ bản ngữ"],
-              bg:"#EEF6FF", border:"#6BB5F5", accent:"#1E40AF" },
+          heading:"Khóa Học", sub:"3 chương trình, nhiều cấp độ — tìm đúng nơi bạn thuộc về",
+          lDur:"Thời lượng", lTui:"Học phí / tháng", lCon:"Nội Dung Học", enroll:"Đăng Ký Ngay →",
+          enrollContact:"Liên Hệ Tư Vấn →",
+          groups:[
+            {
+              id:"basic",
+              label:"Giao Tiếp Cơ Bản",
+              labelVI:"Giao Tiếp Cơ Bản",
+              emoji:"💬",
+              desc:"Xây dựng khả năng giao tiếp tiếng Anh tự tin, tự nhiên từ đầu.",
+              color:"#031383", colorLight:"#EEF0FF", colorBorder:"#BFC8FF",
+              levels:[
+                {
+                  name:"Speak Up", level:"Sơ Cấp", levelNum:1,
+                  dur:"3 tháng", tui:"2.500.000 VND",
+                  target:"Người mới hoàn toàn — chưa biết gì cũng được",
+                  content:["Phát âm & ngữ âm cơ bản","500+ từ vựng thiết yếu hàng ngày","Cấu trúc câu đơn giản","Chào hỏi, tự giới thiệu & hỏi thăm","Luyện nghe tiếng Anh rõ ràng, chậm"],
+                },
+                {
+                  name:"Stand Out", level:"Sơ-Trung Cấp", levelNum:2,
+                  dur:"3 tháng", tui:"2.800.000 VND",
+                  target:"Nói được câu đơn nhưng cần mở rộng vốn từ",
+                  content:["Mở rộng lên 1.200+ từ vựng","Thì quá khứ, hiện tại & tương lai","Hội thoại ngắn về chủ đề quen thuộc","Đặt câu hỏi & trả lời lưu loát","Kể chuyện & mô tả đơn giản"],
+                },
+                {
+                  name:"Be Heard", level:"Trung Cấp Thấp", levelNum:3,
+                  dur:"4 tháng", tui:"3.200.000 VND",
+                  target:"Giao tiếp cơ bản, muốn nói tự nhiên hơn",
+                  content:["Phát âm liên kết & nhịp điệu tự nhiên","Chiến lược hội thoại & từ đệm","Diễn đạt ý kiến & cảm xúc","Nghe hiểu tiếng Anh tốc độ thực tế","Thuyết trình ngắn & tóm tắt"],
+                  featured:true,
+                },
+              ]
+            },
+            {
+              id:"advanced",
+              label:"Giao Tiếp Nâng Cao",
+              labelVI:"Giao Tiếp Nâng Cao",
+              emoji:"🚀",
+              desc:"Diễn đạt ý tưởng phức tạp một cách rõ ràng, thuyết phục và tự tin.",
+              color:"#4338CA", colorLight:"#F0EEFF", colorBorder:"#C4B5FD",
+              levels:[
+                {
+                  name:"Be Fluent", level:"Trung Cấp", levelNum:1,
+                  dur:"4 tháng", tui:"3.500.000 VND",
+                  target:"Học viên đã qua Trung Cấp Thấp hoặc tương đương",
+                  content:["Hội thoại lưu loát nhiều chủ đề","Tranh luận & diễn đạt quan điểm tinh tế","Nghe hiểu nâng cao","Thành ngữ, collocations & cụm từ tự nhiên","Thuyết phục & đàm phán cơ bản"],
+                },
+                {
+                  name:"Be Impactful", level:"Trung-Cao Cấp", levelNum:2,
+                  dur:"4 tháng", tui:"4.000.000 VND",
+                  target:"Học viên trung cấp hướng đến gần như bản ngữ",
+                  content:["Hội thoại tốc độ gần bản ngữ","Thuyết trình & kể chuyện ấn tượng","Ngữ pháp phức tạp chuẩn bản ngữ","Tư duy phản biện & lập luận","Luyện nói IELTS / TOEIC"],
+                  featured:true,
+                },
+              ]
+            },
+            {
+              id:"business",
+              label:"Tiếng Anh Công Sở",
+              labelVI:"Tiếng Anh Công Sở",
+              emoji:"💼",
+              desc:"Kỹ năng tiếng Anh chuyên nghiệp cho môi trường làm việc hiện đại.",
+              color:"#1E40AF", colorLight:"#EEF6FF", colorBorder:"#93C5FD",
+              levels:[
+                {
+                  name:"Workplace Starter", level:"Sơ Cấp", levelNum:1,
+                  dur:"3 tháng", tui:"3.000.000 VND",
+                  target:"Người mới bước vào môi trường làm việc tiếng Anh",
+                  content:["Tự giới thiệu & email công sở cơ bản","Ngôn ngữ phòng họp căn bản","Từ vựng & văn hóa công sở","Báo cáo & tin nhắn đơn giản","Điện thoại & cuộc gọi video cơ bản"],
+                },
+                {
+                  name:"Workplace Pro", level:"Trung Cấp Thấp", levelNum:2,
+                  dur:"3 tháng", tui:"3.500.000 VND",
+                  target:"Xử lý được việc cơ bản, cần thêm tự tin",
+                  content:["Thư từ kinh doanh & đề xuất","Trình bày dữ liệu & ý tưởng rõ ràng","Tham gia họp chủ động","Giao tiếp với khách hàng & đối tác","Thảo luận giải quyết vấn đề"],
+                },
+                {
+                  name:"Workplace Expert", level:"Trung Cấp", levelNum:3,
+                  dur:"4 tháng", tui:"4.000.000 VND",
+                  target:"Sẵn sàng cho vị trí cấp cao hoặc quốc tế",
+                  content:["Dẫn dắt họp & đàm phán","Thuyết trình & pitch thuyết phục","Giao tiếp đa văn hóa","Viết kinh doanh nâng cao","Ngôn ngữ chiến lược & phân tích"],
+                  featured:true,
+                },
+              ]
+            },
           ]
         },
         roadmap: {
@@ -660,72 +804,205 @@
     // ================================================================
     //  COURSES
     // ================================================================
+    function LevelCard({ lv, color, colorLight, colorBorder, t, isLast }) {
+      const [open, setOpen] = React.useState(false);
+      return (
+        <div className="flex items-stretch gap-0">
+          <div
+            className="flex-1 rounded-2xl border-2 overflow-hidden transition-all duration-300 cursor-pointer"
+            style={{
+              borderColor: lv.featured ? color : colorBorder,
+              background: lv.featured ? `linear-gradient(145deg, ${colorLight}, #fff)` : "#fff",
+              boxShadow: lv.featured ? `0 8px 32px ${color}22` : "0 2px 12px rgba(0,0,0,0.05)",
+            }}
+            onClick={() => setOpen(o => !o)}
+          >
+            {/* Card header */}
+            <div className="p-5 flex items-start gap-4">
+              {/* Level number badge */}
+              <div
+                className="flex-shrink-0 w-11 h-11 rounded-xl flex flex-col items-center justify-center text-white font-extrabold shadow-sm"
+                style={{background:`linear-gradient(135deg, ${color}, ${color}BB)`}}
+              >
+                <span style={{fontSize:"0.55rem", opacity:0.85, letterSpacing:"0.06em"}}>LV</span>
+                <span style={{fontSize:"1rem", lineHeight:1}}>{lv.levelNum}</span>
+              </div>
+
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 flex-wrap mb-0.5">
+                  <span className="font-extrabold text-base" style={{color:"var(--text-main)"}}>{lv.name}</span>
+                  {lv.featured && (
+                    <span className="text-white text-xs font-extrabold px-2.5 py-0.5 rounded-full"
+                      style={{background:`linear-gradient(90deg, ${color}, ${color}AA)`, fontSize:"0.62rem"}}>
+                      ⭐ Phổ biến
+                    </span>
+                  )}
+                </div>
+                <span className="text-xs font-bold px-2.5 py-1 rounded-full" style={{background:colorLight, color:color}}>
+                  {lv.level}
+                </span>
+              </div>
+
+              <div className="flex-shrink-0 text-right">
+                <div className="font-extrabold text-sm" style={{color:color}}>{lv.tui}</div>
+                <div className="text-xs mt-0.5" style={{color:"var(--text-muted)"}}>{lv.dur}</div>
+              </div>
+
+              <div
+                className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-transform duration-300 ml-1"
+                style={{background:colorLight, color:color, transform: open ? "rotate(180deg)" : "rotate(0deg)"}}
+              >
+                ▾
+              </div>
+            </div>
+
+            {/* Target learner */}
+            <div className="px-5 pb-3 flex items-center gap-2" style={{borderTop:`1px solid ${colorBorder}55`}}>
+              <span style={{color:color, fontSize:"0.8rem"}}>🎯</span>
+              <span className="text-sm italic" style={{color:"var(--text-sub)"}}>{lv.target}</span>
+            </div>
+
+            {/* Expandable content */}
+            <div style={{maxHeight: open ? "400px" : "0", overflow:"hidden", transition:"max-height 0.45s ease"}}>
+              <div className="px-5 pb-5 pt-2">
+                <p className="text-xs font-extrabold uppercase tracking-widest mb-3" style={{color:"var(--text-muted)"}}>
+                  📋 {t.lCon}
+                </p>
+                <ul className="space-y-2">
+                  {lv.content.map((item, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm" style={{color:"var(--text-sub)"}}>
+                      <span className="mt-0.5 font-extrabold flex-shrink-0" style={{color:color}}>✓</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  className="mt-5 w-full py-3 rounded-xl font-extrabold text-white text-sm transition-all hover:opacity-90 hover:shadow-lg active:scale-95"
+                  style={{background:`linear-gradient(135deg, ${color}, ${color}BB)`}}
+                  onClick={e => { e.stopPropagation(); }}>
+                  {t.enroll}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Arrow connector — hidden on last card */}
+          {!isLast && (
+            <div className="flex-shrink-0 flex items-center justify-center w-8 self-center">
+              <div
+                className="hidden md:flex items-center justify-center w-8 h-8 rounded-full font-extrabold text-base"
+                style={{background:colorLight, color:color}}>
+                →
+              </div>
+              <div className="md:hidden w-0.5 h-6 mx-auto" style={{background:colorBorder}} />
+            </div>
+          )}
+        </div>
+      );
+    }
+
     function Courses({ lang }) {
       const t = T[lang].courses;
+      const [activeGroup, setActiveGroup] = React.useState(0);
+      const group = t.groups[activeGroup];
+
       return (
         <section id="courses" className="py-24" style={{background:"#FFFFFF"}}>
           <div className="max-w-6xl mx-auto px-5">
-            <div className="text-center mb-16">
-              <h2 className="font-display mb-3" style={{color:"var(--text-main)", fontSize:"clamp(1.9rem, 4vw, 2.5rem)"}}>{t.heading}</h2>
+
+            {/* Heading */}
+            <div className="text-center mb-12">
+              <h2 className="font-display mb-3" style={{color:"var(--text-main)", fontSize:"clamp(1.9rem, 4vw, 2.5rem)"}}>
+                {t.heading}
+              </h2>
               <p className="text-lg" style={{color:"var(--text-sub)"}}>{t.sub}</p>
             </div>
-            <div className="grid md:grid-cols-3 gap-8">
-              {t.items.map((c, i) => (
-                <div key={i} className={`course-card rounded-3xl p-8 border-2 relative overflow-hidden group cursor-default ${c.featured ? "ring-4 ring-offset-4" : ""}`}
-                  style={{background:c.bg, borderColor:c.border, ringColor: c.featured ? c.border : undefined}}>
 
-                  {c.featured && (
-                    <div className="absolute top-5 right-5 text-white text-xs font-extrabold px-3.5 py-1.5 rounded-full shadow-md"
-                      style={{background:`linear-gradient(135deg,${c.accent},${c.border})`}}>
-                      {t.popular}
-                    </div>
-                  )}
-
-                  {/* Background decoration */}
-                  <div className="absolute -bottom-8 -right-8 w-32 h-32 rounded-full opacity-20"
-                    style={{background:c.border}} />
-
-                  <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">{c.emoji}</div>
-                  <span className="tag-badge mb-3 inline-block" style={{background:c.border+"50", color:c.accent}}>
-                    {c.level}
+            {/* Group tabs */}
+            <div className="flex flex-col sm:flex-row gap-3 justify-center mb-12">
+              {t.groups.map((g, i) => (
+                <button
+                  key={g.id}
+                  onClick={() => setActiveGroup(i)}
+                  className="flex items-center gap-3 px-6 py-4 rounded-2xl font-extrabold text-sm transition-all duration-300 border-2"
+                  style={activeGroup === i ? {
+                    background:`linear-gradient(135deg, ${g.color}, ${g.color}CC)`,
+                    borderColor: g.color,
+                    color: "#fff",
+                    boxShadow: `0 8px 28px ${g.color}30`,
+                    transform: "translateY(-2px)",
+                  } : {
+                    background: "#fff",
+                    borderColor: g.colorBorder,
+                    color: "var(--text-sub)",
+                  }}
+                >
+                  <span className="text-xl">{g.emoji}</span>
+                  <span>{g.label}</span>
+                  <span
+                    className="text-xs font-extrabold px-2 py-0.5 rounded-full"
+                    style={{
+                      background: activeGroup === i ? "rgba(255,255,255,0.25)" : g.colorLight,
+                      color: activeGroup === i ? "#fff" : g.color,
+                    }}
+                  >
+                    {g.levels.length} {lang==="vi" ? "cấp độ" : "levels"}
                   </span>
-                  <h3 className="font-display text-2xl text-slate-800 mb-5">{c.name}</h3>
-
-                  <div className="space-y-2.5 mb-6 bg-white/60 rounded-2xl p-4">
-                    <div className="flex items-center gap-2 text-sm">
-                      <span className="font-semibold w-24" style={{color:"var(--text-muted)"}}>⏱ {t.lDur}</span>
-                      <span className="font-bold" style={{color:"var(--text-main)"}}>{c.dur}</span>
-                    </div>
-                    <div className="w-full h-px bg-slate-100" />
-                    <div className="flex items-center gap-2 text-sm">
-                      <span className="font-semibold w-24" style={{color:"var(--text-muted)"}}>💰 {t.lTui}</span>
-                      <span className="font-bold" style={{color:"var(--text-main)"}}>{c.tui}</span>
-                    </div>
-                  </div>
-
-                  <p className="text-xs font-extrabold uppercase tracking-widest mb-3" style={{color:"var(--text-muted)"}}>📋 {t.lCon}</p>
-                  <ul className="space-y-2 mb-7">
-                    {c.content.map((item, j) => (
-                      <li key={j} className="flex items-start gap-2" style={{color:"var(--text-sub)", fontSize:"0.95rem"}}>
-                        <span className="mt-0.5 font-bold" style={{color:c.accent}}>✓</span>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-
-                  <button
-                    className="w-full py-3.5 rounded-2xl font-extrabold text-white text-sm transition-all hover:shadow-xl hover:scale-105 active:scale-95"
-                    style={{background:`linear-gradient(135deg, ${c.accent}, ${c.border})`}}>
-                    {t.enroll}
-                  </button>
-                </div>
+                </button>
               ))}
             </div>
+
+            {/* Active group panel */}
+            <div
+              key={group.id}
+              className="rounded-3xl p-6 md:p-8 border-2"
+              style={{
+                background: `linear-gradient(145deg, ${group.colorLight} 0%, #fff 60%)`,
+                borderColor: group.colorBorder,
+                animation: "fadeInUp 0.4s ease-out",
+              }}
+            >
+              {/* Group header */}
+              <div className="flex items-start gap-4 mb-8">
+                <div
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0 shadow-md"
+                  style={{background:`linear-gradient(135deg, ${group.color}, ${group.color}99)`, fontSize:"1.6rem"}}
+                >
+                  {group.emoji}
+                </div>
+                <div>
+                  <h3 className="font-display text-2xl mb-1" style={{color:group.color}}>{group.label}</h3>
+                  <p style={{color:"var(--text-sub)", fontSize:"0.97rem"}}>{group.desc}</p>
+                </div>
+              </div>
+
+              {/* Levels — horizontal roadmap on desktop, vertical on mobile */}
+              <div className="flex flex-col md:flex-row gap-0 items-stretch">
+                {group.levels.map((lv, i) => (
+                  <LevelCard
+                    key={lv.name}
+                    lv={lv}
+                    color={group.color}
+                    colorLight={group.colorLight}
+                    colorBorder={group.colorBorder}
+                    t={t}
+                    isLast={i === group.levels.length - 1}
+                  />
+                ))}
+              </div>
+
+              {/* Footer note */}
+              <p className="text-center text-sm mt-6" style={{color:"var(--text-muted)"}}>
+                💡 {lang==="vi"
+                  ? "Nhấn vào từng cấp độ để xem nội dung chi tiết & đăng ký"
+                  : "Click any level to view full content & enroll"}
+              </p>
+            </div>
+
           </div>
         </section>
       );
     }
-
     // ================================================================
     //  ROADMAP
     // ================================================================
@@ -929,7 +1206,17 @@
     // ================================================================
     function Quiz({ lang }) {
       const t = T[lang].quiz;
-      const courses = T[lang].courses.items;
+      // Flatten all levels for quiz result mapping
+      const courses = T[lang].courses.groups.flatMap(g =>
+        g.levels.map(lv => ({
+          ...lv,
+          groupLabel: g.label,
+          emoji: g.emoji,
+          bg: g.colorLight,
+          border: g.colorBorder,
+          accent: g.color,
+        }))
+      );
       const [step, setStep] = React.useState(0);
       const [answers, setAnswers] = React.useState([]);
       const [sel, setSel] = React.useState(null);
@@ -937,15 +1224,47 @@
       const [result, setResult] = React.useState(null);
 
       function calcResult(ans) {
-        const s = [0,0,0];
-        ans.forEach((a,i) => {
-          if (i===0) { if(a<=1) s[0]+=3; else if(a===2) s[1]+=3; else s[2]+=3; }
-          if (i===1) { if(a===0) s[0]+=2; else if(a===1||a===2) s[2]+=2; else s[1]+=1; }
-          if (i===2) { s[Math.min(a,2)]++; }
-          if (i===3) { if(a===0) s[0]++; else if(a===1||a===3) s[1]++; else s[2]++; }
-          if (i===4) { if(a===0||a===2) s[0]++; else s[1]++; }
+        // groups: 0=basic(3lvs), 1=advanced(2lvs), 2=business(3lvs)
+        // score per group
+        const gs = [0, 0, 0];
+        // level score within group (low/mid/high)
+        let lvScore = 0;
+
+        ans.forEach((a, i) => {
+          if (i===0) { // current level
+            if (a===0) { gs[0]+=3; lvScore=0; }
+            else if (a===1) { gs[0]+=2; lvScore=1; }
+            else if (a===2) { gs[0]+=1; gs[1]+=2; lvScore=1; }
+            else { gs[1]+=3; lvScore=2; }
+          }
+          if (i===1) { // goal
+            if (a===0) gs[0]+=2;
+            else if (a===1) gs[2]+=3;
+            else if (a===2) gs[1]+=2;
+            else gs[0]+=1;
+          }
+          if (i===2) { // hours
+            if (a<=1) lvScore = Math.max(0, lvScore-1);
+            else lvScore = Math.min(2, lvScore+1);
+          }
+          if (i===3) { // hardest skill
+            if (a===0||a===1) gs[0]+=1;
+            else if (a===2) gs[0]+=1;
+            else gs[2]+=1;
+          }
+          if (i===4) { // learning style
+            if (a===1) gs[0]+=1;
+            else if (a===2) gs[2]+=1;
+          }
         });
-        return s.indexOf(Math.max(...s));
+
+        const bestGroup = gs.indexOf(Math.max(...gs));
+        const groupLevels = T["en"].courses.groups[bestGroup].levels.length;
+        const lvIdx = Math.min(lvScore, groupLevels - 1);
+
+        // Return flat index
+        const offsets = [0, 3, 5]; // cumulative level counts
+        return offsets[bestGroup] + lvIdx;
       }
 
       function next() {
@@ -1026,13 +1345,14 @@
             ) : course && (
               <div className="text-center rounded-3xl p-10 shadow-2xl border-2 animate-fadeInUp"
                 style={{background:course.bg, borderColor:course.border}}>
-                <div className="text-7xl mb-5 animate-float">{course.emoji}</div>
-                <p className="font-bold text-slate-500 mb-2 uppercase text-xs tracking-widest">{t.resultHeading}</p>
-                <h3 className="font-display mb-3" style={{color:"var(--text-main)", fontSize:"clamp(1.9rem, 4vw, 2.5rem)"}}>{course.name}</h3>
-                <span className="tag-badge inline-block mb-6" style={{background:course.border+"60",color:course.accent}}>
+                <div className="text-6xl mb-4 animate-float">{course.emoji}</div>
+                <p className="font-bold mb-1 uppercase text-xs tracking-widest" style={{color:"var(--text-muted)"}}>{t.resultHeading}</p>
+                <p className="text-sm font-extrabold mb-2" style={{color:course.accent}}>{course.groupLabel}</p>
+                <h3 className="font-display mb-3" style={{color:"var(--text-main)", fontSize:"clamp(1.7rem, 4vw, 2.2rem)"}}>{course.name}</h3>
+                <span className="tag-badge inline-block mb-5" style={{background:course.border+"60", color:course.accent}}>
                   {course.level}
                 </span>
-                <p className="text-slate-600 mb-8 font-semibold">⏱ {course.dur} · {course.tui}</p>
+                <p className="mb-7 font-semibold" style={{color:"var(--text-sub)"}}>⏱ {course.dur} · {course.tui}</p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <a href="#courses"
                     className="font-extrabold px-9 py-3.5 rounded-full text-white shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 text-sm"
@@ -1531,30 +1851,51 @@
     // ================================================================
     function AdminCourses({ lang }) {
       const t = T[lang].courses;
+      const [activeGroup, setActiveGroup] = React.useState(0);
       return (
         <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
-          <h3 className="font-display text-xl text-slate-700 mb-2">📚 {T[lang].admin.tabs.courses}</h3>
-          <p className="text-sm text-slate-400 mb-6 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3">
-            💡 Course content is defined in the app's translation config. To customize, edit the <code className="bg-slate-100 px-1.5 py-0.5 rounded text-xs">T</code> object in the source code and re-deploy.
+          <h3 className="font-display text-xl mb-2" style={{color:"var(--text-main)"}}>📚 {T[lang].admin.tabs.courses}</h3>
+          <p className="text-sm mb-5 rounded-xl px-4 py-3" style={{background:"#FFF7ED", border:"1px solid #FED7AA", color:"#92400E"}}>
+            💡 Nội dung khóa học được khai báo trong object <code style={{background:"#FEF3C7", padding:"1px 6px", borderRadius:4}}>T</code> trong source code. Chỉnh sửa trực tiếp ở đó rồi save lại.
           </p>
-          <div className="grid md:grid-cols-3 gap-5">
-            {t.items.map((c,i)=>(
-              <div key={i} className="rounded-2xl p-5 border-2"
-                style={{background:c.bg, borderColor:c.border}}>
-                <div className="text-4xl mb-3">{c.emoji}</div>
-                <span className="tag-badge mb-2 inline-block" style={{background:c.border+"50",color:c.accent}}>{c.level}</span>
-                <h4 className="font-display text-lg text-slate-800 mb-2">{c.name}</h4>
-                <p className="text-sm text-slate-500">⏱ {c.dur}</p>
-                <p className="text-sm text-slate-500">💰 {c.tui}</p>
-                <ul className="mt-3 space-y-1">
-                  {c.content.map((item,j)=>(
-                    <li key={j} className="text-xs text-slate-600 flex gap-1.5 items-start">
-                      <span style={{color:c.accent}}>✓</span>{item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+
+          {/* Group tabs */}
+          <div className="flex flex-wrap gap-2 mb-5">
+            {t.groups.map((g, i) => (
+              <button key={g.id} onClick={() => setActiveGroup(i)}
+                className="px-4 py-2 rounded-xl font-bold text-sm transition-all border"
+                style={activeGroup === i
+                  ? {background:g.color, color:"#fff", borderColor:g.color}
+                  : {background:g.colorLight, color:g.color, borderColor:g.colorBorder}}>
+                {g.emoji} {g.label}
+              </button>
             ))}
+          </div>
+
+          {/* Levels */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {t.groups[activeGroup].levels.map((lv, i) => {
+              const g = t.groups[activeGroup];
+              return (
+                <div key={i} className="rounded-2xl p-4 border-2" style={{background:g.colorLight, borderColor:g.colorBorder}}>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="w-7 h-7 rounded-lg text-white text-xs font-extrabold flex items-center justify-center"
+                      style={{background:g.color}}>L{lv.levelNum}</span>
+                    <span className="font-extrabold text-sm" style={{color:"var(--text-main)"}}>{lv.name}</span>
+                    {lv.featured && <span className="text-xs">⭐</span>}
+                  </div>
+                  <span className="tag-badge inline-block mb-2" style={{background:g.colorBorder+"80", color:g.color}}>{lv.level}</span>
+                  <p className="text-xs font-semibold mb-1" style={{color:"var(--text-muted)"}}>⏱ {lv.dur} · 💰 {lv.tui}</p>
+                  <ul className="mt-2 space-y-1">
+                    {lv.content.map((item,j)=>(
+                      <li key={j} className="text-xs flex gap-1.5 items-start" style={{color:"var(--text-sub)"}}>
+                        <span style={{color:g.color}} className="flex-shrink-0">✓</span>{item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
           </div>
         </div>
       );
