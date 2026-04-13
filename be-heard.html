@@ -1,0 +1,1490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Be Heard – English Learning Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['"Fredoka One"', 'cursive'],
+            sans: ['Nunito', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    * { font-family: 'Nunito', sans-serif; box-sizing: border-box; }
+    .font-display { font-family: 'Fredoka One', cursive; }
+    :root {
+      --sky: #BAE6FD; --mint: #A7F3D0; --peach: #FED7AA;
+      --lavender: #DDD6FE; --rose: #FECDD3;
+    }
+
+    @keyframes float {
+      0%,100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-14px) rotate(1deg); }
+    }
+    @keyframes blob {
+      0%,100% { border-radius: 60% 40% 30% 70%/60% 30% 70% 40%; }
+      25% { border-radius: 30% 60% 70% 40%/50% 60% 30% 60%; }
+      50% { border-radius: 50% 50% 30% 70%/40% 60% 40% 60%; }
+      75% { border-radius: 40% 60% 60% 40%/60% 40% 60% 40%; }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes pulseGlow {
+      0%,100% { box-shadow: 0 0 0 0 rgba(59,130,246,0.4); }
+      50% { box-shadow: 0 0 0 14px rgba(59,130,246,0); }
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    @keyframes starSpin {
+      from { transform: rotate(0deg) scale(1); }
+      to { transform: rotate(360deg) scale(1.1); }
+    }
+
+    .animate-float { animation: float 4s ease-in-out infinite; }
+    .animate-blob { animation: blob 9s ease-in-out infinite; }
+    .animate-fadeInUp { animation: fadeInUp 0.7s ease-out forwards; }
+    .animate-slideInRight { animation: slideInRight 0.6s ease-out forwards; }
+    .animate-pulseGlow { animation: pulseGlow 2.2s ease-in-out infinite; }
+
+    .hero-bg {
+      background: radial-gradient(ellipse at 20% 50%, #EFF6FF 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 20%, #F0FDF4 0%, transparent 60%),
+                  radial-gradient(ellipse at 50% 90%, #FFF7ED 0%, transparent 60%),
+                  #FAFCFF;
+    }
+
+    .glass {
+      background: rgba(255,255,255,0.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .nav-link {
+      position: relative;
+      transition: color 0.2s;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 50%;
+      width: 0; height: 2.5px;
+      background: linear-gradient(90deg,#3B82F6,#10B981);
+      border-radius: 99px;
+      transition: width 0.3s ease, left 0.3s ease;
+    }
+    .nav-link:hover::after { width: 100%; left: 0; }
+
+    .course-card {
+      transition: transform 0.3s cubic-bezier(.175,.885,.32,1.275), box-shadow 0.3s ease;
+    }
+    .course-card:hover { transform: translateY(-10px) scale(1.01); }
+
+    .accordion-body {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.45s cubic-bezier(0,1,0,1);
+    }
+    .accordion-body.open {
+      max-height: 600px;
+      transition: max-height 0.55s cubic-bezier(.895,.03,.685,.22);
+    }
+
+    .quiz-opt {
+      transition: all 0.2s cubic-bezier(.175,.885,.32,1.275);
+    }
+    .quiz-opt:hover { transform: scale(1.02); }
+    .quiz-opt.selected {
+      border-color: #3B82F6;
+      background: linear-gradient(135deg, #EFF6FF, #E0F2FE);
+      box-shadow: 0 4px 20px rgba(59,130,246,0.25);
+    }
+
+    .step-circle {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .step-circle:hover {
+      transform: scale(1.12);
+      box-shadow: 0 8px 24px rgba(59,130,246,0.25);
+    }
+
+    .shimmer-btn {
+      background: linear-gradient(90deg, #3B82F6 0%, #6EE7B7 25%, #3B82F6 50%, #6EE7B7 75%, #3B82F6 100%);
+      background-size: 200% auto;
+      animation: shimmer 3s linear infinite;
+    }
+
+    .drag-zone {
+      border: 3px dashed #CBD5E1;
+      transition: all 0.2s ease;
+    }
+    .drag-zone:hover, .drag-zone.active {
+      border-color: #3B82F6;
+      background: #EFF6FF;
+    }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #F8FAFC; }
+    ::-webkit-scrollbar-thumb { background: #BAE6FD; border-radius: 99px; }
+
+    .tag-badge {
+      font-size: 0.6rem; font-weight: 800; letter-spacing: 0.08em;
+      text-transform: uppercase; padding: 3px 10px; border-radius: 999px;
+    }
+  </style>
+</head>
+<body class="bg-white text-slate-800 overflow-x-hidden">
+  <div id="root"></div>
+
+  <!-- Firebase Compat SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <!-- React 18 -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script type="text/babel">
+    // ================================================================
+    //  ⚙️  CONFIGURATION  — Replace with your actual credentials
+    // ================================================================
+    const FIREBASE_CONFIG = {
+      apiKey: "YOUR_FIREBASE_API_KEY",
+      authDomain: "YOUR_PROJECT.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID",
+    };
+    // Cloudinary: create a free account → Settings → Upload → Add unsigned preset
+    const CLOUDINARY_CLOUD_NAME = "YOUR_CLOUD_NAME";
+    const CLOUDINARY_UPLOAD_PRESET = "YOUR_UNSIGNED_PRESET";
+
+    // Change this to your own admin password!
+    const ADMIN_PASSWORD = "beheard2024";
+
+    // ================================================================
+    //  Firebase Init
+    // ================================================================
+    let db = null, firebaseReady = false;
+    try {
+      firebase.initializeApp(FIREBASE_CONFIG);
+      db = firebase.firestore();
+      firebaseReady = true;
+    } catch(e) {
+      console.warn("Firebase not configured:", e.message);
+    }
+
+    // ================================================================
+    //  TRANSLATIONS
+    // ================================================================
+    const T = {
+      en: {
+        nav: { home:"Home", courses:"Courses", roadmap:"Roadmap", gallery:"Gallery", faq:"FAQ", quiz:"Quiz", admin:"Admin" },
+        hero: {
+          badge:"🎉 Start Speaking from Day 1!",
+          h1a:"Find Your Voice.", h1b:"Be Heard.",
+          sub:"Practical English courses for Vietnamese learners. Real conversations, real confidence — from Day 1.",
+          cta1:"✨ Take the Quiz", cta2:"View Courses",
+          stat1:"500+", stat1l:"Students",
+          stat2:"12", stat2l:"Max per class",
+          stat3:"98%", stat3l:"Satisfaction",
+        },
+        courses: {
+          heading:"Our Courses", sub:"Choose the path that fits your level and goals",
+          lDur:"Duration", lTui:"Tuition", lCon:"What You'll Learn", enroll:"Enroll Now →",
+          popular:"⭐ Most Popular",
+          items:[
+            { name:"Starter Spark", level:"Beginner", emoji:"🌱", dur:"3 months", tui:"2,500,000 VND/month",
+              content:["Alphabet & Phonics","500+ Everyday Words","Simple Sentences","Greetings & Introductions","Numbers, Dates & Time"],
+              bg:"#EFF6FF", border:"#93C5FD", accent:"#2563EB" },
+            { name:"Rising Voice", level:"Intermediate", emoji:"🔥", dur:"4 months", tui:"3,200,000 VND/month",
+              content:["Grammar Deep-Dive","Real-Life Conversations","Listening Comprehension","Email & Basic Writing","Speaking Confidence Drills"],
+              bg:"#F0FDF4", border:"#6EE7B7", accent:"#059669", featured:true },
+            { name:"Fluent Pro", level:"Advanced", emoji:"🚀", dur:"5 months", tui:"4,000,000 VND/month",
+              content:["Business & Academic English","Debate & Public Speaking","IELTS / TOEIC Prep","Presentation Skills","Native-Speed Comprehension"],
+              bg:"#FAF5FF", border:"#C4B5FD", accent:"#7C3AED" },
+          ]
+        },
+        roadmap: {
+          heading:"Your Learning Journey", sub:"A crystal-clear path from zero to fluent",
+          steps:[
+            { icon:"🎯", title:"Placement Test", desc:"Free 15-min assessment to pinpoint your level and set your goals." },
+            { icon:"🌱", title:"Build Foundations", desc:"Master phonics, 500+ words, and essential grammar structures." },
+            { icon:"💬", title:"Real Conversations", desc:"Practice daily dialogues, active listening, and speaking drills." },
+            { icon:"✍️", title:"Advanced Skills", desc:"Conquer writing, professional emails, and complex grammar." },
+            { icon:"🏆", title:"Graduate & Shine", desc:"Earn your certificate and speak English like a native!" },
+          ]
+        },
+        gallery: {
+          heading:"Student Showcase", sub:"Real classrooms, real results, real smiles 😊",
+          tabPhotos:"📸 Student Photos", tabVideos:"🎬 Class Videos",
+          noPhotos:"No photos yet — add some from the Admin panel!",
+          noVideos:"No videos yet — add some from the Admin panel!",
+        },
+        faq: {
+          heading:"Frequently Asked Questions",
+          sub:"Got questions? We've got answers",
+          items:[
+            { q:"Do I need prior English knowledge?", a:"Not at all! Our Starter Spark course begins from absolute zero — the alphabet, basic pronunciation, and simple phrases. Every expert was once a beginner." },
+            { q:"How are classes structured?", a:"Classes run 3× per week (90 min each). We blend structured lessons, interactive games, and speaking drills to keep things engaging and highly effective." },
+            { q:"What's the maximum class size?", a:"Maximum 12 students per class. Small groups mean more speaking time and personal feedback from your teacher." },
+            { q:"Do you offer online classes?", a:"Yes! We offer both in-person at our center in Da Nang and live online classes via Zoom. You'll never miss a lesson." },
+            { q:"What certificate will I receive?", a:"A Be Heard Certificate of Achievement — recognized by local businesses. We also guide you through IELTS/TOEIC registration when you're ready." },
+            { q:"Can I switch levels if needed?", a:"Absolutely. After your first week we do a quick re-assessment and can move you to a better-matched group at zero extra cost." },
+          ]
+        },
+        quiz: {
+          heading:"Find Your Course", sub:"5 quick questions → your perfect starting point",
+          next:"Next →", back:"← Back", finish:"See My Result ✨", restart:"Retake Quiz",
+          resultHeading:"Your Recommended Course 🎉",
+          questions:[
+            { text:"How would you describe your English right now?",
+              opts:["I know almost nothing","I understand some but can't speak","I can hold basic conversations","I'm fairly confident but want to level up"] },
+            { text:"What's your main learning goal?",
+              opts:["Travel & everyday life","Work & career growth","IELTS / TOEIC exams","Just for fun & meeting people"] },
+            { text:"How many hours per week can you study?",
+              opts:["1–3 hours","4–6 hours","7–10 hours","10+ hours"] },
+            { text:"What feels hardest right now?",
+              opts:["Pronunciation & speaking aloud","Listening & understanding natives","Grammar & sentence building","Reading & writing fluently"] },
+            { text:"How do you learn best?",
+              opts:["Intimate small group (≤6 people)","Larger fun group + games","One-on-one tutoring","Mainly self-study"] },
+          ]
+        },
+        footer: {
+          tagline:"Empowering Vietnamese learners to speak English with confidence and clarity.",
+          addr:"📍 123 Nguyễn Văn Linh, Đà Nẵng", phone:"📞 0901 234 567", email:"✉️ hello@beheard.vn",
+          quickLinks:"Quick Links", contact:"Contact Us", follow:"Follow Us",
+          copy:"© 2025 Be Heard English Center. Made with ❤️ in Đà Nẵng, Vietnam."
+        },
+        admin: {
+          title:"Admin Login", pwLabel:"Password", loginBtn:"Login →", wrongPw:"❌ Wrong password. Try again.",
+          logout:"Log Out", backToSite:"← View Site",
+          tabs:{ media:"📸 Media", faq:"❓ FAQ", courses:"📚 Courses" },
+          media:{
+            imgSection:"Feedback Images (via Cloudinary)",
+            dragHint:"Drag & drop images here, or click to browse",
+            uploading:"⏳ Uploading to Cloudinary...",
+            vidSection:"Class Videos (YouTube)",
+            titlePH:"Video title (optional)...",
+            urlPH:"Paste YouTube URL...",
+            addBtn:"Add Video",
+            deleteImg:"Delete image", deleteVid:"Delete video",
+            noConfig:"⚠️ Firebase / Cloudinary not configured. Update FIREBASE_CONFIG and CLOUDINARY_* constants.",
+          },
+          faq:{
+            title:"FAQ Manager",
+            addBtn:"+ New FAQ",
+            qEn:"Question (English) *", qVi:"Question (Vietnamese) *",
+            aEn:"Answer (English) *", aVi:"Answer (Vietnamese) *",
+            save:"Save", cancel:"Cancel", edit:"Edit", del:"Delete",
+            noItems:"No FAQ items yet. Click '+ New FAQ' to add your first!",
+          }
+        }
+      },
+      vi: {
+        nav: { home:"Trang Chủ", courses:"Khóa Học", roadmap:"Lộ Trình", gallery:"Thư Viện", faq:"FAQ", quiz:"Kiểm Tra", admin:"Quản Trị" },
+        hero: {
+          badge:"🎉 Đăng Ký & Nói Tiếng Anh Tự Tin!",
+          h1a:"Tìm Tiếng Nói Của Bạn.", h1b:"Hãy Để Được Nghe.",
+          sub:"Khóa tiếng Anh thực tiễn dành cho người Việt. Giao tiếp thực tế, tự tin thực sự — từ Ngày đầu tiên.",
+          cta1:"✨ Làm Bài Kiểm Tra", cta2:"Xem Khóa Học",
+          stat1:"500+", stat1l:"Học Viên",
+          stat2:"12", stat2l:"Tối đa/lớp",
+          stat3:"98%", stat3l:"Hài Lòng",
+        },
+        courses: {
+          heading:"Khóa Học Của Chúng Tôi", sub:"Chọn lộ trình phù hợp với trình độ và mục tiêu của bạn",
+          lDur:"Thời Lượng", lTui:"Học Phí", lCon:"Nội Dung Học", enroll:"Đăng Ký Ngay →",
+          popular:"⭐ Phổ Biến Nhất",
+          items:[
+            { name:"Khởi Động", level:"Sơ Cấp", emoji:"🌱", dur:"3 tháng", tui:"2.500.000 VND/tháng",
+              content:["Bảng chữ cái & Phát âm","500+ Từ vựng hàng ngày","Câu đơn giản","Chào hỏi & Tự giới thiệu","Số đếm, Ngày tháng & Giờ"],
+              bg:"#EFF6FF", border:"#93C5FD", accent:"#2563EB" },
+            { name:"Vươn Lên", level:"Trung Cấp", emoji:"🔥", dur:"4 tháng", tui:"3.200.000 VND/tháng",
+              content:["Ngữ pháp chuyên sâu","Hội thoại thực tế","Nghe hiểu","Viết email & văn bản","Luyện nói tự tin"],
+              bg:"#F0FDF4", border:"#6EE7B7", accent:"#059669", featured:true },
+            { name:"Thành Thạo", level:"Nâng Cao", emoji:"🚀", dur:"5 tháng", tui:"4.000.000 VND/tháng",
+              content:["Tiếng Anh kinh doanh & học thuật","Tranh luận & Thuyết trình","Luyện thi IELTS / TOEIC","Kỹ năng thuyết trình","Nghe tốc độ bản ngữ"],
+              bg:"#FAF5FF", border:"#C4B5FD", accent:"#7C3AED" },
+          ]
+        },
+        roadmap: {
+          heading:"Hành Trình Học Tập", sub:"Con đường rõ ràng từ con số 0 đến thành thạo",
+          steps:[
+            { icon:"🎯", title:"Kiểm Tra Đầu Vào", desc:"Đánh giá miễn phí 15 phút để xác định trình độ và đặt mục tiêu." },
+            { icon:"🌱", title:"Xây Nền Tảng", desc:"Nắm vững phát âm, 500+ từ vựng và cấu trúc ngữ pháp cơ bản." },
+            { icon:"💬", title:"Hội Thoại Thực Tế", desc:"Luyện đối thoại hàng ngày, nghe chủ động và bài luyện nói." },
+            { icon:"✍️", title:"Kỹ Năng Nâng Cao", desc:"Thành thạo viết, email chuyên nghiệp và ngữ pháp phức tạp." },
+            { icon:"🏆", title:"Tốt Nghiệp & Tỏa Sáng", desc:"Nhận chứng chỉ và nói tiếng Anh như người bản ngữ!" },
+          ]
+        },
+        gallery: {
+          heading:"Góc Học Viên", sub:"Lớp học thực tế, kết quả thực tế, nụ cười thực tế 😊",
+          tabPhotos:"📸 Ảnh Học Viên", tabVideos:"🎬 Video Lớp Học",
+          noPhotos:"Chưa có ảnh — thêm từ trang Quản Trị!",
+          noVideos:"Chưa có video — thêm từ trang Quản Trị!",
+        },
+        faq: {
+          heading:"Câu Hỏi Thường Gặp",
+          sub:"Bạn có thắc mắc? Chúng tôi có câu trả lời",
+          items:[
+            { q:"Tôi có cần biết tiếng Anh trước không?", a:"Không cần! Khóa Khởi Động bắt đầu từ con số 0 — bảng chữ cái, phát âm cơ bản và các câu đơn giản. Mọi chuyên gia đều đã từng là người mới bắt đầu." },
+            { q:"Các buổi học được tổ chức như thế nào?", a:"Học 3 buổi/tuần (90 phút/buổi). Chúng tôi kết hợp bài học có cấu trúc, trò chơi tương tác và luyện nói để duy trì sự hứng thú và hiệu quả cao." },
+            { q:"Quy mô lớp học tối đa là bao nhiêu?", a:"Tối đa 12 học viên/lớp. Lớp nhỏ đồng nghĩa với nhiều thời gian luyện nói hơn và phản hồi cá nhân từ giáo viên." },
+            { q:"Có lớp học online không?", a:"Có! Chúng tôi cung cấp cả học trực tiếp tại trung tâm ở Đà Nẵng và lớp online trực tiếp qua Zoom. Bạn sẽ không bao giờ bỏ lỡ buổi học." },
+            { q:"Tôi sẽ nhận chứng chỉ gì?", a:"Chứng Chỉ Hoàn Thành của Be Heard — được các doanh nghiệp địa phương công nhận. Chúng tôi cũng hướng dẫn đăng ký thi IELTS/TOEIC khi bạn sẵn sàng." },
+            { q:"Tôi có thể chuyển trình độ nếu cần không?", a:"Hoàn toàn được. Sau tuần đầu tiên, chúng tôi đánh giá lại nhanh và có thể chuyển bạn sang nhóm phù hợp hơn mà không mất thêm chi phí." },
+          ]
+        },
+        quiz: {
+          heading:"Tìm Khóa Học Phù Hợp", sub:"5 câu hỏi nhanh → điểm khởi đầu hoàn hảo của bạn",
+          next:"Tiếp Theo →", back:"← Quay Lại", finish:"Xem Kết Quả ✨", restart:"Làm Lại",
+          resultHeading:"Khóa Học Được Đề Xuất 🎉",
+          questions:[
+            { text:"Bạn tự đánh giá trình độ tiếng Anh của mình như thế nào?",
+              opts:["Tôi gần như không biết gì","Tôi hiểu một chút nhưng không nói được","Tôi giao tiếp cơ bản được","Tôi khá tự tin nhưng muốn nâng cao"] },
+            { text:"Mục tiêu học chính của bạn là gì?",
+              opts:["Du lịch & cuộc sống hàng ngày","Công việc & phát triển sự nghiệp","Thi IELTS / TOEIC","Vui vẻ & gặp gỡ mọi người"] },
+            { text:"Bạn có thể dành bao nhiêu giờ/tuần để học?",
+              opts:["1–3 giờ","4–6 giờ","7–10 giờ","Hơn 10 giờ"] },
+            { text:"Điều gì khó nhất với bạn hiện tại?",
+              opts:["Phát âm & nói to","Nghe & hiểu người bản ngữ","Ngữ pháp & ghép câu","Đọc & viết trôi chảy"] },
+            { text:"Bạn học tốt nhất theo cách nào?",
+              opts:["Nhóm nhỏ (≤6 người)","Nhóm lớn hơn + trò chơi","Học 1-1 với gia sư","Chủ yếu tự học"] },
+          ]
+        },
+        footer: {
+          tagline:"Giúp người Việt nói tiếng Anh với sự tự tin và rõ ràng.",
+          addr:"📍 123 Nguyễn Văn Linh, Đà Nẵng", phone:"📞 0901 234 567", email:"✉️ hello@beheard.vn",
+          quickLinks:"Liên Kết Nhanh", contact:"Liên Hệ", follow:"Theo Dõi Chúng Tôi",
+          copy:"© 2025 Be Heard English Center. Được tạo với ❤️ tại Đà Nẵng, Việt Nam."
+        },
+        admin: {
+          title:"Đăng Nhập Quản Trị", pwLabel:"Mật Khẩu", loginBtn:"Đăng Nhập →", wrongPw:"❌ Sai mật khẩu. Thử lại.",
+          logout:"Đăng Xuất", backToSite:"← Xem Trang",
+          tabs:{ media:"📸 Phương Tiện", faq:"❓ FAQ", courses:"📚 Khóa Học" },
+          media:{
+            imgSection:"Ảnh Phản Hồi (qua Cloudinary)",
+            dragHint:"Kéo & thả ảnh vào đây, hoặc nhấp để duyệt",
+            uploading:"⏳ Đang tải lên Cloudinary...",
+            vidSection:"Video Lớp Học (YouTube)",
+            titlePH:"Tiêu đề video (tuỳ chọn)...",
+            urlPH:"Dán link YouTube vào đây...",
+            addBtn:"Thêm Video",
+            deleteImg:"Xóa ảnh", deleteVid:"Xóa video",
+            noConfig:"⚠️ Firebase / Cloudinary chưa được cấu hình. Hãy cập nhật FIREBASE_CONFIG và các hằng số CLOUDINARY_*.",
+          },
+          faq:{
+            title:"Quản Lý FAQ",
+            addBtn:"+ Thêm FAQ Mới",
+            qEn:"Câu hỏi (Tiếng Anh) *", qVi:"Câu hỏi (Tiếng Việt) *",
+            aEn:"Câu trả lời (Tiếng Anh) *", aVi:"Câu trả lời (Tiếng Việt) *",
+            save:"Lưu", cancel:"Hủy", edit:"Sửa", del:"Xóa",
+            noItems:"Chưa có FAQ nào. Nhấn '+ Thêm FAQ Mới' để thêm!",
+          }
+        }
+      }
+    };
+
+    // ================================================================
+    //  HELPERS
+    // ================================================================
+    function ytId(url) {
+      const m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/);
+      return m ? m[1] : null;
+    }
+
+    async function cloudinaryUpload(file) {
+      const fd = new FormData();
+      fd.append("file", file);
+      fd.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+      const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, { method:"POST", body:fd });
+      const j = await res.json();
+      if (j.error) throw new Error(j.error.message);
+      return { url: j.secure_url, public_id: j.public_id };
+    }
+
+    // ================================================================
+    //  NAVBAR
+    // ================================================================
+    function Navbar({ lang, setLang }) {
+      const t = T[lang].nav;
+      const [scrolled, setScrolled] = React.useState(false);
+      const [open, setOpen] = React.useState(false);
+
+      React.useEffect(() => {
+        const fn = () => setScrolled(window.scrollY > 30);
+        window.addEventListener("scroll", fn);
+        return () => window.removeEventListener("scroll", fn);
+      }, []);
+
+      const links = ["home","courses","roadmap","gallery","faq","quiz"];
+
+      return (
+        <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-400 ${scrolled ? "glass shadow-lg py-2" : "py-4"}`}>
+          <div className="max-w-6xl mx-auto px-5 flex items-center justify-between">
+            <a href="#home" className="font-display text-2xl text-blue-600 flex items-center gap-2 hover:scale-105 transition-transform">
+              🔊 Be Heard
+            </a>
+
+            <div className="hidden md:flex items-center gap-7 text-sm font-semibold">
+              {links.map(s => (
+                <a key={s} href={`#${s}`} className="nav-link text-slate-600 hover:text-blue-600 capitalize">{t[s]}</a>
+              ))}
+              <a href="#/admin" className="text-xs text-slate-400 hover:text-blue-400 transition-colors">{t.admin}</a>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setLang(lang==="en"?"vi":"en")}
+                className="flex items-center gap-1.5 bg-white border-2 border-sky-200 rounded-full px-3 py-1.5 text-xs font-extrabold text-blue-600 hover:bg-sky-50 hover:border-blue-400 transition-all shadow-sm"
+              >
+                {lang==="en" ? "🇻🇳 VI" : "🇺🇸 EN"}
+              </button>
+              <button className="md:hidden w-9 h-9 rounded-xl bg-sky-100 text-blue-600 flex items-center justify-center font-bold"
+                onClick={() => setOpen(!open)}>
+                {open ? "✕" : "≡"}
+              </button>
+            </div>
+          </div>
+          {open && (
+            <div className="md:hidden glass px-5 py-4 border-t border-sky-100 flex flex-col gap-3">
+              {links.map(s => (
+                <a key={s} href={`#${s}`} onClick={() => setOpen(false)}
+                  className="font-semibold text-slate-700 hover:text-blue-600 capitalize py-1">{t[s]}</a>
+              ))}
+              <a href="#/admin" onClick={() => setOpen(false)} className="text-slate-400 text-xs">{t.admin}</a>
+            </div>
+          )}
+        </nav>
+      );
+    }
+
+    // ================================================================
+    //  HERO
+    // ================================================================
+    function Hero({ lang }) {
+      const t = T[lang].hero;
+      const stats = [
+        { n: t.stat1, l: t.stat1l },
+        { n: t.stat2, l: t.stat2l },
+        { n: t.stat3, l: t.stat3l },
+      ];
+      return (
+        <section id="home" className="hero-bg min-h-screen flex items-center pt-20 relative overflow-hidden">
+          {/* Decorative blobs */}
+          <div className="absolute top-16 left-[-120px] w-80 h-80 opacity-50 animate-blob"
+            style={{background:"#BAE6FD", borderRadius:"60% 40% 30% 70% / 60% 30% 70% 40%"}} />
+          <div className="absolute bottom-10 right-[-100px] w-96 h-96 opacity-35 animate-blob"
+            style={{background:"#A7F3D0", borderRadius:"40% 60% 70% 30% / 40% 50% 60% 50%", animationDelay:"3s"}} />
+          <div className="absolute top-1/3 right-1/4 w-56 h-56 opacity-25 animate-blob"
+            style={{background:"#FED7AA", borderRadius:"50% 50% 30% 70%", animationDelay:"5s"}} />
+
+          <div className="max-w-6xl mx-auto px-5 py-20 grid md:grid-cols-2 gap-14 items-center relative z-10">
+            <div className="animate-fadeInUp">
+              <span className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 text-blue-700 text-sm font-bold px-5 py-2 rounded-full mb-7 shadow-sm">
+                {t.badge}
+              </span>
+              <h1 className="font-display text-5xl lg:text-6xl text-slate-800 leading-tight mb-1">
+                {t.h1a}
+              </h1>
+              <h1 className="font-display text-5xl lg:text-6xl leading-tight mb-7"
+                style={{background:"linear-gradient(135deg, #3B82F6, #10B981)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent"}}>
+                {t.h1b}
+              </h1>
+              <p className="text-slate-600 text-lg mb-9 leading-relaxed max-w-md">{t.sub}</p>
+
+              <div className="flex flex-wrap gap-4 mb-10">
+                <a href="#quiz"
+                  className="shimmer-btn text-white font-extrabold px-9 py-3.5 rounded-full shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-1 animate-pulseGlow text-sm">
+                  {t.cta1}
+                </a>
+                <a href="#courses"
+                  className="bg-white hover:bg-sky-50 text-blue-600 font-extrabold px-9 py-3.5 rounded-full shadow-md border-2 border-blue-200 hover:border-blue-400 transition-all transform hover:-translate-y-1 text-sm">
+                  {t.cta2}
+                </a>
+              </div>
+
+              {/* Stats */}
+              <div className="flex flex-wrap gap-5">
+                {stats.map((s,i) => (
+                  <div key={i} className="text-center bg-white rounded-2xl px-5 py-3 shadow-sm border border-slate-100">
+                    <div className="font-display text-2xl text-blue-600">{s.n}</div>
+                    <div className="text-xs text-slate-500 font-semibold">{s.l}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Illustration */}
+            <div className="flex justify-center animate-float" style={{animationDelay:"0.5s"}}>
+              <svg viewBox="0 0 420 400" className="w-full max-w-md" xmlns="http://www.w3.org/2000/svg">
+                {/* Background circle */}
+                <circle cx="210" cy="210" r="175" fill="url(#bgGrad)" opacity="0.5"/>
+                <defs>
+                  <radialGradient id="bgGrad" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stopColor="#EFF6FF"/>
+                    <stop offset="100%" stopColor="#F0FDF4"/>
+                  </radialGradient>
+                </defs>
+
+                {/* Desk */}
+                <rect x="90" y="300" width="240" height="18" rx="9" fill="#DDD6FE"/>
+                <rect x="130" y="318" width="20" height="40" rx="4" fill="#C4B5FD"/>
+                <rect x="270" y="318" width="20" height="40" rx="4" fill="#C4B5FD"/>
+
+                {/* Body */}
+                <ellipse cx="210" cy="285" rx="58" ry="55" fill="#A7F3D0"/>
+                {/* Arms */}
+                <ellipse cx="155" cy="280" rx="20" ry="10" fill="#A7F3D0" transform="rotate(-15 155 280)"/>
+                <ellipse cx="265" cy="275" rx="20" ry="10" fill="#A7F3D0" transform="rotate(20 265 275)"/>
+
+                {/* Laptop */}
+                <rect x="155" y="285" width="110" height="70" rx="8" fill="#1E293B"/>
+                <rect x="160" y="290" width="100" height="58" rx="5" fill="#3B82F6" opacity="0.85"/>
+                <rect x="165" y="295" width="90" height="48" rx="3" fill="#1D4ED8"/>
+                {/* Screen text lines */}
+                <rect x="170" y="302" width="60" height="5" rx="2" fill="#BAE6FD" opacity="0.9"/>
+                <rect x="170" y="313" width="75" height="4" rx="2" fill="#6EE7B7" opacity="0.7"/>
+                <rect x="170" y="323" width="50" height="4" rx="2" fill="#FED7AA" opacity="0.7"/>
+                <rect x="170" y="333" width="65" height="4" rx="2" fill="#DDD6FE" opacity="0.7"/>
+
+                {/* Head */}
+                <circle cx="210" cy="195" r="58" fill="#FFDBAA"/>
+                {/* Hair */}
+                <ellipse cx="210" cy="150" rx="52" ry="30" fill="#3D2B1F"/>
+                <ellipse cx="162" cy="178" rx="14" ry="24" fill="#3D2B1F"/>
+                <ellipse cx="258" cy="178" rx="14" ry="24" fill="#3D2B1F"/>
+                {/* Hair highlight */}
+                <ellipse cx="195" cy="145" rx="12" ry="8" fill="#5C3D1F" opacity="0.6"/>
+
+                {/* Eyes */}
+                <ellipse cx="193" cy="192" rx="10" ry="11" fill="white"/>
+                <ellipse cx="227" cy="192" rx="10" ry="11" fill="white"/>
+                <circle cx="195" cy="194" r="6.5" fill="#1E293B"/>
+                <circle cx="229" cy="194" r="6.5" fill="#1E293B"/>
+                <circle cx="197" cy="191" r="2.5" fill="white"/>
+                <circle cx="231" cy="191" r="2.5" fill="white"/>
+                {/* Eyelashes */}
+                <path d="M184,184 Q186,181 188,184" stroke="#1E293B" strokeWidth="1.5" fill="none"/>
+                <path d="M218,184 Q220,181 222,184" stroke="#1E293B" strokeWidth="1.5" fill="none"/>
+
+                {/* Nose */}
+                <ellipse cx="210" cy="208" rx="5" ry="3.5" fill="#E8C090" opacity="0.8"/>
+                {/* Smile */}
+                <path d="M196 220 Q210 234 224 220" stroke="#D97706" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+                {/* Teeth */}
+                <path d="M200 221 Q210 229 220 221" fill="white" opacity="0.6"/>
+                {/* Cheeks */}
+                <ellipse cx="180" cy="213" rx="11" ry="7.5" fill="#FECDD3" opacity="0.65"/>
+                <ellipse cx="240" cy="213" rx="11" ry="7.5" fill="#FECDD3" opacity="0.65"/>
+
+                {/* Headphones */}
+                <path d="M160,195 Q162,150 210,148 Q258,150 260,195" stroke="#6366F1" strokeWidth="6" fill="none" strokeLinecap="round"/>
+                <rect x="152" y="190" width="16" height="22" rx="6" fill="#6366F1"/>
+                <rect x="252" y="190" width="16" height="22" rx="6" fill="#6366F1"/>
+
+                {/* Speech bubble 1 */}
+                <rect x="270" y="100" width="130" height="52" rx="14" fill="white" stroke="#BAE6FD" strokeWidth="2.5" filter="url(#shadow)"/>
+                <defs>
+                  <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feDropShadow dx="0" dy="4" stdDeviation="4" floodColor="#0001"/>
+                  </filter>
+                </defs>
+                <polygon points="278,152 268,170 296,152" fill="white" stroke="#BAE6FD" strokeWidth="2"/>
+                <polygon points="278,152 268,170 296,152" fill="white"/>
+                <text x="283" y="122" fontFamily="Fredoka One" fontSize="13" fill="#2563EB">Hello! 👋</text>
+                <text x="283" y="141" fontFamily="Nunito" fontSize="10.5" fill="#64748B" fontWeight="700">I can do this!</text>
+
+                {/* Speech bubble 2 */}
+                <rect x="22" y="140" width="125" height="50" rx="14" fill="white" stroke="#A7F3D0" strokeWidth="2.5" filter="url(#shadow)"/>
+                <polygon points="138,190 150,175 148,190" fill="white" stroke="#A7F3D0" strokeWidth="2"/>
+                <polygon points="138,190 150,175 148,190" fill="white"/>
+                <text x="35" y="161" fontFamily="Fredoka One" fontSize="12" fill="#059669">Be Heard 🌟</text>
+                <text x="35" y="179" fontFamily="Nunito" fontSize="10" fill="#64748B" fontWeight="700">Learn & grow!</text>
+
+                {/* Floating stars */}
+                <text x="48" y="110" fontSize="18">⭐</text>
+                <text x="355" y="240" fontSize="14">✨</text>
+                <text x="30" y="270" fontSize="12">🌸</text>
+              </svg>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // ================================================================
+    //  COURSES
+    // ================================================================
+    function Courses({ lang }) {
+      const t = T[lang].courses;
+      return (
+        <section id="courses" className="py-24 bg-white">
+          <div className="max-w-6xl mx-auto px-5">
+            <div className="text-center mb-16">
+              <h2 className="font-display text-4xl text-slate-800 mb-3">{t.heading}</h2>
+              <p className="text-slate-500 text-lg">{t.sub}</p>
+            </div>
+            <div className="grid md:grid-cols-3 gap-8">
+              {t.items.map((c, i) => (
+                <div key={i} className={`course-card rounded-3xl p-8 border-2 relative overflow-hidden group cursor-default ${c.featured ? "ring-4 ring-offset-4" : ""}`}
+                  style={{background:c.bg, borderColor:c.border, ringColor: c.featured ? c.border : undefined}}>
+
+                  {c.featured && (
+                    <div className="absolute top-5 right-5 text-white text-xs font-extrabold px-3.5 py-1.5 rounded-full shadow-md"
+                      style={{background:`linear-gradient(135deg,${c.accent},${c.border})`}}>
+                      {t.popular}
+                    </div>
+                  )}
+
+                  {/* Background decoration */}
+                  <div className="absolute -bottom-8 -right-8 w-32 h-32 rounded-full opacity-20"
+                    style={{background:c.border}} />
+
+                  <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">{c.emoji}</div>
+                  <span className="tag-badge mb-3 inline-block" style={{background:c.border+"50", color:c.accent}}>
+                    {c.level}
+                  </span>
+                  <h3 className="font-display text-2xl text-slate-800 mb-5">{c.name}</h3>
+
+                  <div className="space-y-2.5 mb-6 bg-white/60 rounded-2xl p-4">
+                    <div className="flex items-center gap-2 text-sm">
+                      <span className="text-slate-400 font-semibold w-24">⏱ {t.lDur}</span>
+                      <span className="font-bold text-slate-700">{c.dur}</span>
+                    </div>
+                    <div className="w-full h-px bg-slate-100" />
+                    <div className="flex items-center gap-2 text-sm">
+                      <span className="text-slate-400 font-semibold w-24">💰 {t.lTui}</span>
+                      <span className="font-bold text-slate-700">{c.tui}</span>
+                    </div>
+                  </div>
+
+                  <p className="text-xs font-extrabold uppercase tracking-widest text-slate-400 mb-3">📋 {t.lCon}</p>
+                  <ul className="space-y-2 mb-7">
+                    {c.content.map((item, j) => (
+                      <li key={j} className="text-sm text-slate-700 flex items-start gap-2">
+                        <span className="mt-0.5 font-bold" style={{color:c.accent}}>✓</span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+
+                  <button
+                    className="w-full py-3.5 rounded-2xl font-extrabold text-white text-sm transition-all hover:shadow-xl hover:scale-105 active:scale-95"
+                    style={{background:`linear-gradient(135deg, ${c.accent}, ${c.border})`}}>
+                    {t.enroll}
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // ================================================================
+    //  ROADMAP
+    // ================================================================
+    function Roadmap({ lang }) {
+      const t = T[lang].roadmap;
+      const colors = ["#BAE6FD","#A7F3D0","#FED7AA","#DDD6FE","#FECDD3"];
+      const accents = ["#2563EB","#059669","#D97706","#7C3AED","#DB2777"];
+      return (
+        <section id="roadmap" className="py-24" style={{background:"linear-gradient(160deg,#F0FDF4 0%,#EFF6FF 50%,#FFF7ED 100%)"}}>
+          <div className="max-w-3xl mx-auto px-5">
+            <div className="text-center mb-16">
+              <h2 className="font-display text-4xl text-slate-800 mb-3">{t.heading}</h2>
+              <p className="text-slate-500 text-lg">{t.sub}</p>
+            </div>
+            <div className="relative">
+              {/* Spine line */}
+              <div className="absolute left-8 top-8 bottom-8 w-0.5 hidden sm:block"
+                style={{background:"linear-gradient(to bottom, #BAE6FD, #A7F3D0, #FED7AA, #DDD6FE, #FECDD3)"}} />
+
+              <div className="space-y-6">
+                {t.steps.map((step, i) => (
+                  <div key={i} className="flex items-start gap-6 relative animate-fadeInUp"
+                    style={{animationDelay:`${i * 0.12}s`, opacity:0, animationFillMode:"forwards"}}>
+
+                    <div className="step-circle flex-shrink-0 w-16 h-16 rounded-full flex items-center justify-center text-2xl z-10 shadow-lg border-3 cursor-default"
+                      style={{background:colors[i], borderColor:accents[i], borderWidth:"3px"}}>
+                      {step.icon}
+                    </div>
+
+                    <div className="flex-1 bg-white rounded-2xl p-5 shadow-md border border-slate-100 hover:shadow-xl transition-shadow mt-1">
+                      <div className="flex items-center gap-3 mb-1">
+                        <span className="tag-badge" style={{background:colors[i], color:accents[i]}}>
+                          Step {i+1}
+                        </span>
+                      </div>
+                      <h3 className="font-display text-xl text-slate-800 mb-1">{step.title}</h3>
+                      <p className="text-slate-500 text-sm leading-relaxed">{step.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // ================================================================
+    //  GALLERY
+    // ================================================================
+    function Gallery({ lang }) {
+      const t = T[lang].gallery;
+      const [tab, setTab] = React.useState("photos");
+      const [imgs, setImgs] = React.useState([]);
+      const [vids, setVids] = React.useState([]);
+      const [loading, setLoading] = React.useState(true);
+
+      React.useEffect(() => {
+        if (!firebaseReady) { setLoading(false); return; }
+        const u1 = db.collection("gallery_images").orderBy("createdAt","desc")
+          .onSnapshot(s => { setImgs(s.docs.map(d=>({id:d.id,...d.data()}))); setLoading(false); }, ()=>setLoading(false));
+        const u2 = db.collection("gallery_videos").orderBy("createdAt","desc")
+          .onSnapshot(s => setVids(s.docs.map(d=>({id:d.id,...d.data()}))));
+        return () => { u1(); u2(); };
+      }, []);
+
+      return (
+        <section id="gallery" className="py-24 bg-white">
+          <div className="max-w-6xl mx-auto px-5">
+            <div className="text-center mb-12">
+              <h2 className="font-display text-4xl text-slate-800 mb-3">{t.heading}</h2>
+              <p className="text-slate-500 text-lg">{t.sub}</p>
+            </div>
+
+            <div className="flex justify-center gap-4 mb-12">
+              {[["photos",t.tabPhotos],["videos",t.tabVideos]].map(([key,label])=>(
+                <button key={key} onClick={() => setTab(key)}
+                  className={`px-8 py-3 rounded-full font-extrabold text-sm transition-all duration-300 ${
+                    tab===key
+                      ? "bg-gradient-to-r from-blue-500 to-teal-500 text-white shadow-lg scale-105"
+                      : "bg-slate-100 text-slate-600 hover:bg-sky-50 border border-slate-200"
+                  }`}>
+                  {label}
+                </button>
+              ))}
+            </div>
+
+            {loading && (
+              <div className="text-center py-16 text-slate-400">
+                <div className="text-4xl animate-pulse">⏳</div>
+              </div>
+            )}
+
+            {!loading && tab==="photos" && (
+              imgs.length === 0 ? (
+                <div className="text-center py-20 text-slate-400 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200">
+                  <div className="text-6xl mb-4">🖼️</div>
+                  <p className="font-semibold">{t.noPhotos}</p>
+                </div>
+              ) : (
+                <div className="columns-2 md:columns-3 lg:columns-4 gap-4">
+                  {imgs.map(img => (
+                    <div key={img.id} className="break-inside-avoid mb-4 rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all hover:-translate-y-1 cursor-pointer group">
+                      <img src={img.url} alt={img.caption||"Student photo"} className="w-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy"/>
+                      {img.caption && <p className="text-xs text-slate-500 p-2 text-center bg-white">{img.caption}</p>}
+                    </div>
+                  ))}
+                </div>
+              )
+            )}
+
+            {!loading && tab==="videos" && (
+              vids.length === 0 ? (
+                <div className="text-center py-20 text-slate-400 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200">
+                  <div className="text-6xl mb-4">🎬</div>
+                  <p className="font-semibold">{t.noVideos}</p>
+                </div>
+              ) : (
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {vids.map(vid => (
+                    <div key={vid.id} className="rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all hover:-translate-y-1">
+                      <div className="aspect-video bg-slate-900">
+                        <iframe
+                          src={`https://www.youtube.com/embed/${vid.videoId}`}
+                          title={vid.title||"Class video"}
+                          className="w-full h-full"
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        />
+                      </div>
+                      {vid.title && (
+                        <div className="p-3 bg-white border-t border-slate-100">
+                          <p className="font-bold text-sm text-slate-700 truncate">{vid.title}</p>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )
+            )}
+          </div>
+        </section>
+      );
+    }
+
+    // ================================================================
+    //  FAQ
+    // ================================================================
+    function FAQ({ lang }) {
+      const t = T[lang].faq;
+      const [openIdx, setOpenIdx] = React.useState(null);
+      const [dbFaqs, setDbFaqs] = React.useState([]);
+
+      React.useEffect(() => {
+        if (!firebaseReady) return;
+        const u = db.collection("faqs").orderBy("order","asc")
+          .onSnapshot(s => { const d = s.docs.map(x=>({id:x.id,...x.data()})); if(d.length>0) setDbFaqs(d); }, ()=>{});
+        return () => u();
+      }, []);
+
+      const items = dbFaqs.length > 0
+        ? dbFaqs.map(f => ({ q: f[`question_${lang}`]||f.question_en, a: f[`answer_${lang}`]||f.answer_en }))
+        : t.items;
+
+      return (
+        <section id="faq" className="py-24" style={{background:"linear-gradient(160deg,#FFF7ED 0%,#FFFBF5 50%,#F0FDF4 100%)"}}>
+          <div className="max-w-3xl mx-auto px-5">
+            <div className="text-center mb-14">
+              <h2 className="font-display text-4xl text-slate-800 mb-3">{t.heading}</h2>
+              <p className="text-slate-500 text-lg">{t.sub}</p>
+            </div>
+            <div className="space-y-4">
+              {items.map((item, i) => (
+                <div key={i} className="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md overflow-hidden transition-shadow">
+                  <button
+                    className="w-full flex items-center gap-4 px-6 py-5 text-left group"
+                    onClick={() => setOpenIdx(openIdx===i ? null : i)}>
+                    <span className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 text-blue-600 font-extrabold text-sm flex items-center justify-center">
+                      {i+1}
+                    </span>
+                    <span className="flex-1 font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
+                      {item.q}
+                    </span>
+                    <span className={`flex-shrink-0 text-blue-400 text-xl transition-transform duration-400 ${openIdx===i ? "rotate-180":"rotate-0"}`}>
+                      ▾
+                    </span>
+                  </button>
+                  <div className={`accordion-body ${openIdx===i ? "open":""}`}>
+                    <div className="px-6 pb-5 pt-2 text-slate-600 leading-relaxed border-t border-slate-50 text-sm">
+                      {item.a}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // ================================================================
+    //  MINI QUIZ
+    // ================================================================
+    function Quiz({ lang }) {
+      const t = T[lang].quiz;
+      const courses = T[lang].courses.items;
+      const [step, setStep] = React.useState(0);
+      const [answers, setAnswers] = React.useState([]);
+      const [sel, setSel] = React.useState(null);
+      const [done, setDone] = React.useState(false);
+      const [result, setResult] = React.useState(null);
+
+      function calcResult(ans) {
+        const s = [0,0,0];
+        ans.forEach((a,i) => {
+          if (i===0) { if(a<=1) s[0]+=3; else if(a===2) s[1]+=3; else s[2]+=3; }
+          if (i===1) { if(a===0) s[0]+=2; else if(a===1||a===2) s[2]+=2; else s[1]+=1; }
+          if (i===2) { s[Math.min(a,2)]++; }
+          if (i===3) { if(a===0) s[0]++; else if(a===1||a===3) s[1]++; else s[2]++; }
+          if (i===4) { if(a===0||a===2) s[0]++; else s[1]++; }
+        });
+        return s.indexOf(Math.max(...s));
+      }
+
+      function next() {
+        if (sel===null) return;
+        const newA = [...answers, sel];
+        setAnswers(newA);
+        setSel(null);
+        if (step===t.questions.length-1) { setResult(calcResult(newA)); setDone(true); }
+        else setStep(step+1);
+      }
+
+      function back() {
+        if (step===0) return;
+        setStep(s=>s-1);
+        setAnswers(a=>a.slice(0,-1));
+        setSel(null);
+      }
+
+      function restart() {
+        setStep(0); setAnswers([]); setSel(null); setDone(false); setResult(null);
+      }
+
+      const course = result!==null ? courses[result] : null;
+
+      return (
+        <section id="quiz" className="py-24 bg-white">
+          <div className="max-w-2xl mx-auto px-5">
+            <div className="text-center mb-12">
+              <h2 className="font-display text-4xl text-slate-800 mb-3">{t.heading}</h2>
+              <p className="text-slate-500 text-lg">{t.sub}</p>
+            </div>
+
+            {!done ? (
+              <div className="rounded-3xl p-8 shadow-2xl border border-sky-100"
+                style={{background:"linear-gradient(145deg,#F0F9FF,#F0FDF4)"}}>
+                {/* Progress bar */}
+                <div className="mb-8">
+                  <div className="flex justify-between text-xs font-bold text-slate-400 mb-2">
+                    <span>Question {step+1} / {t.questions.length}</span>
+                    <span>{Math.round((step/t.questions.length)*100)}% done</span>
+                  </div>
+                  <div className="h-2.5 bg-slate-200 rounded-full overflow-hidden">
+                    <div className="h-full rounded-full transition-all duration-600"
+                      style={{width:`${(step/t.questions.length)*100}%`,
+                        background:"linear-gradient(90deg,#3B82F6,#10B981)"}} />
+                  </div>
+                </div>
+
+                <h3 className="font-display text-xl text-slate-800 mb-7 leading-snug">{t.questions[step].text}</h3>
+
+                <div className="space-y-3 mb-8">
+                  {t.questions[step].opts.map((opt, i) => (
+                    <button key={i} onClick={() => setSel(i)}
+                      className={`quiz-opt w-full text-left p-4 rounded-2xl border-2 font-semibold text-sm transition-all ${
+                        sel===i ? "selected" : "border-slate-200 bg-white text-slate-700 hover:border-sky-300 hover:bg-sky-50"
+                      }`}>
+                      <span className="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-extrabold mr-3"
+                        style={{background: sel===i ? "#DBEAFE":"#F1F5F9",
+                          color: sel===i ? "#2563EB":"#94A3B8"}}>
+                        {String.fromCharCode(65+i)}
+                      </span>
+                      {opt}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="flex justify-between items-center">
+                  <button onClick={back} disabled={step===0}
+                    className="text-slate-400 hover:text-slate-600 font-bold px-5 py-2 rounded-xl hover:bg-slate-100 transition-all disabled:opacity-30 text-sm">
+                    {t.back}
+                  </button>
+                  <button onClick={next} disabled={sel===null}
+                    className="bg-gradient-to-r from-blue-500 to-teal-500 text-white font-extrabold px-9 py-3 rounded-full shadow-md hover:shadow-xl disabled:opacity-40 transition-all hover:-translate-y-0.5 text-sm">
+                    {step===t.questions.length-1 ? t.finish : t.next}
+                  </button>
+                </div>
+              </div>
+            ) : course && (
+              <div className="text-center rounded-3xl p-10 shadow-2xl border-2 animate-fadeInUp"
+                style={{background:course.bg, borderColor:course.border}}>
+                <div className="text-7xl mb-5 animate-float">{course.emoji}</div>
+                <p className="font-bold text-slate-500 mb-2 uppercase text-xs tracking-widest">{t.resultHeading}</p>
+                <h3 className="font-display text-4xl text-slate-800 mb-3">{course.name}</h3>
+                <span className="tag-badge inline-block mb-6" style={{background:course.border+"60",color:course.accent}}>
+                  {course.level}
+                </span>
+                <p className="text-slate-600 mb-8 font-semibold">⏱ {course.dur} · {course.tui}</p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <a href="#courses"
+                    className="font-extrabold px-9 py-3.5 rounded-full text-white shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 text-sm"
+                    style={{background:`linear-gradient(135deg,${course.accent},${course.border})`}}>
+                    {T[lang].courses.enroll}
+                  </a>
+                  <button onClick={restart}
+                    className="border-2 border-slate-300 text-slate-600 font-extrabold px-9 py-3.5 rounded-full hover:bg-white transition-all text-sm">
+                    {t.restart}
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
+      );
+    }
+
+    // ================================================================
+    //  FOOTER
+    // ================================================================
+    function Footer({ lang }) {
+      const t = T[lang].footer;
+      const nav = T[lang].nav;
+      const links = ["home","courses","roadmap","gallery","faq","quiz"];
+      return (
+        <footer className="bg-slate-900 text-white pt-16 pb-8">
+          <div className="max-w-6xl mx-auto px-5">
+            <div className="grid md:grid-cols-3 gap-10 mb-12">
+              <div>
+                <div className="font-display text-3xl text-sky-300 mb-4">🔊 Be Heard</div>
+                <p className="text-slate-400 text-sm leading-relaxed mb-5">{t.tagline}</p>
+                <div className="flex gap-3">
+                  {["fb","ig","yt","tk"].map(s=>(
+                    <a key={s} href="#" className="w-9 h-9 rounded-xl bg-slate-800 hover:bg-blue-600 flex items-center justify-center text-sm transition-colors">
+                      {s==="fb"?"📘":s==="ig"?"📸":s==="yt"?"▶️":"🎵"}
+                    </a>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h4 className="font-extrabold text-slate-300 uppercase tracking-widest text-xs mb-5">{t.quickLinks}</h4>
+                <div className="grid grid-cols-2 gap-y-2.5 gap-x-4">
+                  {links.map(s=>(
+                    <a key={s} href={`#${s}`} className="text-slate-400 hover:text-sky-300 capitalize text-sm font-semibold transition-colors">{nav[s]}</a>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h4 className="font-extrabold text-slate-300 uppercase tracking-widest text-xs mb-5">{t.contact}</h4>
+                <div className="space-y-3 text-slate-400 text-sm">
+                  <p>{t.addr}</p>
+                  <p>{t.phone}</p>
+                  <p>{t.email}</p>
+                </div>
+              </div>
+            </div>
+            <div className="border-t border-slate-800 pt-6 text-center text-slate-500 text-xs">{t.copy}</div>
+          </div>
+        </footer>
+      );
+    }
+
+    // ================================================================
+    //  PUBLIC SITE
+    // ================================================================
+    function PublicSite({ lang, setLang }) {
+      return (
+        <>
+          <Navbar lang={lang} setLang={setLang} />
+          <Hero lang={lang} />
+          <Courses lang={lang} />
+          <Roadmap lang={lang} />
+          <Gallery lang={lang} />
+          <FAQ lang={lang} />
+          <Quiz lang={lang} />
+          <Footer lang={lang} />
+        </>
+      );
+    }
+
+    // ================================================================
+    //  ADMIN — LOGIN
+    // ================================================================
+    function AdminLogin({ onLogin, lang }) {
+      const t = T[lang].admin;
+      const [pw, setPw] = React.useState("");
+      const [err, setErr] = React.useState(false);
+      const [show, setShow] = React.useState(false);
+
+      function handleSubmit(e) {
+        e.preventDefault();
+        if (pw===ADMIN_PASSWORD) { setErr(false); onLogin(); }
+        else { setErr(true); setPw(""); }
+      }
+
+      return (
+        <div className="min-h-screen hero-bg flex items-center justify-center px-4">
+          <div className="bg-white rounded-3xl shadow-2xl p-10 w-full max-w-sm border border-sky-100">
+            <div className="text-center mb-8">
+              <div className="text-5xl mb-3">🔐</div>
+              <h2 className="font-display text-2xl text-slate-800">{t.title}</h2>
+              <p className="text-slate-400 text-sm mt-1">Be Heard Admin Panel</p>
+            </div>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="relative">
+                <input type={show?"text":"password"} value={pw} onChange={e=>setPw(e.target.value)}
+                  placeholder={t.pwLabel}
+                  className="w-full border-2 border-slate-200 focus:border-blue-400 rounded-2xl px-4 py-3.5 pr-12 text-sm focus:outline-none transition-colors" />
+                <button type="button" onClick={()=>setShow(!show)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-lg">
+                  {show?"🙈":"👁"}
+                </button>
+              </div>
+              {err && <p className="text-red-500 text-sm font-semibold">{t.wrongPw}</p>}
+              <button type="submit"
+                className="w-full bg-gradient-to-r from-blue-500 to-teal-500 text-white font-extrabold py-3.5 rounded-2xl hover:shadow-xl transition-all hover:-translate-y-0.5">
+                {t.loginBtn}
+              </button>
+            </form>
+            <div className="text-center mt-6">
+              <a href="#" className="text-slate-400 text-sm hover:text-blue-500 transition-colors">{t.backToSite}</a>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ================================================================
+    //  ADMIN — MEDIA MANAGER
+    // ================================================================
+    function AdminMedia({ lang }) {
+      const t = T[lang].admin.media;
+      const [imgs, setImgs] = React.useState([]);
+      const [vids, setVids] = React.useState([]);
+      const [uploading, setUploading] = React.useState(false);
+      const [drag, setDrag] = React.useState(false);
+      const [vidUrl, setVidUrl] = React.useState("");
+      const [vidTitle, setVidTitle] = React.useState("");
+      const fileRef = React.useRef();
+
+      React.useEffect(() => {
+        if (!firebaseReady) return;
+        const u1 = db.collection("gallery_images").orderBy("createdAt","desc").onSnapshot(s=>setImgs(s.docs.map(d=>({id:d.id,...d.data()}))));
+        const u2 = db.collection("gallery_videos").orderBy("createdAt","desc").onSnapshot(s=>setVids(s.docs.map(d=>({id:d.id,...d.data()}))));
+        return ()=>{ u1(); u2(); };
+      }, []);
+
+      async function handleFiles(files) {
+        if (!files||!files.length) return;
+        if (!firebaseReady||CLOUDINARY_CLOUD_NAME==="YOUR_CLOUD_NAME") { alert(t.noConfig); return; }
+        setUploading(true);
+        for (const f of Array.from(files)) {
+          try {
+            const {url,public_id} = await cloudinaryUpload(f);
+            await db.collection("gallery_images").add({url, public_id, caption:f.name, createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+          } catch(e) { alert("Upload failed: "+e.message); }
+        }
+        setUploading(false);
+      }
+
+      async function addVideo() {
+        const id = ytId(vidUrl);
+        if (!id) { alert("Invalid YouTube URL"); return; }
+        if (!firebaseReady) { alert(t.noConfig); return; }
+        await db.collection("gallery_videos").add({youtubeUrl:vidUrl, videoId:id, title:vidTitle||"", createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+        setVidUrl(""); setVidTitle("");
+      }
+
+      async function delImg(id) {
+        if (!confirm(t.deleteImg+"?")) return;
+        await db.collection("gallery_images").doc(id).delete();
+      }
+
+      async function delVid(id) {
+        if (!confirm(t.deleteVid+"?")) return;
+        await db.collection("gallery_videos").doc(id).delete();
+      }
+
+      return (
+        <div className="space-y-8">
+          {/* Images */}
+          <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
+            <h3 className="font-display text-xl text-slate-700 mb-5">📸 {t.imgSection}</h3>
+            <div
+              className={`drag-zone rounded-2xl p-12 text-center cursor-pointer ${drag?"active":""}`}
+              onClick={() => fileRef.current.click()}
+              onDragOver={e=>{e.preventDefault();setDrag(true);}}
+              onDragLeave={()=>setDrag(false)}
+              onDrop={e=>{e.preventDefault();setDrag(false);handleFiles(e.dataTransfer.files);}}>
+              <div className="text-5xl mb-3">{uploading?"⏳":"📤"}</div>
+              <p className="text-slate-500 font-semibold text-sm">{uploading ? t.uploading : t.dragHint}</p>
+              <input ref={fileRef} type="file" multiple accept="image/*" className="hidden"
+                onChange={e=>handleFiles(e.target.files)} />
+            </div>
+
+            {imgs.length > 0 && (
+              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 mt-5">
+                {imgs.map(img=>(
+                  <div key={img.id} className="relative group rounded-xl overflow-hidden shadow-sm aspect-square">
+                    <img src={img.url} alt="gallery" className="w-full h-full object-cover"/>
+                    <button onClick={()=>delImg(img.id)}
+                      className="absolute top-1 right-1 w-6 h-6 bg-red-500 text-white rounded-full text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-md">
+                      ✕
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Videos */}
+          <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
+            <h3 className="font-display text-xl text-slate-700 mb-5">🎬 {t.vidSection}</h3>
+            <div className="grid sm:grid-cols-3 gap-3 mb-4">
+              <input value={vidTitle} onChange={e=>setVidTitle(e.target.value)} placeholder={t.titlePH}
+                className="border-2 border-slate-200 focus:border-blue-400 rounded-xl px-4 py-2.5 text-sm focus:outline-none" />
+              <input value={vidUrl} onChange={e=>setVidUrl(e.target.value)} placeholder={t.urlPH}
+                className="border-2 border-slate-200 focus:border-blue-400 rounded-xl px-4 py-2.5 text-sm focus:outline-none" />
+              <button onClick={addVideo}
+                className="bg-blue-500 hover:bg-blue-600 text-white font-extrabold rounded-xl px-5 py-2.5 text-sm transition-colors">
+                {t.addBtn}
+              </button>
+            </div>
+
+            {vids.length > 0 && (
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+                {vids.map(vid=>(
+                  <div key={vid.id} className="relative group rounded-2xl overflow-hidden border border-slate-100 shadow-sm">
+                    <img src={`https://img.youtube.com/vi/${vid.videoId}/mqdefault.jpg`}
+                      alt={vid.title} className="w-full h-24 object-cover"/>
+                    <div className="p-2 flex items-center gap-1">
+                      <p className="text-xs text-slate-600 font-semibold truncate flex-1">{vid.title||vid.videoId}</p>
+                      <button onClick={()=>delVid(vid.id)} className="text-red-400 hover:text-red-600 text-xs font-bold flex-shrink-0">✕</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    // ================================================================
+    //  ADMIN — FAQ MANAGER
+    // ================================================================
+    function AdminFAQ({ lang }) {
+      const t = T[lang].admin.faq;
+      const [items, setItems] = React.useState([]);
+      const [showForm, setShowForm] = React.useState(false);
+      const [editId, setEditId] = React.useState(null);
+      const blank = {question_en:"",question_vi:"",answer_en:"",answer_vi:""};
+      const [form, setForm] = React.useState(blank);
+
+      React.useEffect(() => {
+        if (!firebaseReady) return;
+        const u = db.collection("faqs").orderBy("order","asc")
+          .onSnapshot(s=>setItems(s.docs.map(d=>({id:d.id,...d.data()}))), ()=>{});
+        return ()=>u();
+      }, []);
+
+      async function save() {
+        if (!firebaseReady) { alert("Firebase not configured"); return; }
+        if (editId) {
+          await db.collection("faqs").doc(editId).update(form);
+        } else {
+          await db.collection("faqs").add({...form, order:items.length});
+        }
+        setShowForm(false); setEditId(null); setForm(blank);
+      }
+
+      function startEdit(item) {
+        setEditId(item.id);
+        setForm({question_en:item.question_en||"",question_vi:item.question_vi||"",answer_en:item.answer_en||"",answer_vi:item.answer_vi||""});
+        setShowForm(true);
+      }
+
+      async function del(id) {
+        if (!confirm("Delete this FAQ?")) return;
+        await db.collection("faqs").doc(id).delete();
+      }
+
+      return (
+        <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="font-display text-xl text-slate-700">❓ {t.title}</h3>
+            <button onClick={()=>{setShowForm(true);setEditId(null);setForm(blank);}}
+              className="bg-blue-500 hover:bg-blue-600 text-white text-sm font-extrabold px-5 py-2.5 rounded-xl transition-colors">
+              {t.addBtn}
+            </button>
+          </div>
+
+          {showForm && (
+            <div className="bg-sky-50 rounded-2xl p-5 mb-6 border-2 border-sky-200 space-y-3">
+              <div className="grid md:grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs font-bold text-slate-400 mb-1 block">{t.qEn}</label>
+                  <textarea value={form.question_en} onChange={e=>setForm({...form,question_en:e.target.value})} rows="2"
+                    className="w-full border-2 border-slate-200 focus:border-blue-400 rounded-xl p-3 text-sm focus:outline-none resize-none" />
+                </div>
+                <div>
+                  <label className="text-xs font-bold text-slate-400 mb-1 block">{t.qVi}</label>
+                  <textarea value={form.question_vi} onChange={e=>setForm({...form,question_vi:e.target.value})} rows="2"
+                    className="w-full border-2 border-slate-200 focus:border-blue-400 rounded-xl p-3 text-sm focus:outline-none resize-none" />
+                </div>
+                <div>
+                  <label className="text-xs font-bold text-slate-400 mb-1 block">{t.aEn}</label>
+                  <textarea value={form.answer_en} onChange={e=>setForm({...form,answer_en:e.target.value})} rows="3"
+                    className="w-full border-2 border-slate-200 focus:border-blue-400 rounded-xl p-3 text-sm focus:outline-none resize-none" />
+                </div>
+                <div>
+                  <label className="text-xs font-bold text-slate-400 mb-1 block">{t.aVi}</label>
+                  <textarea value={form.answer_vi} onChange={e=>setForm({...form,answer_vi:e.target.value})} rows="3"
+                    className="w-full border-2 border-slate-200 focus:border-blue-400 rounded-xl p-3 text-sm focus:outline-none resize-none" />
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <button onClick={save}
+                  className="bg-green-500 hover:bg-green-600 text-white font-extrabold px-6 py-2 rounded-xl text-sm transition-colors">
+                  {t.save}
+                </button>
+                <button onClick={()=>setShowForm(false)}
+                  className="border-2 border-slate-200 text-slate-600 font-extrabold px-6 py-2 rounded-xl text-sm hover:bg-slate-50 transition-colors">
+                  {t.cancel}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {items.length === 0 ? (
+            <div className="text-center py-10 text-slate-400">
+              <div className="text-4xl mb-3">❓</div>
+              <p className="text-sm">{t.noItems}</p>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {items.map(item=>(
+                <div key={item.id}
+                  className="flex items-start gap-3 p-4 border border-slate-100 rounded-2xl hover:bg-slate-50 transition-colors">
+                  <div className="flex-1 min-w-0">
+                    <p className="font-bold text-sm text-slate-800 truncate">{item.question_en}</p>
+                    <p className="text-xs text-slate-400 truncate mt-0.5">{item.question_vi}</p>
+                  </div>
+                  <div className="flex gap-2 flex-shrink-0">
+                    <button onClick={()=>startEdit(item)}
+                      className="text-xs font-extrabold text-blue-500 hover:text-blue-700 px-3 py-1.5 rounded-lg hover:bg-blue-50 transition-colors">
+                      {t.edit}
+                    </button>
+                    <button onClick={()=>del(item.id)}
+                      className="text-xs font-extrabold text-red-500 hover:text-red-700 px-3 py-1.5 rounded-lg hover:bg-red-50 transition-colors">
+                      {t.del}
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // ================================================================
+    //  ADMIN — COURSES (Read-only overview for now)
+    // ================================================================
+    function AdminCourses({ lang }) {
+      const t = T[lang].courses;
+      return (
+        <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
+          <h3 className="font-display text-xl text-slate-700 mb-2">📚 {T[lang].admin.tabs.courses}</h3>
+          <p className="text-sm text-slate-400 mb-6 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3">
+            💡 Course content is defined in the app's translation config. To customize, edit the <code className="bg-slate-100 px-1.5 py-0.5 rounded text-xs">T</code> object in the source code and re-deploy.
+          </p>
+          <div className="grid md:grid-cols-3 gap-5">
+            {t.items.map((c,i)=>(
+              <div key={i} className="rounded-2xl p-5 border-2"
+                style={{background:c.bg, borderColor:c.border}}>
+                <div className="text-4xl mb-3">{c.emoji}</div>
+                <span className="tag-badge mb-2 inline-block" style={{background:c.border+"50",color:c.accent}}>{c.level}</span>
+                <h4 className="font-display text-lg text-slate-800 mb-2">{c.name}</h4>
+                <p className="text-sm text-slate-500">⏱ {c.dur}</p>
+                <p className="text-sm text-slate-500">💰 {c.tui}</p>
+                <ul className="mt-3 space-y-1">
+                  {c.content.map((item,j)=>(
+                    <li key={j} className="text-xs text-slate-600 flex gap-1.5 items-start">
+                      <span style={{color:c.accent}}>✓</span>{item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    // ================================================================
+    //  ADMIN — DASHBOARD
+    // ================================================================
+    function AdminDashboard({ lang, setLang, onLogout }) {
+      const t = T[lang].admin;
+      const [tab, setTab] = React.useState("media");
+
+      return (
+        <div className="min-h-screen bg-slate-50">
+          <header className="bg-white shadow-sm border-b border-slate-100 px-6 py-4 flex items-center justify-between sticky top-0 z-40">
+            <div className="flex items-center gap-3">
+              <span className="font-display text-xl text-blue-600">🔊 Be Heard</span>
+              <span className="tag-badge bg-blue-100 text-blue-700">Admin</span>
+            </div>
+            <div className="flex items-center gap-4">
+              <button onClick={()=>setLang(lang==="en"?"vi":"en")}
+                className="text-xs border-2 border-sky-200 text-blue-600 font-bold px-3 py-1.5 rounded-full hover:bg-sky-50 transition-colors">
+                {lang==="en"?"🇻🇳 VI":"🇺🇸 EN"}
+              </button>
+              <a href="#" className="text-sm text-slate-500 hover:text-blue-600 font-semibold transition-colors">{t.backToSite}</a>
+              <button onClick={onLogout}
+                className="text-sm text-red-500 hover:text-red-700 font-extrabold transition-colors">{t.logout}</button>
+            </div>
+          </header>
+
+          <div className="max-w-5xl mx-auto px-5 py-8">
+            <div className="flex gap-3 mb-8 overflow-x-auto pb-1">
+              {Object.entries(t.tabs).map(([key,label])=>(
+                <button key={key} onClick={()=>setTab(key)}
+                  className={`px-6 py-3 rounded-2xl font-extrabold text-sm whitespace-nowrap transition-all ${
+                    tab===key
+                      ? "bg-gradient-to-r from-blue-500 to-teal-500 text-white shadow-md"
+                      : "bg-white text-slate-600 hover:bg-sky-50 border border-slate-200"
+                  }`}>
+                  {label}
+                </button>
+              ))}
+            </div>
+
+            {tab==="media" && <AdminMedia lang={lang} />}
+            {tab==="faq" && <AdminFAQ lang={lang} />}
+            {tab==="courses" && <AdminCourses lang={lang} />}
+          </div>
+        </div>
+      );
+    }
+
+    // ================================================================
+    //  ADMIN SECTION (auth gate)
+    // ================================================================
+    function AdminSection({ lang, setLang }) {
+      const [auth, setAuth] = React.useState(()=>sessionStorage.getItem("bh_adm")==="1");
+      const login = () => { sessionStorage.setItem("bh_adm","1"); setAuth(true); };
+      const logout = () => { sessionStorage.removeItem("bh_adm"); setAuth(false); };
+      if (!auth) return <AdminLogin onLogin={login} lang={lang} />;
+      return <AdminDashboard lang={lang} setLang={setLang} onLogout={logout} />;
+    }
+
+    // ================================================================
+    //  ROOT APP
+    // ================================================================
+    function App() {
+      const [hash, setHash] = React.useState(window.location.hash);
+      const [lang, setLang] = React.useState("en");
+
+      React.useEffect(()=>{
+        const fn = ()=>setHash(window.location.hash);
+        window.addEventListener("hashchange",fn);
+        return ()=>window.removeEventListener("hashchange",fn);
+      },[]);
+
+      if (hash.startsWith("#/admin"))
+        return <AdminSection lang={lang} setLang={setLang} />;
+
+      return <PublicSite lang={lang} setLang={setLang} />;
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>
