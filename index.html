@@ -169,6 +169,24 @@
       gap: 0;
     }
 
+    /* ── HScroll custom thin scrollbar ──────────────────── */
+    .hscroll-track::-webkit-scrollbar {
+      height: 4px;
+    }
+    .hscroll-track::-webkit-scrollbar-track {
+      background: var(--primary-soft);
+      border-radius: 99px;
+      margin: 0 4px;
+    }
+    .hscroll-track::-webkit-scrollbar-thumb {
+      background: var(--primary-light);
+      border-radius: 99px;
+      transition: background 0.2s;
+    }
+    .hscroll-track::-webkit-scrollbar-thumb:hover {
+      background: var(--primary);
+    }
+
     /* ── Section divider strip ─────────────────────────── */
     .section-divider {
       height: 4px;
@@ -1170,6 +1188,7 @@
             onMouseMove={onMouseMove}
             onMouseUp={onMouseUp}
             onMouseLeave={onMouseUp}
+            className="hscroll-track"
             style={{
               display: "flex",
               gap: gap + "px",
@@ -1178,15 +1197,14 @@
               scrollSnapType: "x mandatory",
               WebkitOverflowScrolling: "touch",
               cursor: "grab",
-              paddingBottom: 12,
+              paddingBottom: 16,
               paddingLeft: 4,
               paddingRight: 4,
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
+              scrollbarWidth: "thin",
+              scrollbarColor: "var(--primary-light) var(--primary-soft)",
               userSelect: "none",
             }}
           >
-            <style>{`.hscroll-track::-webkit-scrollbar{display:none}`}</style>
             {React.Children.map(children, child => (
               <div style={{
                 flexShrink: 0,
@@ -1227,14 +1245,13 @@
         return () => window.removeEventListener("keydown", fn);
       }, []);
 
-      const PHOTO_W = 340;
-      const VIDEO_W = 340;
+      const PHOTO_W = 420;
+      const VIDEO_W = 400;
 
       return (
         <section id="gallery" className="py-24" style={{background:"var(--primary-xsoft)"}}>
+          {/* Heading inside max-w */}
           <div className="max-w-6xl mx-auto px-5">
-
-            {/* Heading */}
             <div className="text-center mb-12">
               <h2 className="font-display mb-3" style={{color:"var(--text-main)", fontSize:"clamp(1.9rem, 4vw, 2.5rem)"}}>
                 {t.heading}
@@ -1252,6 +1269,10 @@
                 </button>
               ))}
             </div>
+          </div>
+
+          {/* Carousel — full width, padding on sides */}
+          <div className="px-6 lg:px-12">
 
             {/* Loading */}
             {loading && (
@@ -1370,11 +1391,11 @@
 
             {/* Scroll hint */}
             {!loading && ((tab==="photos" && imgs.length > 3) || (tab==="videos" && vids.length > 2)) && (
-              <p className="text-center text-sm mt-6" style={{color:"var(--text-muted)"}}>
+              <p className="text-center text-sm mt-5 px-4" style={{color:"var(--text-muted)"}}>
                 ← {lang==="vi" ? "Kéo ngang hoặc dùng mũi tên để xem thêm" : "Drag or use arrows to see more"} →
               </p>
             )}
-          </div>
+          </div>{/* end carousel full-width div */}
 
           {/* ── Lightbox ────────────────────────────────── */}
           {lightbox && (
