@@ -21,12 +21,24 @@
     };
   </script>
   <style>
-    * { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 500; box-sizing: border-box; }
-    .font-display { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 900; letter-spacing: -0.01em; }
     :root {
-      --sky: #BAE6FD; --mint: #A7F3D0; --peach: #FED7AA;
-      --lavender: #DDD6FE; --rose: #FECDD3;
+      --primary:       #031383;
+      --primary-mid:   #1E2FC4;
+      --primary-light: #4F5DE8;
+      --primary-soft:  #EEF0FF;
+      --primary-xsoft: #F5F6FF;
+      --accent:        #7C6EFA;
+      --accent-pink:   #FF7BAC;
+      --accent-teal:   #00C6B8;
+      --text-main:     #0D0F2B;
+      --text-sub:      #4B5280;
+      --text-muted:    #8B91BA;
+      --border:        #DDE1FF;
+      --white:         #FFFFFF;
     }
+    html { font-size: 17px; }
+    * { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 500; box-sizing: border-box; color-scheme: light; }
+    .font-display { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 900; letter-spacing: -0.02em; }
 
     @keyframes float {
       0%,100% { transform: translateY(0px) rotate(0deg); }
@@ -47,8 +59,8 @@
       to { opacity: 1; transform: translateX(0); }
     }
     @keyframes pulseGlow {
-      0%,100% { box-shadow: 0 0 0 0 rgba(59,130,246,0.4); }
-      50% { box-shadow: 0 0 0 14px rgba(59,130,246,0); }
+      0%,100% { box-shadow: 0 0 0 0 rgba(3,19,131,0.45); }
+      50% { box-shadow: 0 0 0 18px rgba(3,19,131,0); }
     }
     @keyframes shimmer {
       0% { background-position: -200% center; }
@@ -66,16 +78,18 @@
     .animate-pulseGlow { animation: pulseGlow 2.2s ease-in-out infinite; }
 
     .hero-bg {
-      background: radial-gradient(ellipse at 20% 50%, #EFF6FF 0%, transparent 60%),
-                  radial-gradient(ellipse at 80% 20%, #F0FDF4 0%, transparent 60%),
-                  radial-gradient(ellipse at 50% 90%, #FFF7ED 0%, transparent 60%),
-                  #FAFCFF;
+      background:
+        radial-gradient(ellipse at 15% 55%, rgba(3,19,131,0.07) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 15%, rgba(124,110,250,0.10) 0%, transparent 50%),
+        radial-gradient(ellipse at 55% 95%, rgba(255,123,172,0.07) 0%, transparent 50%),
+        var(--primary-xsoft);
     }
 
     .glass {
-      background: rgba(255,255,255,0.82);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(3,19,131,0.08);
     }
 
     .nav-link {
@@ -87,7 +101,7 @@
       position: absolute;
       bottom: -3px; left: 50%;
       width: 0; height: 2.5px;
-      background: linear-gradient(90deg,#3B82F6,#10B981);
+      background: linear-gradient(90deg, var(--primary), var(--accent));
       border-radius: 99px;
       transition: width 0.3s ease, left 0.3s ease;
     }
@@ -112,9 +126,9 @@
     }
     .quiz-opt:hover { transform: scale(1.02); }
     .quiz-opt.selected {
-      border-color: #3B82F6;
-      background: linear-gradient(135deg, #EFF6FF, #E0F2FE);
-      box-shadow: 0 4px 20px rgba(59,130,246,0.25);
+      border-color: var(--primary);
+      background: linear-gradient(135deg, var(--primary-xsoft), var(--primary-soft));
+      box-shadow: 0 4px 24px rgba(3,19,131,0.18);
     }
 
     .step-circle {
@@ -122,13 +136,13 @@
     }
     .step-circle:hover {
       transform: scale(1.12);
-      box-shadow: 0 8px 24px rgba(59,130,246,0.25);
+      box-shadow: 0 8px 28px rgba(3,19,131,0.22);
     }
 
     .shimmer-btn {
-      background: linear-gradient(90deg, #3B82F6 0%, #6EE7B7 25%, #3B82F6 50%, #6EE7B7 75%, #3B82F6 100%);
-      background-size: 200% auto;
-      animation: shimmer 3s linear infinite;
+      background: linear-gradient(90deg, #031383 0%, #7C6EFA 30%, #031383 55%, #4F5DE8 80%, #031383 100%);
+      background-size: 250% auto;
+      animation: shimmer 3.5s linear infinite;
     }
 
     .drag-zone {
@@ -136,17 +150,56 @@
       transition: all 0.2s ease;
     }
     .drag-zone:hover, .drag-zone.active {
-      border-color: #3B82F6;
-      background: #EFF6FF;
+      border-color: var(--primary);
+      background: var(--primary-soft);
     }
 
     ::-webkit-scrollbar { width: 5px; }
     ::-webkit-scrollbar-track { background: #F8FAFC; }
-    ::-webkit-scrollbar-thumb { background: #BAE6FD; border-radius: 99px; }
+    ::-webkit-scrollbar-thumb { background: var(--primary-light); border-radius: 99px; }
 
     .tag-badge {
       font-size: 0.6rem; font-weight: 800; letter-spacing: 0.08em;
       text-transform: uppercase; padding: 3px 10px; border-radius: 999px;
+    }
+
+    /* ── Section divider strip ─────────────────────────── */
+    .section-divider {
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 50%, var(--accent-pink) 100%);
+      border: none;
+    }
+
+    /* ── Card hover lift ────────────────────────────────── */
+    .card-lift {
+      transition: transform 0.28s cubic-bezier(.175,.885,.32,1.275), box-shadow 0.28s ease;
+    }
+    .card-lift:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 24px 48px rgba(3,19,131,0.12);
+    }
+
+    /* ── Gradient text util ─────────────────────────────── */
+    .text-gradient {
+      background: linear-gradient(130deg, var(--primary) 0%, var(--accent) 60%, var(--accent-pink) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── Nav link hover colour → navy ───────────────────── */
+    .nav-link:hover { color: var(--primary) !important; }
+
+    /* ── Button focus ring ──────────────────────────────── */
+    button:focus-visible, a:focus-visible {
+      outline: 2.5px solid var(--primary-light);
+      outline-offset: 3px;
+      border-radius: 8px;
+    }
+
+    /* ── FAQ item hover border ──────────────────────────── */
+    #faq .bg-white:hover {
+      border-color: var(--border) !important;
     }
 
     /* Vietnamese typography — đảm bảo dấu hiển thị đúng */
@@ -230,13 +283,13 @@
           items:[
             { name:"Starter Spark", level:"Beginner", emoji:"🌱", dur:"3 months", tui:"2,500,000 VND/month",
               content:["Alphabet & Phonics","500+ Everyday Words","Simple Sentences","Greetings & Introductions","Numbers, Dates & Time"],
-              bg:"#EFF6FF", border:"#93C5FD", accent:"#2563EB" },
+              bg:"#EEF0FF", border:"#93A3F8", accent:"#031383" },
             { name:"Rising Voice", level:"Intermediate", emoji:"🔥", dur:"4 months", tui:"3,200,000 VND/month",
               content:["Grammar Deep-Dive","Real-Life Conversations","Listening Comprehension","Email & Basic Writing","Speaking Confidence Drills"],
-              bg:"#F0FDF4", border:"#6EE7B7", accent:"#059669", featured:true },
+              bg:"#F0EEFF", border:"#A89CF5", accent:"#4338CA", featured:true },
             { name:"Fluent Pro", level:"Advanced", emoji:"🚀", dur:"5 months", tui:"4,000,000 VND/month",
               content:["Business & Academic English","Debate & Public Speaking","IELTS / TOEIC Prep","Presentation Skills","Native-Speed Comprehension"],
-              bg:"#FAF5FF", border:"#C4B5FD", accent:"#7C3AED" },
+              bg:"#EEF6FF", border:"#6BB5F5", accent:"#1E40AF" },
           ]
         },
         roadmap: {
@@ -334,13 +387,13 @@
           items:[
             { name:"Khởi Động", level:"Sơ Cấp", emoji:"🌱", dur:"3 tháng", tui:"2.500.000 VND/tháng",
               content:["Bảng chữ cái & Phát âm","500+ Từ vựng hàng ngày","Câu đơn giản","Chào hỏi & Tự giới thiệu","Số đếm, Ngày tháng & Giờ"],
-              bg:"#EFF6FF", border:"#93C5FD", accent:"#2563EB" },
+              bg:"#EEF0FF", border:"#93A3F8", accent:"#031383" },
             { name:"Vươn Lên", level:"Trung Cấp", emoji:"🔥", dur:"4 tháng", tui:"3.200.000 VND/tháng",
               content:["Ngữ pháp chuyên sâu","Hội thoại thực tế","Nghe hiểu","Viết email & văn bản","Luyện nói tự tin"],
-              bg:"#F0FDF4", border:"#6EE7B7", accent:"#059669", featured:true },
+              bg:"#F0EEFF", border:"#A89CF5", accent:"#4338CA", featured:true },
             { name:"Thành Thạo", level:"Nâng Cao", emoji:"🚀", dur:"5 tháng", tui:"4.000.000 VND/tháng",
               content:["Tiếng Anh kinh doanh & học thuật","Tranh luận & Thuyết trình","Luyện thi IELTS / TOEIC","Kỹ năng thuyết trình","Nghe tốc độ bản ngữ"],
-              bg:"#FAF5FF", border:"#C4B5FD", accent:"#7C3AED" },
+              bg:"#EEF6FF", border:"#6BB5F5", accent:"#1E40AF" },
           ]
         },
         roadmap: {
@@ -484,7 +537,7 @@
 
             <div className="hidden md:flex items-center gap-7 text-sm font-semibold">
               {links.map(s => (
-                <a key={s} href={`#${s}`} className="nav-link text-slate-600 hover:text-blue-600 capitalize">{t[s]}</a>
+                <a key={s} href={`#${s}`} className="nav-link capitalize" style={{color:"var(--text-sub)"}}>{t[s]}</a>
               ))}
               <a href="#/admin" className="text-xs text-slate-400 hover:text-blue-400 transition-colors">{t.admin}</a>
             </div>
@@ -492,7 +545,7 @@
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setLang(lang==="en"?"vi":"en")}
-                className="flex items-center gap-1.5 bg-white border-2 border-sky-200 rounded-full px-3 py-1.5 text-xs font-extrabold text-blue-600 hover:bg-sky-50 hover:border-blue-400 transition-all shadow-sm"
+                className="flex items-center gap-1.5 bg-white border-2 rounded-full px-3 py-1.5 text-xs font-extrabold transition-all shadow-sm" style={{borderColor:"var(--border)", color:"var(--primary)"}}
               >
                 {lang==="en" ? "🇻🇳 VI" : "🇺🇸 EN"}
               </button>
@@ -506,7 +559,7 @@
             <div className="md:hidden glass px-5 py-4 border-t border-sky-100 flex flex-col gap-3">
               {links.map(s => (
                 <a key={s} href={`#${s}`} onClick={() => setOpen(false)}
-                  className="font-semibold text-slate-700 hover:text-blue-600 capitalize py-1">{t[s]}</a>
+                  className="font-semibold capitalize py-1" style={{color:"var(--text-main)"}}>{t[s]}</a>
               ))}
               <a href="#/admin" onClick={() => setOpen(false)} className="text-slate-400 text-xs">{t.admin}</a>
             </div>
@@ -529,33 +582,32 @@
         <section id="home" className="hero-bg min-h-screen flex items-center pt-20 relative overflow-hidden">
           {/* Decorative blobs */}
           <div className="absolute top-16 left-[-120px] w-80 h-80 opacity-50 animate-blob"
-            style={{background:"#BAE6FD", borderRadius:"60% 40% 30% 70% / 60% 30% 70% 40%"}} />
+            style={{background:"rgba(3,19,131,0.12)", borderRadius:"60% 40% 30% 70% / 60% 30% 70% 40%"}} />
           <div className="absolute bottom-10 right-[-100px] w-96 h-96 opacity-35 animate-blob"
-            style={{background:"#A7F3D0", borderRadius:"40% 60% 70% 30% / 40% 50% 60% 50%", animationDelay:"3s"}} />
+            style={{background:"rgba(124,110,250,0.14)", borderRadius:"40% 60% 70% 30% / 40% 50% 60% 50%", animationDelay:"3s"}} />
           <div className="absolute top-1/3 right-1/4 w-56 h-56 opacity-25 animate-blob"
-            style={{background:"#FED7AA", borderRadius:"50% 50% 30% 70%", animationDelay:"5s"}} />
+            style={{background:"rgba(255,123,172,0.13)", borderRadius:"50% 50% 30% 70%", animationDelay:"5s"}} />
 
           <div className="max-w-6xl mx-auto px-5 py-20 grid md:grid-cols-2 gap-14 items-center relative z-10">
             <div className="animate-fadeInUp">
-              <span className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 text-blue-700 text-sm font-bold px-5 py-2 rounded-full mb-7 shadow-sm">
+              <span className="inline-flex items-center gap-2 font-bold px-5 py-2 rounded-full mb-7 shadow-sm" style={{background:"var(--primary-soft)", border:"1px solid var(--border)", color:"var(--primary)", fontSize:"0.9rem"}}>
                 {t.badge}
               </span>
-              <h1 className="font-display text-5xl lg:text-6xl text-slate-800 leading-tight mb-1">
+              <h1 className="font-display leading-tight mb-1" style={{color:"var(--text-main)", fontSize:"clamp(2.6rem, 5.5vw, 3.8rem)"}}>
                 {t.h1a}
               </h1>
-              <h1 className="font-display text-5xl lg:text-6xl leading-tight mb-7"
-                style={{background:"linear-gradient(135deg, #3B82F6, #10B981)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent"}}>
+              <h1 className="font-display leading-tight mb-7" style={{fontSize:"clamp(2.6rem, 5.5vw, 3.8rem)", background:"linear-gradient(130deg, var(--primary) 0%, var(--accent) 60%, var(--accent-pink) 100%)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent"}}>
                 {t.h1b}
               </h1>
-              <p className="text-slate-600 text-lg mb-9 leading-relaxed max-w-md">{t.sub}</p>
+              <p className="text-lg mb-9 leading-relaxed max-w-md" style={{color:"var(--text-sub)", lineHeight:1.75}}>{t.sub}</p>
 
               <div className="flex flex-wrap gap-4 mb-10">
                 <a href="#quiz"
-                  className="shimmer-btn text-white font-extrabold px-9 py-3.5 rounded-full shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-1 animate-pulseGlow text-sm">
+                  className="shimmer-btn text-white font-extrabold px-9 py-4 rounded-full shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-1 animate-pulseGlow" style={{fontSize:"1rem", letterSpacing:"0.01em"}}>
                   {t.cta1}
                 </a>
                 <a href="#courses"
-                  className="bg-white hover:bg-sky-50 text-blue-600 font-extrabold px-9 py-3.5 rounded-full shadow-md border-2 border-blue-200 hover:border-blue-400 transition-all transform hover:-translate-y-1 text-sm">
+                  className="bg-white font-extrabold px-9 py-3.5 rounded-full shadow-md border-2 transition-all transform hover:-translate-y-1 text-sm" style={{color:"var(--primary)", borderColor:"var(--border)"}}>
                   {t.cta2}
                 </a>
               </div>
@@ -564,8 +616,8 @@
               <div className="flex flex-wrap gap-5">
                 {stats.map((s,i) => (
                   <div key={i} className="text-center bg-white rounded-2xl px-5 py-3 shadow-sm border border-slate-100">
-                    <div className="font-display text-2xl text-blue-600">{s.n}</div>
-                    <div className="text-xs text-slate-500 font-semibold">{s.l}</div>
+                    <div className="font-display text-3xl" style={{color:"var(--primary)"}}>{s.n}</div>
+                    <div className="text-sm font-semibold" style={{color:"var(--text-muted)"}}>{s.l}</div>
                   </div>
                 ))}
               </div>
@@ -591,12 +643,12 @@
               {/* Speech bubble */}
               <div className="absolute top-12 right-0 bg-white rounded-2xl px-4 py-3 shadow-xl border-2 border-sky-100 animate-float"
                 style={{animationDelay:"1.2s",zIndex:20}}>
-                <p className="font-display text-sm text-blue-600 font-bold">Hello! 👋</p>
+                <p className="font-display text-sm font-bold" style={{color:"var(--primary)"}}>Hello! 👋</p>
                 <p className="text-xs text-slate-400 font-semibold">I can do this!</p>
               </div>
               <div className="absolute bottom-24 left-4 bg-white rounded-2xl px-4 py-3 shadow-xl border-2 border-mint animate-float"
                 style={{animationDelay:"2s",zIndex:20,borderColor:"#A7F3D0"}}>
-                <p className="font-display text-sm text-green-600 font-bold">Be Heard 🌟</p>
+                <p className="font-display text-sm font-bold" style={{color:"var(--accent)"}}>Be Heard 🌟</p>
                 <p className="text-xs text-slate-400 font-semibold">Learn & grow!</p>
               </div>
             </div>
@@ -611,11 +663,11 @@
     function Courses({ lang }) {
       const t = T[lang].courses;
       return (
-        <section id="courses" className="py-24 bg-white">
+        <section id="courses" className="py-24" style={{background:"#FFFFFF"}}>
           <div className="max-w-6xl mx-auto px-5">
             <div className="text-center mb-16">
-              <h2 className="font-display text-4xl text-slate-800 mb-3">{t.heading}</h2>
-              <p className="text-slate-500 text-lg">{t.sub}</p>
+              <h2 className="font-display mb-3" style={{color:"var(--text-main)", fontSize:"clamp(1.9rem, 4vw, 2.5rem)"}}>{t.heading}</h2>
+              <p className="text-lg" style={{color:"var(--text-sub)"}}>{t.sub}</p>
             </div>
             <div className="grid md:grid-cols-3 gap-8">
               {t.items.map((c, i) => (
@@ -641,20 +693,20 @@
 
                   <div className="space-y-2.5 mb-6 bg-white/60 rounded-2xl p-4">
                     <div className="flex items-center gap-2 text-sm">
-                      <span className="text-slate-400 font-semibold w-24">⏱ {t.lDur}</span>
-                      <span className="font-bold text-slate-700">{c.dur}</span>
+                      <span className="font-semibold w-24" style={{color:"var(--text-muted)"}}>⏱ {t.lDur}</span>
+                      <span className="font-bold" style={{color:"var(--text-main)"}}>{c.dur}</span>
                     </div>
                     <div className="w-full h-px bg-slate-100" />
                     <div className="flex items-center gap-2 text-sm">
-                      <span className="text-slate-400 font-semibold w-24">💰 {t.lTui}</span>
-                      <span className="font-bold text-slate-700">{c.tui}</span>
+                      <span className="font-semibold w-24" style={{color:"var(--text-muted)"}}>💰 {t.lTui}</span>
+                      <span className="font-bold" style={{color:"var(--text-main)"}}>{c.tui}</span>
                     </div>
                   </div>
 
-                  <p className="text-xs font-extrabold uppercase tracking-widest text-slate-400 mb-3">📋 {t.lCon}</p>
+                  <p className="text-xs font-extrabold uppercase tracking-widest mb-3" style={{color:"var(--text-muted)"}}>📋 {t.lCon}</p>
                   <ul className="space-y-2 mb-7">
                     {c.content.map((item, j) => (
-                      <li key={j} className="text-sm text-slate-700 flex items-start gap-2">
+                      <li key={j} className="flex items-start gap-2" style={{color:"var(--text-sub)", fontSize:"0.95rem"}}>
                         <span className="mt-0.5 font-bold" style={{color:c.accent}}>✓</span>
                         {item}
                       </li>
@@ -679,19 +731,19 @@
     // ================================================================
     function Roadmap({ lang }) {
       const t = T[lang].roadmap;
-      const colors = ["#BAE6FD","#A7F3D0","#FED7AA","#DDD6FE","#FECDD3"];
-      const accents = ["#2563EB","#059669","#D97706","#7C3AED","#DB2777"];
+      const colors = ["#DDE1FF","#E0D9FF","#D9EEFF","#E6D9FF","#FFD9EE"];
+      const accents = ["#031383","#4338CA","#1E40AF","#6D28D9","#9D174D"];
       return (
-        <section id="roadmap" className="py-24" style={{background:"linear-gradient(160deg,#F0FDF4 0%,#EFF6FF 50%,#FFF7ED 100%)"}}>
+        <section id="roadmap" className="py-24" style={{background:"linear-gradient(160deg, #F5F6FF 0%, #EEF0FF 60%, #F0EEFF 100%)"}}>
           <div className="max-w-3xl mx-auto px-5">
             <div className="text-center mb-16">
-              <h2 className="font-display text-4xl text-slate-800 mb-3">{t.heading}</h2>
-              <p className="text-slate-500 text-lg">{t.sub}</p>
+              <h2 className="font-display mb-3" style={{color:"var(--text-main)", fontSize:"clamp(1.9rem, 4vw, 2.5rem)"}}>{t.heading}</h2>
+              <p className="text-lg" style={{color:"var(--text-sub)"}}>{t.sub}</p>
             </div>
             <div className="relative">
               {/* Spine line */}
               <div className="absolute left-8 top-8 bottom-8 w-0.5 hidden sm:block"
-                style={{background:"linear-gradient(to bottom, #BAE6FD, #A7F3D0, #FED7AA, #DDD6FE, #FECDD3)"}} />
+                style={{background:"linear-gradient(to bottom, #031383, #4338CA, #1E40AF, #6D28D9, #9D174D)"}} />
 
               <div className="space-y-6">
                 {t.steps.map((step, i) => (
@@ -709,8 +761,8 @@
                           Step {i+1}
                         </span>
                       </div>
-                      <h3 className="font-display text-xl text-slate-800 mb-1">{step.title}</h3>
-                      <p className="text-slate-500 text-sm leading-relaxed">{step.desc}</p>
+                      <h3 className="font-display text-xl mb-1" style={{color:"var(--text-main)"}}>{step.title}</h3>
+                      <p className="leading-relaxed" style={{color:"var(--text-sub)", fontSize:"0.95rem", lineHeight:1.75}}>{step.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -741,21 +793,18 @@
       }, []);
 
       return (
-        <section id="gallery" className="py-24 bg-white">
+        <section id="gallery" className="py-24" style={{background:"var(--primary-xsoft)"}}>
           <div className="max-w-6xl mx-auto px-5">
             <div className="text-center mb-12">
-              <h2 className="font-display text-4xl text-slate-800 mb-3">{t.heading}</h2>
-              <p className="text-slate-500 text-lg">{t.sub}</p>
+              <h2 className="font-display mb-3" style={{color:"var(--text-main)", fontSize:"clamp(1.9rem, 4vw, 2.5rem)"}}>{t.heading}</h2>
+              <p className="text-lg" style={{color:"var(--text-sub)"}}>{t.sub}</p>
             </div>
 
             <div className="flex justify-center gap-4 mb-12">
               {[["photos",t.tabPhotos],["videos",t.tabVideos]].map(([key,label])=>(
                 <button key={key} onClick={() => setTab(key)}
-                  className={`px-8 py-3 rounded-full font-extrabold text-sm transition-all duration-300 ${
-                    tab===key
-                      ? "bg-gradient-to-r from-blue-500 to-teal-500 text-white shadow-lg scale-105"
-                      : "bg-slate-100 text-slate-600 hover:bg-sky-50 border border-slate-200"
-                  }`}>
+                  className={`px-8 py-3 rounded-full font-extrabold text-sm transition-all duration-300 ${tab===key ? "text-white shadow-lg scale-105" : "bg-slate-100 border border-slate-200"}`}
+                  style={tab===key ? {background:"linear-gradient(135deg, var(--primary), var(--accent))"} : {color:"var(--text-sub)"}}>
                   {label}
                 </button>
               ))}
@@ -840,11 +889,11 @@
         : t.items;
 
       return (
-        <section id="faq" className="py-24" style={{background:"linear-gradient(160deg,#FFF7ED 0%,#FFFBF5 50%,#F0FDF4 100%)"}}>
+        <section id="faq" className="py-24" style={{background:"linear-gradient(160deg, #F5F6FF 0%, #EEF0FF 50%, #F0EEFF 100%)"}}>
           <div className="max-w-3xl mx-auto px-5">
             <div className="text-center mb-14">
-              <h2 className="font-display text-4xl text-slate-800 mb-3">{t.heading}</h2>
-              <p className="text-slate-500 text-lg">{t.sub}</p>
+              <h2 className="font-display mb-3" style={{color:"var(--text-main)", fontSize:"clamp(1.9rem, 4vw, 2.5rem)"}}>{t.heading}</h2>
+              <p className="text-lg" style={{color:"var(--text-sub)"}}>{t.sub}</p>
             </div>
             <div className="space-y-4">
               {items.map((item, i) => (
@@ -852,18 +901,18 @@
                   <button
                     className="w-full flex items-center gap-4 px-6 py-5 text-left group"
                     onClick={() => setOpenIdx(openIdx===i ? null : i)}>
-                    <span className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 text-blue-600 font-extrabold text-sm flex items-center justify-center">
+                    <span className="flex-shrink-0 w-8 h-8 rounded-full font-extrabold text-sm flex items-center justify-center" style={{background:"var(--primary-soft)", color:"var(--primary)"}}>
                       {i+1}
                     </span>
-                    <span className="flex-1 font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
+                    <span className="flex-1 font-bold transition-colors" style={{color:"var(--text-main)"}}>
                       {item.q}
                     </span>
-                    <span className={`flex-shrink-0 text-blue-400 text-xl transition-transform duration-400 ${openIdx===i ? "rotate-180":"rotate-0"}`}>
+                    <span className={`flex-shrink-0 text-xl transition-transform duration-400 ${openIdx===i ? "rotate-180":"rotate-0"}`} style={{color:"var(--primary-light)"}}>
                       ▾
                     </span>
                   </button>
                   <div className={`accordion-body ${openIdx===i ? "open":""}`}>
-                    <div className="px-6 pb-5 pt-2 text-slate-600 leading-relaxed border-t border-slate-50 text-sm">
+                    <div className="px-6 pb-5 pt-2 leading-loose border-t" style={{color:"var(--text-sub)", borderColor:"var(--primary-soft)", fontSize:"1rem", lineHeight:1.8}}>
                       {item.a}
                     </div>
                   </div>
@@ -922,26 +971,26 @@
       const course = result!==null ? courses[result] : null;
 
       return (
-        <section id="quiz" className="py-24 bg-white">
+        <section id="quiz" className="py-24" style={{background:"#FFFFFF"}}>
           <div className="max-w-2xl mx-auto px-5">
             <div className="text-center mb-12">
-              <h2 className="font-display text-4xl text-slate-800 mb-3">{t.heading}</h2>
-              <p className="text-slate-500 text-lg">{t.sub}</p>
+              <h2 className="font-display mb-3" style={{color:"var(--text-main)", fontSize:"clamp(1.9rem, 4vw, 2.5rem)"}}>{t.heading}</h2>
+              <p className="text-lg" style={{color:"var(--text-sub)"}}>{t.sub}</p>
             </div>
 
             {!done ? (
               <div className="rounded-3xl p-8 shadow-2xl border border-sky-100"
-                style={{background:"linear-gradient(145deg,#F0F9FF,#F0FDF4)"}}>
+                style={{background:"linear-gradient(145deg, var(--primary-xsoft), var(--primary-soft))"}}>
                 {/* Progress bar */}
                 <div className="mb-8">
                   <div className="flex justify-between text-xs font-bold text-slate-400 mb-2">
-                    <span>Question {step+1} / {t.questions.length}</span>
+                    <span style={{color:"var(--text-sub)"}}>Question {step+1} / {t.questions.length}</span>
                     <span>{Math.round((step/t.questions.length)*100)}% done</span>
                   </div>
                   <div className="h-2.5 bg-slate-200 rounded-full overflow-hidden">
                     <div className="h-full rounded-full transition-all duration-600"
                       style={{width:`${(step/t.questions.length)*100}%`,
-                        background:"linear-gradient(90deg,#3B82F6,#10B981)"}} />
+                        background:"linear-gradient(90deg, var(--primary), var(--accent))"}} />
                   </div>
                 </div>
 
@@ -951,11 +1000,11 @@
                   {t.questions[step].opts.map((opt, i) => (
                     <button key={i} onClick={() => setSel(i)}
                       className={`quiz-opt w-full text-left p-4 rounded-2xl border-2 font-semibold text-sm transition-all ${
-                        sel===i ? "selected" : "border-slate-200 bg-white text-slate-700 hover:border-sky-300 hover:bg-sky-50"
+                        sel===i ? "selected" : "border-slate-200 bg-white hover:bg-sky-50"
                       }`}>
                       <span className="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-extrabold mr-3"
-                        style={{background: sel===i ? "#DBEAFE":"#F1F5F9",
-                          color: sel===i ? "#2563EB":"#94A3B8"}}>
+                        style={{background: sel===i ? "var(--primary-soft)":"#F1F5F9",
+                          color: sel===i ? "var(--primary)":"#94A3B8"}}>
                         {String.fromCharCode(65+i)}
                       </span>
                       {opt}
@@ -969,7 +1018,7 @@
                     {t.back}
                   </button>
                   <button onClick={next} disabled={sel===null}
-                    className="bg-gradient-to-r from-blue-500 to-teal-500 text-white font-extrabold px-9 py-3 rounded-full shadow-md hover:shadow-xl disabled:opacity-40 transition-all hover:-translate-y-0.5 text-sm">
+                    className="text-white font-extrabold px-9 py-3 rounded-full shadow-md hover:shadow-xl disabled:opacity-40 transition-all hover:-translate-y-0.5 text-sm" style={{background:"linear-gradient(135deg, var(--primary), var(--accent))"}}>
                     {step===t.questions.length-1 ? t.finish : t.next}
                   </button>
                 </div>
@@ -979,7 +1028,7 @@
                 style={{background:course.bg, borderColor:course.border}}>
                 <div className="text-7xl mb-5 animate-float">{course.emoji}</div>
                 <p className="font-bold text-slate-500 mb-2 uppercase text-xs tracking-widest">{t.resultHeading}</p>
-                <h3 className="font-display text-4xl text-slate-800 mb-3">{course.name}</h3>
+                <h3 className="font-display mb-3" style={{color:"var(--text-main)", fontSize:"clamp(1.9rem, 4vw, 2.5rem)"}}>{course.name}</h3>
                 <span className="tag-badge inline-block mb-6" style={{background:course.border+"60",color:course.accent}}>
                   {course.level}
                 </span>
@@ -1010,38 +1059,38 @@
       const nav = T[lang].nav;
       const links = ["home","courses","roadmap","gallery","faq","quiz"];
       return (
-        <footer className="bg-slate-900 text-white pt-16 pb-8">
+        <footer className="pt-16 pb-8" style={{background:"linear-gradient(160deg, #020D6B 0%, #031383 40%, #0A0F4F 100%)"}}>
           <div className="max-w-6xl mx-auto px-5">
             <div className="grid md:grid-cols-3 gap-10 mb-12">
               <div>
-                <div className="font-display text-3xl text-sky-300 mb-4">🔊 Be Heard</div>
-                <p className="text-slate-400 text-sm leading-relaxed mb-5">{t.tagline}</p>
+                <div className="font-display text-3xl mb-4" style={{color:"#A5AEFF"}}>🔊 Be Heard</div>
+                <p className="text-sm leading-relaxed mb-5" style={{color:"rgba(255,255,255,0.6)"}}>{t.tagline}</p>
                 <div className="flex gap-3">
                   {["fb","ig","yt","tk"].map(s=>(
-                    <a key={s} href="#" className="w-9 h-9 rounded-xl bg-slate-800 hover:bg-blue-600 flex items-center justify-center text-sm transition-colors">
+                    <a key={s} href="#" className="w-9 h-9 rounded-xl flex items-center justify-center text-sm transition-all hover:scale-110" style={{background:"rgba(255,255,255,0.1)"}}>
                       {s==="fb"?"📘":s==="ig"?"📸":s==="yt"?"▶️":"🎵"}
                     </a>
                   ))}
                 </div>
               </div>
               <div>
-                <h4 className="font-extrabold text-slate-300 uppercase tracking-widest text-xs mb-5">{t.quickLinks}</h4>
+                <h4 className="font-extrabold uppercase tracking-widest text-xs mb-5" style={{color:"rgba(255,255,255,0.4)"}}>{t.quickLinks}</h4>
                 <div className="grid grid-cols-2 gap-y-2.5 gap-x-4">
                   {links.map(s=>(
-                    <a key={s} href={`#${s}`} className="text-slate-400 hover:text-sky-300 capitalize text-sm font-semibold transition-colors">{nav[s]}</a>
+                    <a key={s} href={`#${s}`} className="capitalize text-sm font-semibold transition-colors" style={{color:"rgba(255,255,255,0.55)"}}>{nav[s]}</a>
                   ))}
                 </div>
               </div>
               <div>
-                <h4 className="font-extrabold text-slate-300 uppercase tracking-widest text-xs mb-5">{t.contact}</h4>
+                <h4 className="font-extrabold uppercase tracking-widest text-xs mb-5" style={{color:"rgba(255,255,255,0.4)"}}>{t.contact}</h4>
                 <div className="space-y-3 text-slate-400 text-sm">
-                  <p>{t.addr}</p>
-                  <p>{t.phone}</p>
-                  <p>{t.email}</p>
+                  <p style={{color:"rgba(255,255,255,0.6)"}}>{t.addr}</p>
+                  <p style={{color:"rgba(255,255,255,0.6)"}}>{t.phone}</p>
+                  <p style={{color:"rgba(255,255,255,0.6)"}}>{t.email}</p>
                 </div>
               </div>
             </div>
-            <div className="border-t border-slate-800 pt-6 text-center text-slate-500 text-xs">{t.copy}</div>
+            <div className="border-t pt-6 text-center text-xs" style={{borderColor:"rgba(255,255,255,0.1)", color:"rgba(255,255,255,0.35)"}}>{t.copy}</div>
           </div>
         </footer>
       );
@@ -1158,7 +1207,7 @@
               )}
 
               <button type="submit" disabled={loading}
-                className="w-full bg-gradient-to-r from-blue-500 to-teal-500 text-white font-extrabold py-3.5 rounded-2xl hover:shadow-xl transition-all hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+                className="w-full text-white font-extrabold py-3.5 rounded-2xl hover:shadow-xl transition-all hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2" style={{background:"linear-gradient(135deg, var(--primary), var(--primary-light))"}}>
                 {loading ? (
                   <><span className="animate-spin inline-block">⏳</span> Đang đăng nhập...</>
                 ) : t.loginBtn}
@@ -1335,7 +1384,7 @@
               <input value={vidUrl} onChange={e=>setVidUrl(e.target.value)} placeholder={t.urlPH}
                 className="border-2 border-slate-200 focus:border-blue-400 rounded-xl px-4 py-2.5 text-sm focus:outline-none" />
               <button onClick={addVideo}
-                className="bg-blue-500 hover:bg-blue-600 text-white font-extrabold rounded-xl px-5 py-2.5 text-sm transition-colors">
+                className="text-white font-extrabold rounded-xl px-5 py-2.5 text-sm transition-all hover:opacity-90" style={{background:"var(--primary)"}}>
                 {t.addBtn}
               </button>
             </div>
@@ -1403,7 +1452,7 @@
           <div className="flex items-center justify-between mb-6">
             <h3 className="font-display text-xl text-slate-700">❓ {t.title}</h3>
             <button onClick={()=>{setShowForm(true);setEditId(null);setForm(blank);}}
-              className="bg-blue-500 hover:bg-blue-600 text-white text-sm font-extrabold px-5 py-2.5 rounded-xl transition-colors">
+              className="text-white text-sm font-extrabold px-5 py-2.5 rounded-xl transition-all hover:opacity-90" style={{background:"var(--primary)"}}>
               {t.addBtn}
             </button>
           </div>
@@ -1434,7 +1483,7 @@
               </div>
               <div className="flex gap-3">
                 <button onClick={save}
-                  className="bg-green-500 hover:bg-green-600 text-white font-extrabold px-6 py-2 rounded-xl text-sm transition-colors">
+                  className="text-white font-extrabold px-6 py-2 rounded-xl text-sm transition-all hover:opacity-90" style={{background:"#16A34A"}}>
                   {t.save}
                 </button>
                 <button onClick={()=>setShowForm(false)}
@@ -1522,7 +1571,7 @@
         <div className="min-h-screen bg-slate-50">
           <header className="bg-white shadow-sm border-b border-slate-100 px-6 py-4 flex items-center justify-between sticky top-0 z-40">
             <div className="flex items-center gap-3">
-              <span className="font-display text-xl text-blue-600">🔊 Be Heard</span>
+              <span className="font-display text-xl" style={{color:"var(--primary)"}}>🔊 Be Heard</span>
               <span className="tag-badge bg-blue-100 text-blue-700">Admin</span>
             </div>
             <div className="flex items-center gap-4">
@@ -1549,11 +1598,8 @@
             <div className="flex gap-3 mb-8 overflow-x-auto pb-1">
               {Object.entries(t.tabs).map(([key,label])=>(
                 <button key={key} onClick={()=>setTab(key)}
-                  className={`px-6 py-3 rounded-2xl font-extrabold text-sm whitespace-nowrap transition-all ${
-                    tab===key
-                      ? "bg-gradient-to-r from-blue-500 to-teal-500 text-white shadow-md"
-                      : "bg-white text-slate-600 hover:bg-sky-50 border border-slate-200"
-                  }`}>
+                  className={`px-6 py-3 rounded-2xl font-extrabold text-sm whitespace-nowrap transition-all ${tab===key ? "text-white shadow-md" : "bg-white hover:bg-sky-50 border border-slate-200"}`}
+                  style={tab===key ? {background:"linear-gradient(135deg, var(--primary), var(--primary-light))"} : {color:"var(--text-sub)"}}>
                   {label}
                 </button>
               ))}
