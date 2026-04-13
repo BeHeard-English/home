@@ -807,68 +807,77 @@
     function LevelCard({ lv, color, colorLight, colorBorder, t, isLast }) {
       const [open, setOpen] = React.useState(false);
       return (
-        <div className="flex items-stretch gap-0">
+        <div className="flex flex-col md:flex-row items-stretch gap-0">
+
+          {/* ── Card ─────────────────────────────────────────── */}
           <div
-            className="flex-1 rounded-2xl border-2 overflow-hidden transition-all duration-300 cursor-pointer"
+            className="flex-1 rounded-2xl border-2 overflow-hidden cursor-pointer transition-all duration-300"
             style={{
-              borderColor: lv.featured ? color : colorBorder,
-              background: lv.featured ? `linear-gradient(145deg, ${colorLight}, #fff)` : "#fff",
-              boxShadow: lv.featured ? `0 8px 32px ${color}22` : "0 2px 12px rgba(0,0,0,0.05)",
+              borderColor: colorBorder,
+              background: "#fff",
+              boxShadow: "0 2px 14px rgba(0,0,0,0.06)",
             }}
             onClick={() => setOpen(o => !o)}
           >
-            {/* Card header */}
-            <div className="p-5 flex items-start gap-4">
-              {/* Level number badge */}
+            {/* ── Header: LV badge + course name + chevron ─── */}
+            <div className="px-5 pt-5 pb-3 flex items-center gap-3">
               <div
-                className="flex-shrink-0 w-11 h-11 rounded-xl flex flex-col items-center justify-center text-white font-extrabold shadow-sm"
+                className="flex-shrink-0 w-10 h-10 rounded-xl flex flex-col items-center justify-center text-white font-extrabold shadow-sm"
                 style={{background:`linear-gradient(135deg, ${color}, ${color}BB)`}}
               >
-                <span style={{fontSize:"0.55rem", opacity:0.85, letterSpacing:"0.06em"}}>LV</span>
+                <span style={{fontSize:"0.5rem", opacity:0.8, letterSpacing:"0.05em"}}>LV</span>
                 <span style={{fontSize:"1rem", lineHeight:1}}>{lv.levelNum}</span>
               </div>
-
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 flex-wrap mb-0.5">
-                  <span className="font-extrabold text-base" style={{color:"var(--text-main)"}}>{lv.name}</span>
-                  {lv.featured && (
-                    <span className="text-white text-xs font-extrabold px-2.5 py-0.5 rounded-full"
-                      style={{background:`linear-gradient(90deg, ${color}, ${color}AA)`, fontSize:"0.62rem"}}>
-                      ⭐ Phổ biến
-                    </span>
-                  )}
-                </div>
-                <span className="text-xs font-bold px-2.5 py-1 rounded-full" style={{background:colorLight, color:color}}>
-                  {lv.level}
-                </span>
-              </div>
-
-              <div className="flex-shrink-0 text-right">
-                <div className="font-extrabold text-sm" style={{color:color}}>{lv.tui}</div>
-                <div className="text-xs mt-0.5" style={{color:"var(--text-muted)"}}>{lv.dur}</div>
-              </div>
-
+              <span className="flex-1 font-extrabold text-base leading-snug" style={{color:"var(--text-main)"}}>
+                {lv.name}
+              </span>
               <div
-                className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-transform duration-300 ml-1"
+                className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-transform duration-300"
                 style={{background:colorLight, color:color, transform: open ? "rotate(180deg)" : "rotate(0deg)"}}
-              >
-                ▾
+              >▾</div>
+            </div>
+
+            {/* ── Info rows ────────────────────────────────── */}
+            <div className="px-5 pb-4 space-y-2.5" style={{borderTop:`1px solid ${colorBorder}44`}}>
+
+              {/* Level */}
+              <div className="flex items-center gap-3 pt-3">
+                <span className="w-20 text-xs font-extrabold uppercase tracking-wider flex-shrink-0"
+                  style={{color:"var(--text-muted)"}}>Cấp độ</span>
+                <span className="text-xs font-bold px-3 py-1 rounded-full"
+                  style={{background:colorLight, color:color}}>{lv.level}</span>
+              </div>
+
+              {/* Tuition */}
+              <div className="flex items-center gap-3">
+                <span className="w-20 text-xs font-extrabold uppercase tracking-wider flex-shrink-0"
+                  style={{color:"var(--text-muted)"}}>Học phí</span>
+                <span className="font-extrabold text-sm" style={{color:color}}>{lv.tui}</span>
+                <span className="text-xs" style={{color:"var(--text-muted)"}}>{t.lTui.includes("/") ? "/tháng" : ""}</span>
+              </div>
+
+              {/* Duration */}
+              <div className="flex items-center gap-3">
+                <span className="w-20 text-xs font-extrabold uppercase tracking-wider flex-shrink-0"
+                  style={{color:"var(--text-muted)"}}>Thời lượng</span>
+                <span className="text-sm font-semibold" style={{color:"var(--text-sub)"}}>{lv.dur}</span>
+              </div>
+
+              {/* Target */}
+              <div className="flex items-start gap-3">
+                <span className="w-20 text-xs font-extrabold uppercase tracking-wider flex-shrink-0 mt-0.5"
+                  style={{color:"var(--text-muted)"}}>Dành cho</span>
+                <span className="text-sm italic leading-snug" style={{color:"var(--text-sub)"}}>{lv.target}</span>
               </div>
             </div>
 
-            {/* Target learner */}
-            <div className="px-5 pb-3 flex items-center gap-2" style={{borderTop:`1px solid ${colorBorder}55`}}>
-              <span style={{color:color, fontSize:"0.8rem"}}>🎯</span>
-              <span className="text-sm italic" style={{color:"var(--text-sub)"}}>{lv.target}</span>
-            </div>
-
-            {/* Expandable content */}
-            <div style={{maxHeight: open ? "400px" : "0", overflow:"hidden", transition:"max-height 0.45s ease"}}>
-              <div className="px-5 pb-5 pt-2">
+            {/* ── Expandable content list ───────────────────── */}
+            <div style={{maxHeight: open ? "420px" : "0", overflow:"hidden", transition:"max-height 0.4s ease"}}>
+              <div className="px-5 pb-5 pt-3" style={{borderTop:`1px solid ${colorBorder}44`}}>
                 <p className="text-xs font-extrabold uppercase tracking-widest mb-3" style={{color:"var(--text-muted)"}}>
                   📋 {t.lCon}
                 </p>
-                <ul className="space-y-2">
+                <ul className="space-y-2 mb-5">
                   {lv.content.map((item, i) => (
                     <li key={i} className="flex items-start gap-2 text-sm" style={{color:"var(--text-sub)"}}>
                       <span className="mt-0.5 font-extrabold flex-shrink-0" style={{color:color}}>✓</span>
@@ -877,26 +886,25 @@
                   ))}
                 </ul>
                 <button
-                  className="mt-5 w-full py-3 rounded-xl font-extrabold text-white text-sm transition-all hover:opacity-90 hover:shadow-lg active:scale-95"
+                  className="w-full py-3 rounded-xl font-extrabold text-white text-sm transition-all hover:opacity-90 hover:shadow-lg active:scale-95"
                   style={{background:`linear-gradient(135deg, ${color}, ${color}BB)`}}
-                  onClick={e => { e.stopPropagation(); }}>
+                  onClick={e => e.stopPropagation()}>
                   {t.enroll}
                 </button>
               </div>
             </div>
+
           </div>
 
-          {/* Arrow connector — hidden on last card */}
+          {/* ── Arrow connector ───────────────────────────── */}
           {!isLast && (
-            <div className="flex-shrink-0 flex items-center justify-center w-8 self-center">
-              <div
-                className="hidden md:flex items-center justify-center w-8 h-8 rounded-full font-extrabold text-base"
-                style={{background:colorLight, color:color}}>
-                →
-              </div>
-              <div className="md:hidden w-0.5 h-6 mx-auto" style={{background:colorBorder}} />
+            <div className="flex items-center justify-center md:w-9 h-9 md:h-auto my-1 md:my-0">
+              <div className="hidden md:flex w-9 h-9 items-center justify-center rounded-full font-extrabold text-base flex-shrink-0"
+                style={{background:colorLight, color:color}}>→</div>
+              <div className="md:hidden h-6 w-0.5" style={{background:colorBorder}} />
             </div>
           )}
+
         </div>
       );
     }
