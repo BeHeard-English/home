@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Be Heard – English Learning Center</title>
+  <title>Be Heard | English Learning Center</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
@@ -415,9 +415,28 @@
       const fd = new FormData();
       fd.append("file", file);
       fd.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
-      const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, { method:"POST", body:fd });
+      // resource_type=auto lets Cloudinary detect PNG/JPG/WEBP/GIF automatically
+      fd.append("resource_type", "auto");
+
+      const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`,
+        { method: "POST", body: fd }
+      );
       const j = await res.json();
-      if (j.error) throw new Error(j.error.message);
+      if (j.error) {
+        // Give a friendly, actionable error message
+        const msg = j.error.message || "";
+        if (msg.toLowerCase().includes("format") || msg.toLowerCase().includes("not allowed")) {
+          throw new Error(
+            `Cloudinary không cho phép định dạng này.\n\nCách fix:\n` +
+            `1. Vào cloudinary.com → Settings → Upload Presets\n` +
+            `2. Chỉnh sửa preset "${CLOUDINARY_UPLOAD_PRESET}"\n` +
+            `3. Xoá trắng ô "Allowed formats" (để trống = chấp nhận tất cả)\n` +
+            `4. Lưu lại và thử upload lại.\n\nLỗi gốc: ${msg}`
+          );
+        }
+        throw new Error(msg);
+      }
       return { url: j.secure_url, public_id: j.public_id };
     }
 
@@ -1146,10 +1165,19 @@
       const [imgs, setImgs] = React.useState([]);
       const [vids, setVids] = React.useState([]);
       const [uploading, setUploading] = React.useState(false);
+      const [uploadProgress, setUploadProgress] = React.useState({ done: 0, total: 0 });
       const [drag, setDrag] = React.useState(false);
       const [vidUrl, setVidUrl] = React.useState("");
       const [vidTitle, setVidTitle] = React.useState("");
+      const [errorMsg, setErrorMsg] = React.useState(null);
+      const [successMsg, setSuccessMsg] = React.useState(null);
       const fileRef = React.useRef();
+
+      function showSuccess(msg) {
+        setSuccessMsg(msg);
+        setTimeout(() => setSuccessMsg(null), 3500);
+      }
+      function showError(msg) { setErrorMsg(msg); }
 
       React.useEffect(() => {
         if (!firebaseReady) return;
@@ -1160,23 +1188,47 @@
 
       async function handleFiles(files) {
         if (!files||!files.length) return;
-        if (!firebaseReady||CLOUDINARY_CLOUD_NAME==="YOUR_CLOUD_NAME") { alert(t.noConfig); return; }
+        if (!firebaseReady||CLOUDINARY_CLOUD_NAME==="YOUR_CLOUD_NAME") { showError(t.noConfig); return; }
+        // Accept common image formats
+        const allowed = ["image/png","image/jpeg","image/jpg","image/webp","image/gif","image/heic","image/heif"];
+        const validFiles = Array.from(files).filter(f => {
+          if (!allowed.includes(f.type) && !f.name.match(/\.(png|jpg|jpeg|webp|gif|heic|heif)$/i)) {
+            showError(`❌ File "${f.name}" không được hỗ trợ. Chỉ chấp nhận: PNG, JPG, WEBP, GIF`);
+            return false;
+          }
+          return true;
+        });
+        if (!validFiles.length) return;
         setUploading(true);
-        for (const f of Array.from(files)) {
+        setUploadProgress({ done: 0, total: validFiles.length });
+        let successCount = 0;
+        for (const f of validFiles) {
           try {
             const {url,public_id} = await cloudinaryUpload(f);
-            await db.collection("gallery_images").add({url, public_id, caption:f.name, createdAt:firebase.firestore.FieldValue.serverTimestamp()});
-          } catch(e) { alert("Upload failed: "+e.message); }
+            await db.collection("gallery_images").add({
+              url, public_id,
+              caption: f.name.replace(/\.[^.]+$/, ""),
+              createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            successCount++;
+            setUploadProgress(p => ({ ...p, done: p.done + 1 }));
+          } catch(e) {
+            showError(e.message);
+            setUploading(false);
+            return;
+          }
         }
         setUploading(false);
+        if (successCount > 0) showSuccess(`✅ Đã tải lên ${successCount} ảnh thành công!`);
       }
 
       async function addVideo() {
         const id = ytId(vidUrl);
-        if (!id) { alert("Invalid YouTube URL"); return; }
-        if (!firebaseReady) { alert(t.noConfig); return; }
+        if (!id) { showError("❌ Link YouTube không hợp lệ. Ví dụ: https://youtu.be/xxxxx"); return; }
+        if (!firebaseReady) { showError(t.noConfig); return; }
         await db.collection("gallery_videos").add({youtubeUrl:vidUrl, videoId:id, title:vidTitle||"", createdAt:firebase.firestore.FieldValue.serverTimestamp()});
         setVidUrl(""); setVidTitle("");
+        showSuccess("✅ Đã thêm video thành công!");
       }
 
       async function delImg(id) {
@@ -1191,9 +1243,35 @@
 
       return (
         <div className="space-y-8">
+
+          {/* Error modal */}
+          {errorMsg && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{background:"rgba(0,0,0,0.4)"}}>
+              <div className="bg-white rounded-3xl shadow-2xl p-7 max-w-md w-full border-2 border-red-200">
+                <div className="text-4xl mb-3 text-center">⚠️</div>
+                <p className="font-extrabold text-red-600 mb-3 text-center text-sm">Lỗi Upload</p>
+                <pre className="bg-red-50 text-red-700 text-xs rounded-xl p-4 whitespace-pre-wrap leading-relaxed mb-5 max-h-60 overflow-y-auto">
+                  {errorMsg}
+                </pre>
+                <button onClick={() => setErrorMsg(null)}
+                  className="w-full bg-red-500 hover:bg-red-600 text-white font-extrabold py-3 rounded-2xl transition-colors text-sm">
+                  Đóng
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Success toast */}
+          {successMsg && (
+            <div className="fixed bottom-6 right-6 z-50 bg-green-50 border-2 border-green-200 text-green-700 font-bold text-sm px-6 py-3 rounded-2xl shadow-xl animate-fadeInUp">
+              {successMsg}
+            </div>
+          )}
+
           {/* Images */}
           <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
-            <h3 className="font-display text-xl text-slate-700 mb-5">📸 {t.imgSection}</h3>
+            <h3 className="font-display text-xl text-slate-700 mb-1">📸 {t.imgSection}</h3>
+            <p className="text-xs text-slate-400 mb-4 font-semibold">Hỗ trợ: PNG · JPG · WEBP · GIF · HEIC</p>
             <div
               className={`drag-zone rounded-2xl p-12 text-center cursor-pointer ${drag?"active":""}`}
               onClick={() => fileRef.current.click()}
@@ -1201,8 +1279,19 @@
               onDragLeave={()=>setDrag(false)}
               onDrop={e=>{e.preventDefault();setDrag(false);handleFiles(e.dataTransfer.files);}}>
               <div className="text-5xl mb-3">{uploading?"⏳":"📤"}</div>
-              <p className="text-slate-500 font-semibold text-sm">{uploading ? t.uploading : t.dragHint}</p>
-              <input ref={fileRef} type="file" multiple accept="image/*" className="hidden"
+              {uploading ? (
+                <div>
+                  <p className="text-blue-600 font-extrabold text-sm mb-2">{t.uploading}</p>
+                  <p className="text-slate-400 text-xs">{uploadProgress.done} / {uploadProgress.total} ảnh</p>
+                  <div className="mt-3 h-2 bg-slate-200 rounded-full overflow-hidden w-48 mx-auto">
+                    <div className="h-full bg-gradient-to-r from-blue-400 to-teal-400 rounded-full transition-all"
+                      style={{width: uploadProgress.total ? `${(uploadProgress.done/uploadProgress.total)*100}%` : "0%"}} />
+                  </div>
+                </div>
+              ) : (
+                <p className="text-slate-500 font-semibold text-sm">{t.dragHint}</p>
+              )}
+              <input ref={fileRef} type="file" multiple accept="image/png,image/jpeg,image/jpg,image/webp,image/gif,image/heic,image/heif,.png,.jpg,.jpeg,.webp,.gif,.heic" className="hidden"
                 onChange={e=>handleFiles(e.target.files)} />
             </div>
 
