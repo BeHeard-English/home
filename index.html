@@ -5,23 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Be Heard – English Learning Center</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&subset=vietnamese&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           fontFamily: {
-            display: ['Sora', 'sans-serif'],
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['"Be Vietnam Pro"', 'sans-serif'],
+            sans: ['"Be Vietnam Pro"', 'sans-serif'],
           },
         },
       },
     };
   </script>
   <style>
-    * { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 500; box-sizing: border-box; }
-    .font-display { font-family: 'Sora', sans-serif; font-weight: 800; }
+    * { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 500; box-sizing: border-box; }
+    .font-display { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 900; letter-spacing: -0.01em; }
     :root {
       --sky: #BAE6FD; --mint: #A7F3D0; --peach: #FED7AA;
       --lavender: #DDD6FE; --rose: #FECDD3;
@@ -147,6 +148,21 @@
       font-size: 0.6rem; font-weight: 800; letter-spacing: 0.08em;
       text-transform: uppercase; padding: 3px 10px; border-radius: 999px;
     }
+
+    /* Vietnamese typography — đảm bảo dấu hiển thị đúng */
+    :lang(vi), [lang="vi"] * {
+      font-family: 'Be Vietnam Pro', sans-serif !important;
+    }
+    h1, h2, h3, h4, h5, h6, .font-display {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-weight: 900;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    body, p, span, div, a, button, input, textarea, label {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
   </style>
 </head>
 <body class="bg-white text-slate-800 overflow-x-hidden">
@@ -155,6 +171,7 @@
   <!-- Firebase Compat SDK (10.x — more stable with new projects) -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 
   <!-- React 18 -->
   <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
@@ -173,7 +190,7 @@
     };
     const CLOUDINARY_CLOUD_NAME = "dvl9oogau";
     const CLOUDINARY_UPLOAD_PRESET = "beheard_uploads";
-    const ADMIN_PASSWORD = "beheard2024";
+    // ✅ No password in code — managed via Firebase Console → Authentication
 
     // ================================================================
     //  Firebase Init — with diagnostics toast
@@ -182,9 +199,9 @@
     try {
       if (!firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
       db = firebase.firestore();
-      // Enable offline persistence so page works even with spotty internet
       db.enablePersistence({ synchronizeTabs: true }).catch(() => {});
       firebaseReady = true;
+      console.log("✅ Firebase Auth ready");
       console.log("✅ Firebase connected to project:", FIREBASE_CONFIG.projectId);
     } catch(e) {
       _fbErr = e.message;
@@ -274,7 +291,8 @@
           copy:"© 2025 Be Heard English Center. Made with ❤️ in Đà Nẵng, Vietnam."
         },
         admin: {
-          title:"Admin Login", pwLabel:"Password", loginBtn:"Login →", wrongPw:"❌ Wrong password. Try again.",
+          title:"Admin Login", emailLabel:"Email", pwLabel:"Password", loginBtn:"Login →",
+          wrongPw:"❌ Wrong email or password.", noAuth:"❌ Firebase Auth not enabled yet. See setup guide below.",
           logout:"Log Out", backToSite:"← View Site",
           tabs:{ media:"📸 Media", faq:"❓ FAQ", courses:"📚 Courses" },
           media:{
@@ -377,7 +395,8 @@
           copy:"© 2025 Be Heard English Center. Được tạo với ❤️ tại Đà Nẵng, Việt Nam."
         },
         admin: {
-          title:"Đăng Nhập Quản Trị", pwLabel:"Mật Khẩu", loginBtn:"Đăng Nhập →", wrongPw:"❌ Sai mật khẩu. Thử lại.",
+          title:"Đăng Nhập Quản Trị", emailLabel:"Email", pwLabel:"Mật Khẩu", loginBtn:"Đăng Nhập →",
+          wrongPw:"❌ Email hoặc mật khẩu không đúng.", noAuth:"❌ Firebase Auth chưa bật. Xem hướng dẫn bên dưới.",
           logout:"Đăng Xuất", backToSite:"← Xem Trang",
           tabs:{ media:"📸 Phương Tiện", faq:"❓ FAQ", courses:"📚 Khóa Học" },
           media:{
@@ -1049,16 +1068,36 @@
     // ================================================================
     //  ADMIN — LOGIN
     // ================================================================
-    function AdminLogin({ onLogin, lang }) {
+    function AdminLogin({ lang }) {
       const t = T[lang].admin;
+      const [email, setEmail] = React.useState("");
       const [pw, setPw] = React.useState("");
-      const [err, setErr] = React.useState(false);
       const [show, setShow] = React.useState(false);
+      const [loading, setLoading] = React.useState(false);
+      const [err, setErr] = React.useState("");
 
-      function handleSubmit(e) {
+      async function handleSubmit(e) {
         e.preventDefault();
-        if (pw===ADMIN_PASSWORD) { setErr(false); onLogin(); }
-        else { setErr(true); setPw(""); }
+        if (!email || !pw) { setErr("Vui lòng điền đầy đủ email và mật khẩu."); return; }
+        setLoading(true);
+        setErr("");
+        try {
+          await firebase.auth().signInWithEmailAndPassword(email.trim(), pw);
+          // onAuthStateChanged in AdminSection will handle the redirect
+        } catch(e) {
+          const code = e.code || "";
+          if (code.includes("user-not-found") || code.includes("wrong-password") || code.includes("invalid-credential")) {
+            setErr(t.wrongPw);
+          } else if (code.includes("operation-not-allowed") || code.includes("configuration-not-found")) {
+            setErr(t.noAuth);
+          } else if (code.includes("too-many-requests")) {
+            setErr("⏳ Quá nhiều lần thử. Vui lòng đợi vài phút rồi thử lại.");
+          } else {
+            setErr("Lỗi: " + (e.message || code));
+          }
+          setPw("");
+        }
+        setLoading(false);
       }
 
       return (
@@ -1069,22 +1108,63 @@
               <h2 className="font-display text-2xl text-slate-800">{t.title}</h2>
               <p className="text-slate-400 text-sm mt-1">Be Heard Admin Panel</p>
             </div>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="relative">
-                <input type={show?"text":"password"} value={pw} onChange={e=>setPw(e.target.value)}
-                  placeholder={t.pwLabel}
-                  className="w-full border-2 border-slate-200 focus:border-blue-400 rounded-2xl px-4 py-3.5 pr-12 text-sm focus:outline-none transition-colors" />
-                <button type="button" onClick={()=>setShow(!show)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-lg">
-                  {show?"🙈":"👁"}
-                </button>
+
+            <form onSubmit={handleSubmit} className="space-y-3">
+              {/* Email */}
+              <div>
+                <label className="text-xs font-bold text-slate-400 mb-1 block uppercase tracking-wider">
+                  {t.emailLabel}
+                </label>
+                <input
+                  type="email" value={email} onChange={e=>setEmail(e.target.value)}
+                  placeholder="admin@beheard.vn" autoComplete="email"
+                  className="w-full border-2 border-slate-200 focus:border-blue-400 rounded-2xl px-4 py-3.5 text-sm focus:outline-none transition-colors"
+                />
               </div>
-              {err && <p className="text-red-500 text-sm font-semibold">{t.wrongPw}</p>}
-              <button type="submit"
-                className="w-full bg-gradient-to-r from-blue-500 to-teal-500 text-white font-extrabold py-3.5 rounded-2xl hover:shadow-xl transition-all hover:-translate-y-0.5">
-                {t.loginBtn}
+
+              {/* Password */}
+              <div>
+                <label className="text-xs font-bold text-slate-400 mb-1 block uppercase tracking-wider">
+                  {t.pwLabel}
+                </label>
+                <div className="relative">
+                  <input
+                    type={show ? "text" : "password"} value={pw} onChange={e=>setPw(e.target.value)}
+                    placeholder="••••••••" autoComplete="current-password"
+                    className="w-full border-2 border-slate-200 focus:border-blue-400 rounded-2xl px-4 py-3.5 pr-12 text-sm focus:outline-none transition-colors"
+                  />
+                  <button type="button" onClick={()=>setShow(!show)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-lg">
+                    {show ? "🙈" : "👁"}
+                  </button>
+                </div>
+              </div>
+
+              {/* Error */}
+              {err && (
+                <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 text-red-600 text-xs font-semibold leading-relaxed">
+                  {err}
+                  {err === t.noAuth && (
+                    <div className="mt-2 bg-white rounded-lg p-3 text-slate-600 space-y-1">
+                      <p className="font-bold text-slate-700">📋 Cách bật Firebase Auth:</p>
+                      <p>1. Vào <strong>Firebase Console</strong> → project của bạn</p>
+                      <p>2. Chọn <strong>Authentication</strong> → <strong>Sign-in method</strong></p>
+                      <p>3. Bật <strong>Email/Password</strong></p>
+                      <p>4. Vào tab <strong>Users</strong> → <strong>Add user</strong></p>
+                      <p>5. Nhập email + password cho tài khoản admin</p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              <button type="submit" disabled={loading}
+                className="w-full bg-gradient-to-r from-blue-500 to-teal-500 text-white font-extrabold py-3.5 rounded-2xl hover:shadow-xl transition-all hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+                {loading ? (
+                  <><span className="animate-spin inline-block">⏳</span> Đang đăng nhập...</>
+                ) : t.loginBtn}
               </button>
             </form>
+
             <div className="text-center mt-6">
               <a href="#" className="text-slate-400 text-sm hover:text-blue-500 transition-colors">{t.backToSite}</a>
             </div>
@@ -1451,8 +1531,17 @@
                 {lang==="en"?"🇻🇳 VI":"🇺🇸 EN"}
               </button>
               <a href="#" className="text-sm text-slate-500 hover:text-blue-600 font-semibold transition-colors">{t.backToSite}</a>
-              <button onClick={onLogout}
-                className="text-sm text-red-500 hover:text-red-700 font-extrabold transition-colors">{t.logout}</button>
+              <div className="flex items-center gap-3">
+                {user && (
+                  <span className="text-xs text-slate-400 font-semibold hidden sm:block">
+                    👤 {user.email}
+                  </span>
+                )}
+                <button onClick={onLogout}
+                  className="text-sm text-red-500 hover:text-red-700 font-extrabold transition-colors border border-red-200 hover:border-red-400 px-3 py-1.5 rounded-xl">
+                  {t.logout}
+                </button>
+              </div>
             </div>
           </header>
 
@@ -1482,11 +1571,35 @@
     //  ADMIN SECTION (auth gate)
     // ================================================================
     function AdminSection({ lang, setLang }) {
-      const [auth, setAuth] = React.useState(()=>sessionStorage.getItem("bh_adm")==="1");
-      const login = () => { sessionStorage.setItem("bh_adm","1"); setAuth(true); };
-      const logout = () => { sessionStorage.removeItem("bh_adm"); setAuth(false); };
-      if (!auth) return <AdminLogin onLogin={login} lang={lang} />;
-      return <AdminDashboard lang={lang} setLang={setLang} onLogout={logout} />;
+      // null = loading, false = not logged in, object = logged in user
+      const [user, setUser] = React.useState(null);
+      const [checking, setChecking] = React.useState(true);
+
+      React.useEffect(() => {
+        if (!firebaseReady) { setChecking(false); return; }
+        const unsub = firebase.auth().onAuthStateChanged(u => {
+          setUser(u || false);
+          setChecking(false);
+        });
+        return () => unsub();
+      }, []);
+
+      async function logout() {
+        await firebase.auth().signOut();
+        // onAuthStateChanged will set user=false automatically
+      }
+
+      if (checking) return (
+        <div className="min-h-screen hero-bg flex items-center justify-center">
+          <div className="text-center">
+            <div className="text-5xl mb-4 animate-pulse">🔐</div>
+            <p className="text-slate-400 font-semibold">Đang kiểm tra phiên đăng nhập...</p>
+          </div>
+        </div>
+      );
+
+      if (!user) return <AdminLogin lang={lang} />;
+      return <AdminDashboard lang={lang} setLang={setLang} onLogout={logout} user={user} />;
     }
 
     // ================================================================
@@ -1532,6 +1645,11 @@
         window.addEventListener("hashchange",fn);
         return ()=>window.removeEventListener("hashchange",fn);
       },[]);
+
+      // Cập nhật lang attribute để browser biết ngôn ngữ → render dấu đúng
+      React.useEffect(()=>{
+        document.documentElement.lang = lang === "vi" ? "vi" : "en";
+      }, [lang]);
 
       if (hash.startsWith("#/admin"))
         return <><FirebaseBanner /><AdminSection lang={lang} setLang={setLang} /></>;
