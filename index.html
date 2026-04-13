@@ -5,23 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Be Heard – English Learning Center</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           fontFamily: {
-            display: ['"Fredoka One"', 'cursive'],
-            sans: ['Nunito', 'sans-serif'],
+            display: ['"Baloo 2"', 'cursive'],
+            sans: ['"Be Vietnam Pro"', 'sans-serif'],
           },
         },
       },
     };
   </script>
   <style>
-    * { font-family: 'Nunito', sans-serif; box-sizing: border-box; }
-    .font-display { font-family: 'Fredoka One', cursive; }
+    * { font-family: 'Be Vietnam Pro', sans-serif; box-sizing: border-box; }
+    .font-display { font-family: 'Baloo 2', cursive; }
     :root {
       --sky: #BAE6FD; --mint: #A7F3D0; --peach: #FED7AA;
       --lavender: #DDD6FE; --rose: #FECDD3;
@@ -152,9 +152,9 @@
 <body class="bg-white text-slate-800 overflow-x-hidden">
   <div id="root"></div>
 
-  <!-- Firebase Compat SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <!-- Firebase Compat SDK (10.x — more stable with new projects) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
   <!-- React 18 -->
   <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
@@ -162,35 +162,33 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
   <script type="text/babel">
-    // ================================================================
-    //  ⚙️  CONFIGURATION  — Replace with your actual credentials
-    // ================================================================
+    // ✅ Real Firebase config (measurementId removed — Analytics SDK not needed here)
     const FIREBASE_CONFIG = {
-  apiKey: "AIzaSyAEVyL_-MC0Y6ZAnb14f6pYlvXEScku3xU",
-  authDomain: "be-heard-d4c7f.firebaseapp.com",
-  projectId: "be-heard-d4c7f",
-  storageBucket: "be-heard-d4c7f.firebasestorage.app",
-  messagingSenderId: "947636807743",
-  appId: "1:947636807743:web:09d2fa670ed3808306b08a",
-  measurementId: "G-E7GME362P5"
-};
-    // Cloudinary: create a free account → Settings → Upload → Add unsigned preset
+      apiKey: "AIzaSyAEVyL_-MC0Y6ZAnb14f6pYlvXEScku3xU",
+      authDomain: "be-heard-d4c7f.firebaseapp.com",
+      projectId: "be-heard-d4c7f",
+      storageBucket: "be-heard-d4c7f.firebasestorage.app",
+      messagingSenderId: "947636807743",
+      appId: "1:947636807743:web:09d2fa670ed3808306b08a",
+    };
     const CLOUDINARY_CLOUD_NAME = "dvl9oogau";
     const CLOUDINARY_UPLOAD_PRESET = "beheard_uploads";
-
-    // Change this to your own admin password!
     const ADMIN_PASSWORD = "beheard2024";
 
     // ================================================================
-    //  Firebase Init
+    //  Firebase Init — with diagnostics toast
     // ================================================================
-    let db = null, firebaseReady = false;
+    let db = null, firebaseReady = false, _fbErr = null;
     try {
-      firebase.initializeApp(FIREBASE_CONFIG);
+      if (!firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
       db = firebase.firestore();
+      // Enable offline persistence so page works even with spotty internet
+      db.enablePersistence({ synchronizeTabs: true }).catch(() => {});
       firebaseReady = true;
+      console.log("✅ Firebase connected to project:", FIREBASE_CONFIG.projectId);
     } catch(e) {
-      console.warn("Firebase not configured:", e.message);
+      _fbErr = e.message;
+      console.error("❌ Firebase init error:", e);
     }
 
     // ================================================================
@@ -612,15 +610,15 @@
                 </defs>
                 <polygon points="278,152 268,170 296,152" fill="white" stroke="#BAE6FD" strokeWidth="2"/>
                 <polygon points="278,152 268,170 296,152" fill="white"/>
-                <text x="283" y="122" fontFamily="Fredoka One" fontSize="13" fill="#2563EB">Hello! 👋</text>
-                <text x="283" y="141" fontFamily="Nunito" fontSize="10.5" fill="#64748B" fontWeight="700">I can do this!</text>
+                <text x="283" y="122" fontFamily="Baloo 2" fontSize="13" fill="#2563EB">Hello! 👋</text>
+                <text x="283" y="141" fontFamily="Be Vietnam Pro" fontSize="10.5" fill="#64748B" fontWeight="700">I can do this!</text>
 
                 {/* Speech bubble 2 */}
                 <rect x="22" y="140" width="125" height="50" rx="14" fill="white" stroke="#A7F3D0" strokeWidth="2.5" filter="url(#shadow)"/>
                 <polygon points="138,190 150,175 148,190" fill="white" stroke="#A7F3D0" strokeWidth="2"/>
                 <polygon points="138,190 150,175 148,190" fill="white"/>
-                <text x="35" y="161" fontFamily="Fredoka One" fontSize="12" fill="#059669">Be Heard 🌟</text>
-                <text x="35" y="179" fontFamily="Nunito" fontSize="10" fill="#64748B" fontWeight="700">Learn & grow!</text>
+                <text x="35" y="161" fontFamily="Baloo 2" fontSize="12" fill="#059669">Be Heard 🌟</text>
+                <text x="35" y="179" fontFamily="Be Vietnam Pro" fontSize="10" fill="#64748B" fontWeight="700">Learn & grow!</text>
 
                 {/* Floating stars */}
                 <text x="48" y="110" fontSize="18">⭐</text>
@@ -1469,6 +1467,37 @@
     // ================================================================
     //  ROOT APP
     // ================================================================
+    // Firebase status banner
+    function FirebaseBanner() {
+      const [visible, setVisible] = React.useState(true);
+      if (!visible) return null;
+      if (firebaseReady) {
+        // Show briefly then auto-hide
+        setTimeout(() => setVisible(false), 3500);
+        return (
+          <div style={{position:"fixed",bottom:20,right:20,zIndex:9999,
+            background:"#ECFDF5",border:"2px solid #6EE7B7",
+            borderRadius:16,padding:"12px 18px",boxShadow:"0 8px 30px #0002",
+            display:"flex",alignItems:"center",gap:10,fontSize:13,fontWeight:700,color:"#065F46",
+            animation:"fadeInUp 0.4s ease-out forwards"}}>
+            ✅ Firebase connected!
+            <button onClick={()=>setVisible(false)} style={{marginLeft:8,opacity:0.5,cursor:"pointer",fontWeight:900,fontSize:15}}>✕</button>
+          </div>
+        );
+      }
+      if (_fbErr) return (
+        <div style={{position:"fixed",bottom:20,right:20,zIndex:9999,
+          background:"#FFF1F2",border:"2px solid #FECDD3",
+          borderRadius:16,padding:"14px 18px",boxShadow:"0 8px 30px #0002",maxWidth:360,fontSize:12,color:"#9F1239"}}>
+          <p style={{fontWeight:900,fontSize:14,marginBottom:6}}>❌ Firebase Error</p>
+          <p style={{marginBottom:8}}>{_fbErr}</p>
+          <p style={{fontWeight:700,color:"#BE185D"}}>→ Check Firestore Rules in Firebase Console</p>
+          <button onClick={()=>setVisible(false)} style={{marginTop:6,opacity:0.5,cursor:"pointer",fontWeight:900}}>Dismiss</button>
+        </div>
+      );
+      return null;
+    }
+
     function App() {
       const [hash, setHash] = React.useState(window.location.hash);
       const [lang, setLang] = React.useState("en");
@@ -1480,9 +1509,9 @@
       },[]);
 
       if (hash.startsWith("#/admin"))
-        return <AdminSection lang={lang} setLang={setLang} />;
+        return <><FirebaseBanner /><AdminSection lang={lang} setLang={setLang} /></>;
 
-      return <PublicSite lang={lang} setLang={setLang} />;
+      return <><FirebaseBanner /><PublicSite lang={lang} setLang={setLang} /></>;
     }
 
     ReactDOM.createRoot(document.getElementById("root")).render(<App />);
