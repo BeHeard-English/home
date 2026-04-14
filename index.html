@@ -981,23 +981,23 @@
 
       return (
         <section id="courses" className="py-14 md:py-24" style={{background:"#FFFFFF"}}>
-          <div className="max-w-6xl mx-auto px-5">
 
-            {/* Heading */}
-            <div className="text-center mb-8 md:mb-12">
+          {/* ── Heading + Tabs: centred, generous width ── */}
+          <div className="max-w-5xl mx-auto px-4 sm:px-6">
+            <div className="text-center mb-8 md:mb-10">
               <h2 className="font-display mb-3" style={{color:"var(--text-main)", fontSize:"clamp(1.9rem, 4vw, 2.5rem)"}}>
                 {t.heading}
               </h2>
               <p className="text-lg" style={{color:"var(--text-sub)"}}>{t.sub}</p>
             </div>
 
-            {/* Group tabs */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-8 md:mb-12 max-w-3xl mx-auto">
+            {/* Group tabs — full width of max-w-5xl, 3 equal cols */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8 md:mb-10">
               {t.groups.map((g, i) => (
                 <button
                   key={g.id}
                   onClick={() => setActiveGroup(i)}
-                  className="flex items-center gap-2 px-4 py-3 sm:px-6 sm:py-4 rounded-2xl font-bold text-sm transition-all duration-300 border-2"
+                  className="flex items-center gap-3 px-5 py-4 rounded-2xl font-bold transition-all duration-300 border-2 text-left w-full"
                   style={activeGroup === i ? {
                     background:`linear-gradient(135deg, ${g.color}, ${g.color}CC)`,
                     borderColor: g.color,
@@ -1010,22 +1010,27 @@
                     color: "var(--text-sub)",
                   }}
                 >
-                  <span className="text-xl">{g.emoji}</span>
-                  <span className="truncate">{g.label}</span>
+                  <span style={{fontSize:"1.4rem", flexShrink:0}}>{g.emoji}</span>
+                  <span className="flex-1 font-extrabold leading-tight" style={{fontSize:"0.95rem"}}>
+                    {g.label}
+                  </span>
                   <span
-                    className="text-xs font-extrabold px-2 py-0.5 rounded-full"
+                    className="flex-shrink-0 text-xs font-extrabold px-2.5 py-1 rounded-full"
                     style={{
-                      background: activeGroup === i ? "rgba(255,255,255,0.25)" : g.colorLight,
+                      background: activeGroup === i ? "rgba(255,255,255,0.22)" : g.colorLight,
                       color: activeGroup === i ? "#fff" : g.color,
+                      whiteSpace: "nowrap",
                     }}
                   >
-                    {g.levels.length} {lang==="vi" ? "cấp độ" : "levels"}
+                    {g.levels.length} {lang==="vi" ? "cấp" : "lvs"}
                   </span>
                 </button>
               ))}
             </div>
+          </div>
 
-            {/* Active group panel */}
+          {/* ── Active group panel: full viewport width ── */}
+          <div className="px-3 sm:px-5 lg:px-10">
             <div
               key={group.id}
               className="rounded-3xl p-5 sm:p-6 lg:p-8 border-2"
@@ -1073,9 +1078,8 @@
                   ? "Nhấn vào từng cấp độ để xem nội dung chi tiết & đăng ký"
                   : "Click any level to view full content & enroll"}
               </p>
-            </div>
-
-          </div>
+            </div>{/* end panel */}
+          </div>{/* end px-3 full-width wrapper */}
         </section>
       );
     }
