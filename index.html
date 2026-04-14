@@ -1129,59 +1129,92 @@
     // ================================================================
     //  GALLERY
     // ================================================================
-    // ── Horizontal scroll carousel ─────────────────────────────────
+    // ── Infinite Horizontal Scroll Carousel ──────────────────────────
+    // Strategy: render [clone-all | originals | clone-all]
+    // On scroll near either clone zone → silently teleport to the mirror position
     function HScroll({ children, itemWidth, gap = 16 }) {
       const trackRef = React.useRef(null);
-      const wrapRef  = React.useRef(null);
-      const [isDragging, setIsDragging]   = React.useState(false);
-      const [canScrollL, setCanScrollL]   = React.useState(false);
-      const [canScrollR, setCanScrollR]   = React.useState(true);
-      const [isMobileW,  setIsMobileW]    = React.useState(window.innerWidth < 640);
-      const [cardW, setCardW]             = React.useState(itemWidth);
+      const isJumping = React.useRef(false);
+      const [isDragging, setIsDragging] = React.useState(false);
+      const [isMobileW, setIsMobileW]   = React.useState(window.innerWidth < 640);
+      const [cardW, setCardW]           = React.useState(itemWidth || 0);
       const drag = React.useRef({ active: false, startX: 0, scrollLeft: 0 });
 
-      // ── Recalc card width per breakpoint ──────────────────────
+      const items = React.Children.toArray(children);
+      const n = items.length;
+      // Need at least 2 items for infinite effect to be useful
+      const infinite = n > 1;
+      // Triple list: pre-clones | originals | post-clones
+      const tripled = infinite ? [...items, ...items, ...items] : items;
+
+      // ── Responsive card width ─────────────────────────────────────
       React.useEffect(() => {
         function recalc() {
           const w = window.innerWidth;
-          const mobile = w < 640;
-          const tablet = w >= 640 && w < 1024;
-          setIsMobileW(mobile);
-          if (!itemWidth) { setCardW(undefined); return; }
-          if (mobile) {
-            // Mobile: 1.2 cards visible — fills 82vw
-            setCardW(Math.min(itemWidth, Math.round(w * 0.82)));
-          } else if (tablet) {
-            // Tablet: 2 cards visible — fills ~46vw with gap
-            setCardW(Math.min(itemWidth, Math.round(w * 0.44)));
-          } else {
-            // Desktop: full item width
-            setCardW(itemWidth);
-          }
+          setIsMobileW(w < 640);
+          if (!itemWidth) return;
+          if (w < 640)        setCardW(Math.min(itemWidth, Math.round(w * 0.82)));
+          else if (w < 1024)  setCardW(Math.min(itemWidth, Math.round(w * 0.44)));
+          else                setCardW(itemWidth);
         }
         recalc();
         window.addEventListener("resize", recalc);
         return () => window.removeEventListener("resize", recalc);
       }, [itemWidth]);
 
-      function updateArrows() {
-        const el = trackRef.current;
-        if (!el) return;
-        setCanScrollL(el.scrollLeft > 4);
-        setCanScrollR(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
-      }
-
+      // ── Jump to middle clone block on mount / cardW change ────────
       React.useEffect(() => {
         const el = trackRef.current;
-        if (!el) return;
-        updateArrows();
-        el.addEventListener("scroll", updateArrows, { passive: true });
-        const ro = new ResizeObserver(updateArrows);
-        ro.observe(el);
-        return () => { el.removeEventListener("scroll", updateArrows); ro.disconnect(); };
-      }, [children, cardW]);
+        if (!el || !cardW || !infinite) return;
+        const step = cardW + gap;
+        isJumping.current = true;
+        el.style.scrollBehavior = "auto";
+        el.scrollLeft = n * step;           // skip past pre-clone block
+        requestAnimationFrame(() => {
+          el.style.scrollBehavior = "";
+          isJumping.current = false;
+        });
+      }, [cardW, n, gap, infinite]);
 
-      // ── Mouse drag (desktop only) ────────────────────────────────
+      // ── Infinite loop: teleport when entering clone zones ─────────
+      React.useEffect(() => {
+        const el = trackRef.current;
+        if (!el || !infinite) return;
+
+        function onScroll() {
+          if (isJumping.current || !cardW) return;
+          const step = cardW + gap;
+          const cloneBlock = n * step;
+          const sl = el.scrollLeft;
+
+          // Entered pre-clone zone (scrolled back past the start)
+          if (sl < cloneBlock * 0.5) {
+            isJumping.current = true;
+            el.style.scrollBehavior = "auto";
+            el.scrollLeft = sl + cloneBlock;
+            requestAnimationFrame(() => {
+              el.style.scrollBehavior = "";
+              // small delay so browser finishes paint
+              setTimeout(() => { isJumping.current = false; }, 30);
+            });
+          }
+          // Entered post-clone zone (scrolled past originals into trailing clones)
+          else if (sl > cloneBlock * 2 - step * 0.5) {
+            isJumping.current = true;
+            el.style.scrollBehavior = "auto";
+            el.scrollLeft = sl - cloneBlock;
+            requestAnimationFrame(() => {
+              el.style.scrollBehavior = "";
+              setTimeout(() => { isJumping.current = false; }, 30);
+            });
+          }
+        }
+
+        el.addEventListener("scroll", onScroll, { passive: true });
+        return () => el.removeEventListener("scroll", onScroll);
+      }, [cardW, n, gap, infinite]);
+
+      // ── Mouse drag (desktop) ──────────────────────────────────────
       function onMouseDown(e) {
         if (isMobileW) return;
         const el = trackRef.current;
@@ -1202,42 +1235,38 @@
         setTimeout(() => setIsDragging(false), 50);
       }
 
-      // ── Arrow scroll (desktop only) ──────────────────────────────
-      function scrollByStep(dir) {
+      // ── Arrow: step by one card ───────────────────────────────────
+      function step(dir) {
         const el = trackRef.current;
-        if (!el) return;
-        const step = (cardW || el.clientWidth * 0.8) + gap;
-        el.scrollBy({ left: dir * step, behavior: "smooth" });
+        if (!el || isJumping.current) return;
+        el.style.scrollBehavior = "smooth";
+        el.scrollLeft += dir * ((cardW || 300) + gap);
       }
 
-      const ArrowBtn = ({ dir, show }) => {
-        if (isMobileW) return null; // arrows hidden on mobile
+      const ArrowBtn = ({ dir }) => {
+        if (isMobileW) return null;
         return (
           <button
-            onClick={() => scrollByStep(dir)}
+            onClick={() => step(dir)}
             aria-label={dir > 0 ? "Next" : "Previous"}
             style={{
               position: "absolute",
-              top: "calc(50% - 12px)", // exclude scrollbar area
+              top: "calc(50% - 12px)",
               transform: "translateY(-50%)",
               [dir > 0 ? "right" : "left"]: "-1.1rem",
               zIndex: 10,
-              width: 42, height: 42,
-              borderRadius: "50%",
+              width: 42, height: 42, borderRadius: "50%",
               background: "white",
               border: "2px solid var(--border)",
               color: "var(--primary)",
-              fontSize: "1.3rem",
-              fontWeight: 900,
+              fontSize: "1.3rem", fontWeight: 900,
               cursor: "pointer",
               boxShadow: "0 4px 16px rgba(3,19,131,0.14)",
-              opacity: show ? 1 : 0,
-              pointerEvents: show ? "auto" : "none",
-              transition: "opacity 0.2s ease, transform 0.15s ease",
+              transition: "transform 0.15s ease, box-shadow 0.15s ease",
               display: "flex", alignItems: "center", justifyContent: "center",
             }}
-            onMouseEnter={e => e.currentTarget.style.transform = "translateY(-50%) scale(1.1)"}
-            onMouseLeave={e => e.currentTarget.style.transform = "translateY(-50%) scale(1)"}
+            onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-50%) scale(1.12)"; e.currentTarget.style.boxShadow = "0 6px 22px rgba(3,19,131,0.22)"; }}
+            onMouseLeave={e => { e.currentTarget.style.transform = "translateY(-50%) scale(1)";    e.currentTarget.style.boxShadow = "0 4px 16px rgba(3,19,131,0.14)"; }}
           >
             {dir > 0 ? "›" : "‹"}
           </button>
@@ -1245,8 +1274,8 @@
       };
 
       return (
-        <div ref={wrapRef} style={{position: "relative", margin: isMobileW ? "0" : "0 1.2rem"}}>
-          <ArrowBtn dir={-1} show={canScrollL} />
+        <div style={{ position: "relative", margin: isMobileW ? "0" : "0 1.2rem" }}>
+          <ArrowBtn dir={-1} />
           <div
             ref={trackRef}
             onMouseDown={onMouseDown}
@@ -1259,11 +1288,11 @@
               gap: gap + "px",
               overflowX: "auto",
               overflowY: "hidden",
-              scrollSnapType: "x mandatory",
+              // No scroll-snap — fighting with programmatic teleport
               WebkitOverflowScrolling: "touch",
               cursor: isMobileW ? "default" : "grab",
               paddingBottom: isMobileW ? 10 : 16,
-              paddingLeft: isMobileW ? 16 : 4,
+              paddingLeft:  isMobileW ? 16 : 4,
               paddingRight: isMobileW ? 16 : 4,
               scrollbarWidth: isMobileW ? "none" : "thin",
               scrollbarColor: "var(--primary-light) var(--primary-soft)",
@@ -1271,23 +1300,25 @@
               userSelect: "none",
             }}
           >
-            {React.Children.map(children, child => (
-              <div style={{
-                flexShrink: 0,
-                width: cardW || "auto",
-                scrollSnapAlign: "start",
-                pointerEvents: isDragging ? "none" : "auto",
-              }}>
+            {tripled.map((child, i) => (
+              <div
+                key={i}
+                style={{
+                  flexShrink: 0,
+                  width: cardW || "auto",
+                  pointerEvents: isDragging ? "none" : "auto",
+                }}
+              >
                 {child}
               </div>
             ))}
           </div>
-          <ArrowBtn dir={1} show={canScrollR} />
+          <ArrowBtn dir={1} />
         </div>
       );
     }
 
-    function Gallery({ lang }) {
+        function Gallery({ lang }) {
       const t = T[lang].gallery;
       const [tab, setTab] = React.useState("photos");
       const [imgs, setImgs] = React.useState([]);
