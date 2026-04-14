@@ -37,6 +37,12 @@
       --white:         #FFFFFF;
     }
     html { font-size: 17px; }
+    @media (max-width: 639px) {
+      html { font-size: 15px; }
+      /* Ensure nothing overflows viewport */
+      body { overflow-x: hidden; }
+      section { overflow-x: hidden; }
+    }
     * { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 500; box-sizing: border-box; color-scheme: light; }
     .font-display { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 900; letter-spacing: -0.02em; }
 
@@ -169,22 +175,37 @@
       gap: 0;
     }
 
-    /* ── HScroll custom thin scrollbar ──────────────────── */
-    .hscroll-track::-webkit-scrollbar {
-      height: 4px;
+    /* ── Tablet (640–1023px) tweaks ─────────────────────── */
+    @media (min-width: 640px) and (max-width: 1023px) {
+      /* Level card: less side padding on tablet to fit 2 cols cleanly */
+      .courses-grid > div > div {
+        font-size: 0.9rem;
+      }
+      /* Ensure course group tabs stay on one row */
+      .courses-tabs { overflow-x: auto; }
     }
-    .hscroll-track::-webkit-scrollbar-track {
-      background: var(--primary-soft);
-      border-radius: 99px;
-      margin: 0 4px;
+
+    /* ── HScroll custom thin scrollbar (desktop only) ──── */
+    @media (min-width: 640px) {
+      .hscroll-track::-webkit-scrollbar {
+        height: 4px;
+      }
+      .hscroll-track::-webkit-scrollbar-track {
+        background: var(--primary-soft);
+        border-radius: 99px;
+        margin: 0 4px;
+      }
+      .hscroll-track::-webkit-scrollbar-thumb {
+        background: var(--primary-light);
+        border-radius: 99px;
+        transition: background 0.2s;
+      }
+      .hscroll-track::-webkit-scrollbar-thumb:hover {
+        background: var(--primary);
+      }
     }
-    .hscroll-track::-webkit-scrollbar-thumb {
-      background: var(--primary-light);
-      border-radius: 99px;
-      transition: background 0.2s;
-    }
-    .hscroll-track::-webkit-scrollbar-thumb:hover {
-      background: var(--primary);
+    @media (max-width: 639px) {
+      .hscroll-track::-webkit-scrollbar { display: none; }
     }
 
     /* ── Section divider strip ─────────────────────────── */
@@ -699,7 +720,7 @@
       return (
         <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-400 ${scrolled ? "glass shadow-lg py-2" : "py-4"}`}>
           <div className="max-w-6xl mx-auto px-5 flex items-center justify-between">
-            <a href="#home" className="font-display text-2xl text-blue-600 flex items-center gap-2 hover:scale-105 transition-transform">
+            <a href="#home" className="font-display text-2xl flex items-center gap-2 hover:scale-105 transition-transform" style={{color:"var(--primary)"}}>
               🔊 Be Heard
             </a>
 
@@ -717,7 +738,7 @@
               >
                 {lang==="en" ? "🇻🇳 VI" : "🇺🇸 EN"}
               </button>
-              <button className="md:hidden w-9 h-9 rounded-xl bg-sky-100 text-blue-600 flex items-center justify-center font-bold"
+              <button className="md:hidden w-9 h-9 rounded-xl flex items-center justify-center font-bold" style={{background:"var(--primary-soft)", color:"var(--primary)"}}
                 onClick={() => setOpen(!open)}>
                 {open ? "✕" : "≡"}
               </button>
@@ -756,34 +777,34 @@
           <div className="absolute top-1/3 right-1/4 w-56 h-56 opacity-25 animate-blob"
             style={{background:"rgba(255,123,172,0.13)", borderRadius:"50% 50% 30% 70%", animationDelay:"5s"}} />
 
-          <div className="max-w-6xl mx-auto px-5 py-20 grid md:grid-cols-2 gap-14 items-center relative z-10">
+          <div className="max-w-6xl mx-auto px-5 pt-10 pb-14 md:pt-16 md:pb-20 grid md:grid-cols-2 gap-6 lg:gap-14 items-center relative z-10">
             <div className="animate-fadeInUp">
-              <span className="inline-flex items-center gap-2 font-bold px-5 py-2 rounded-full mb-7 shadow-sm" style={{background:"var(--primary-soft)", border:"1px solid var(--border)", color:"var(--primary)", fontSize:"0.9rem"}}>
+              <span className="inline-flex items-center gap-2 font-bold px-4 py-1.5 rounded-full mb-5 shadow-sm" style={{background:"var(--primary-soft)", border:"1px solid var(--border)", color:"var(--primary)", fontSize:"0.9rem"}}>
                 {t.badge}
               </span>
-              <h1 className="font-display leading-tight mb-1" style={{color:"var(--text-main)", fontSize:"clamp(2.6rem, 5.5vw, 3.8rem)"}}>
+              <h1 className="font-display leading-tight mb-1" style={{color:"var(--text-main)", fontSize:"clamp(1.9rem, 6vw, 3.8rem)"}}>
                 {t.h1a}
               </h1>
-              <h1 className="font-display leading-tight mb-7" style={{fontSize:"clamp(2.6rem, 5.5vw, 3.8rem)", background:"linear-gradient(130deg, var(--primary) 0%, var(--accent) 60%, var(--accent-pink) 100%)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent"}}>
+              <h1 className="font-display leading-tight mb-7" style={{fontSize:"clamp(1.9rem, 6vw, 3.8rem)", background:"linear-gradient(130deg, var(--primary) 0%, var(--accent) 60%, var(--accent-pink) 100%)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent"}}>
                 {t.h1b}
               </h1>
-              <p className="text-lg mb-9 leading-relaxed max-w-md" style={{color:"var(--text-sub)", lineHeight:1.75}}>{t.sub}</p>
+              <p className="text-base md:text-lg mb-7 md:mb-9 leading-relaxed max-w-md" style={{color:"var(--text-sub)", lineHeight:1.75}}>{t.sub}</p>
 
-              <div className="flex flex-wrap gap-4 mb-10">
+              <div className="flex flex-col sm:flex-row gap-3 mb-8 md:mb-10">
                 <a href="#quiz"
-                  className="shimmer-btn text-white font-extrabold px-9 py-4 rounded-full shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-1 animate-pulseGlow" style={{fontSize:"1rem", letterSpacing:"0.01em"}}>
+                  className="shimmer-btn text-white font-extrabold px-7 py-3.5 md:px-9 md:py-4 rounded-full shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-1 animate-pulseGlow w-full sm:w-auto text-center" style={{fontSize:"1rem", letterSpacing:"0.01em"}}>
                   {t.cta1}
                 </a>
                 <a href="#courses"
-                  className="bg-white font-extrabold px-9 py-3.5 rounded-full shadow-md border-2 transition-all transform hover:-translate-y-1 text-sm" style={{color:"var(--primary)", borderColor:"var(--border)"}}>
+                  className="bg-white font-extrabold px-7 py-3.5 md:px-9 rounded-full shadow-md border-2 transition-all transform hover:-translate-y-1 text-sm w-full sm:w-auto text-center" style={{color:"var(--primary)", borderColor:"var(--border)"}}>
                   {t.cta2}
                 </a>
               </div>
 
               {/* Stats */}
-              <div className="flex flex-wrap gap-5">
+              <div className="grid grid-cols-3 gap-2 sm:flex sm:flex-wrap sm:gap-3 md:gap-5 max-w-xs sm:max-w-none">
                 {stats.map((s,i) => (
-                  <div key={i} className="text-center bg-white rounded-2xl px-5 py-3 shadow-sm border border-slate-100">
+                  <div key={i} className="text-center bg-white rounded-xl sm:rounded-2xl px-3 sm:px-5 py-2 sm:py-3 shadow-sm border border-slate-100">
                     <div className="font-display text-3xl" style={{color:"var(--primary)"}}>{s.n}</div>
                     <div className="text-sm font-semibold" style={{color:"var(--text-muted)"}}>{s.l}</div>
                   </div>
@@ -792,7 +813,7 @@
             </div>
 
             {/* Real teacher photo - bg removed */}
-            <div className="flex justify-center items-end relative" style={{animationDelay:"0.5s"}}>
+            <div className="hidden md:flex justify-center items-end relative order-first md:order-last" style={{animationDelay:"0.5s"}}>
               {/* Decorative blob behind photo */}
               <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full -z-10"
                 style={{background:"linear-gradient(135deg,#BAE6FD 0%,#A7F3D0 50%,#DDD6FE 100%)",filter:"blur(32px)",opacity:0.7}} />
@@ -801,7 +822,7 @@
                 alt="Be Heard Teacher"
                 className="animate-float relative z-10 drop-shadow-2xl"
                 style={{
-                  maxHeight:"480px",
+                  maxHeight:"min(420px, 42vw)",
                   width:"auto",
                   objectFit:"contain",
                   animationDelay:"0.4s",
@@ -845,7 +866,7 @@
           {/* ── Card ─────────────────────────────────────────── */}
           <div
             className="flex-1 flex flex-col rounded-2xl border-2 overflow-hidden cursor-pointer
-              transition-shadow duration-200 hover:shadow-lg mx-0 md:mx-1.5"
+              transition-shadow duration-200 hover:shadow-lg mx-0 md:mx-1"
             style={{
               borderColor: colorBorder,
               background: "#fff",
@@ -854,7 +875,7 @@
             onClick={() => setOpen(o => !o)}
           >
             {/* Row 1: LV badge + name + chevron */}
-            <div className="px-4 pt-5 pb-3 flex items-center gap-3">
+            <div className="px-3 sm:px-4 pt-4 sm:pt-5 pb-2 sm:pb-3 flex items-center gap-3">
               <div className="flex-shrink-0 w-10 h-10 rounded-xl flex flex-col items-center
                 justify-center text-white font-extrabold shadow-sm"
                 style={{background:`linear-gradient(135deg, ${color}, ${color}BB)`}}>
@@ -872,7 +893,7 @@
             </div>
 
             {/* Rows: cấp độ / học phí / thời lượng / dành cho */}
-            <div className="px-4 pb-4 space-y-2" style={{borderTop:`1px solid ${colorBorder}44`}}>
+            <div className="px-3 sm:px-4 pb-3 sm:pb-4 space-y-2" style={{borderTop:`1px solid ${colorBorder}44`}}>
               <div className="flex items-center gap-2 pt-3">
                 <span className="w-[4.5rem] text-xs font-extrabold uppercase tracking-wide flex-shrink-0"
                   style={{color:"var(--text-muted)"}}>Cấp độ</span>
@@ -933,21 +954,37 @@
     function Courses({ lang }) {
       const t = T[lang].courses;
       const [activeGroup, setActiveGroup] = React.useState(0);
-      const [isMobile, setIsMobile] = React.useState(window.innerWidth < 768);
+      const [vw, setVw] = React.useState(window.innerWidth);
       const group = t.groups[activeGroup];
 
       React.useEffect(() => {
-        const fn = () => setIsMobile(window.innerWidth < 768);
+        const fn = () => setVw(window.innerWidth);
         window.addEventListener("resize", fn);
         return () => window.removeEventListener("resize", fn);
       }, []);
 
+      // Breakpoints
+      const isMobile  = vw < 640;   // < sm
+      const isTablet  = vw >= 640 && vw < 1024; // sm..lg
+
+      // Column logic per breakpoint and number of levels
+      function getGridCols(numLevels) {
+        if (isMobile) return "1fr";
+        if (isTablet) {
+          // 2-level courses: 2 cols; 3-level courses: 2 cols on tablet (3rd wraps below)
+          return numLevels <= 2
+            ? "repeat(2, minmax(0,1fr))"
+            : "repeat(2, minmax(0,1fr))";
+        }
+        return `repeat(${numLevels}, minmax(0, 1fr))`;
+      }
+
       return (
-        <section id="courses" className="py-24" style={{background:"#FFFFFF"}}>
+        <section id="courses" className="py-14 md:py-24" style={{background:"#FFFFFF"}}>
           <div className="max-w-6xl mx-auto px-5">
 
             {/* Heading */}
-            <div className="text-center mb-12">
+            <div className="text-center mb-8 md:mb-12">
               <h2 className="font-display mb-3" style={{color:"var(--text-main)", fontSize:"clamp(1.9rem, 4vw, 2.5rem)"}}>
                 {t.heading}
               </h2>
@@ -955,12 +992,12 @@
             </div>
 
             {/* Group tabs */}
-            <div className="flex flex-col sm:flex-row gap-3 justify-center mb-12">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-8 md:mb-12 max-w-3xl mx-auto">
               {t.groups.map((g, i) => (
                 <button
                   key={g.id}
                   onClick={() => setActiveGroup(i)}
-                  className="flex items-center gap-3 px-6 py-4 rounded-2xl font-extrabold text-sm transition-all duration-300 border-2"
+                  className="flex items-center gap-2 px-4 py-3 sm:px-6 sm:py-4 rounded-2xl font-bold text-sm transition-all duration-300 border-2"
                   style={activeGroup === i ? {
                     background:`linear-gradient(135deg, ${g.color}, ${g.color}CC)`,
                     borderColor: g.color,
@@ -974,7 +1011,7 @@
                   }}
                 >
                   <span className="text-xl">{g.emoji}</span>
-                  <span>{g.label}</span>
+                  <span className="truncate">{g.label}</span>
                   <span
                     className="text-xs font-extrabold px-2 py-0.5 rounded-full"
                     style={{
@@ -991,7 +1028,7 @@
             {/* Active group panel */}
             <div
               key={group.id}
-              className="rounded-3xl p-6 md:p-8 border-2"
+              className="rounded-3xl p-5 sm:p-6 lg:p-8 border-2"
               style={{
                 background: `linear-gradient(145deg, ${group.colorLight} 0%, #fff 60%)`,
                 borderColor: group.colorBorder,
@@ -999,15 +1036,15 @@
               }}
             >
               {/* Group header */}
-              <div className="flex items-start gap-4 mb-8">
+              <div className="flex items-start gap-3 md:gap-4 mb-6 md:mb-8">
                 <div
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0 shadow-md"
+                  className="w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-md"
                   style={{background:`linear-gradient(135deg, ${group.color}, ${group.color}99)`, fontSize:"1.6rem"}}
                 >
                   {group.emoji}
                 </div>
                 <div>
-                  <h3 className="font-display text-2xl mb-1" style={{color:group.color}}>{group.label}</h3>
+                  <h3 className="font-display text-xl md:text-2xl mb-1" style={{color:group.color}}>{group.label}</h3>
                   <p style={{color:"var(--text-sub)", fontSize:"0.97rem"}}>{group.desc}</p>
                 </div>
               </div>
@@ -1015,11 +1052,7 @@
               {/* Levels — equal-width columns, stacks on mobile */}
               <div
                 className="courses-grid"
-                style={{
-                  gridTemplateColumns: isMobile
-                    ? "1fr"
-                    : `repeat(${group.levels.length}, minmax(0, 1fr))`,
-                }}
+                style={{ gridTemplateColumns: getGridCols(group.levels.length) }}
               >
                 {group.levels.map((lv, i) => (
                   <LevelCard
@@ -1054,9 +1087,9 @@
       const colors = ["#DDE1FF","#E0D9FF","#D9EEFF","#E6D9FF","#FFD9EE"];
       const accents = ["#031383","#4338CA","#1E40AF","#6D28D9","#9D174D"];
       return (
-        <section id="roadmap" className="py-24" style={{background:"linear-gradient(160deg, #F5F6FF 0%, #EEF0FF 60%, #F0EEFF 100%)"}}>
+        <section id="roadmap" className="py-14 md:py-24" style={{background:"linear-gradient(160deg, #F5F6FF 0%, #EEF0FF 60%, #F0EEFF 100%)"}}>
           <div className="max-w-3xl mx-auto px-5">
-            <div className="text-center mb-16">
+            <div className="text-center mb-10 md:mb-16">
               <h2 className="font-display mb-3" style={{color:"var(--text-main)", fontSize:"clamp(1.9rem, 4vw, 2.5rem)"}}>{t.heading}</h2>
               <p className="text-lg" style={{color:"var(--text-sub)"}}>{t.sub}</p>
             </div>
@@ -1075,7 +1108,7 @@
                       {step.icon}
                     </div>
 
-                    <div className="flex-1 bg-white rounded-2xl p-5 shadow-md border border-slate-100 hover:shadow-xl transition-shadow mt-1">
+                    <div className="flex-1 bg-white rounded-2xl p-4 sm:p-5 shadow-md border border-slate-100 hover:shadow-xl transition-shadow mt-1">
                       <div className="flex items-center gap-3 mb-1">
                         <span className="tag-badge" style={{background:colors[i], color:accents[i]}}>
                           Step {i+1}
@@ -1099,10 +1132,37 @@
     // ── Horizontal scroll carousel ─────────────────────────────────
     function HScroll({ children, itemWidth, gap = 16 }) {
       const trackRef = React.useRef(null);
-      const [isDragging, setIsDragging] = React.useState(false);
-      const [canScrollL, setCanScrollL] = React.useState(false);
-      const [canScrollR, setCanScrollR] = React.useState(true);
+      const wrapRef  = React.useRef(null);
+      const [isDragging, setIsDragging]   = React.useState(false);
+      const [canScrollL, setCanScrollL]   = React.useState(false);
+      const [canScrollR, setCanScrollR]   = React.useState(true);
+      const [isMobileW,  setIsMobileW]    = React.useState(window.innerWidth < 640);
+      const [cardW, setCardW]             = React.useState(itemWidth);
       const drag = React.useRef({ active: false, startX: 0, scrollLeft: 0 });
+
+      // ── Recalc card width per breakpoint ──────────────────────
+      React.useEffect(() => {
+        function recalc() {
+          const w = window.innerWidth;
+          const mobile = w < 640;
+          const tablet = w >= 640 && w < 1024;
+          setIsMobileW(mobile);
+          if (!itemWidth) { setCardW(undefined); return; }
+          if (mobile) {
+            // Mobile: 1.2 cards visible — fills 82vw
+            setCardW(Math.min(itemWidth, Math.round(w * 0.82)));
+          } else if (tablet) {
+            // Tablet: 2 cards visible — fills ~46vw with gap
+            setCardW(Math.min(itemWidth, Math.round(w * 0.44)));
+          } else {
+            // Desktop: full item width
+            setCardW(itemWidth);
+          }
+        }
+        recalc();
+        window.addEventListener("resize", recalc);
+        return () => window.removeEventListener("resize", recalc);
+      }, [itemWidth]);
 
       function updateArrows() {
         const el = trackRef.current;
@@ -1119,10 +1179,11 @@
         const ro = new ResizeObserver(updateArrows);
         ro.observe(el);
         return () => { el.removeEventListener("scroll", updateArrows); ro.disconnect(); };
-      }, [children]);
+      }, [children, cardW]);
 
-      // ── Mouse drag ──────────────────────────────────────────────
+      // ── Mouse drag (desktop only) ────────────────────────────────
       function onMouseDown(e) {
+        if (isMobileW) return;
         const el = trackRef.current;
         drag.current = { active: true, startX: e.pageX - el.offsetLeft, scrollLeft: el.scrollLeft };
         setIsDragging(false);
@@ -1137,50 +1198,54 @@
       }
       function onMouseUp() {
         drag.current.active = false;
-        if (trackRef.current) trackRef.current.style.cursor = "grab";
+        if (trackRef.current) trackRef.current.style.cursor = isMobileW ? "default" : "grab";
         setTimeout(() => setIsDragging(false), 50);
       }
 
-      // ── Arrow scroll ─────────────────────────────────────────────
-      function scrollBy(dir) {
+      // ── Arrow scroll (desktop only) ──────────────────────────────
+      function scrollByStep(dir) {
         const el = trackRef.current;
         if (!el) return;
-        const step = itemWidth ? itemWidth + gap : el.clientWidth * 0.8;
+        const step = (cardW || el.clientWidth * 0.8) + gap;
         el.scrollBy({ left: dir * step, behavior: "smooth" });
       }
 
-      const ArrowBtn = ({ dir, show }) => (
-        <button
-          onClick={() => scrollBy(dir)}
-          aria-label={dir > 0 ? "Next" : "Previous"}
-          style={{
-            position: "absolute",
-            top: "50%", transform: "translateY(-50%)",
-            [dir > 0 ? "right" : "left"]: "-1rem",
-            zIndex: 10,
-            width: 44, height: 44,
-            borderRadius: "50%",
-            background: "white",
-            border: "2px solid var(--border)",
-            color: "var(--primary)",
-            fontSize: "1.1rem",
-            fontWeight: 900,
-            cursor: "pointer",
-            boxShadow: "0 4px 16px rgba(3,19,131,0.13)",
-            opacity: show ? 1 : 0,
-            pointerEvents: show ? "auto" : "none",
-            transition: "opacity 0.2s ease, transform 0.15s ease",
-            display: "flex", alignItems: "center", justifyContent: "center",
-          }}
-          onMouseEnter={e => e.currentTarget.style.transform = "translateY(-50%) scale(1.1)"}
-          onMouseLeave={e => e.currentTarget.style.transform = "translateY(-50%) scale(1)"}
-        >
-          {dir > 0 ? "›" : "‹"}
-        </button>
-      );
+      const ArrowBtn = ({ dir, show }) => {
+        if (isMobileW) return null; // arrows hidden on mobile
+        return (
+          <button
+            onClick={() => scrollByStep(dir)}
+            aria-label={dir > 0 ? "Next" : "Previous"}
+            style={{
+              position: "absolute",
+              top: "calc(50% - 12px)", // exclude scrollbar area
+              transform: "translateY(-50%)",
+              [dir > 0 ? "right" : "left"]: "-1.1rem",
+              zIndex: 10,
+              width: 42, height: 42,
+              borderRadius: "50%",
+              background: "white",
+              border: "2px solid var(--border)",
+              color: "var(--primary)",
+              fontSize: "1.3rem",
+              fontWeight: 900,
+              cursor: "pointer",
+              boxShadow: "0 4px 16px rgba(3,19,131,0.14)",
+              opacity: show ? 1 : 0,
+              pointerEvents: show ? "auto" : "none",
+              transition: "opacity 0.2s ease, transform 0.15s ease",
+              display: "flex", alignItems: "center", justifyContent: "center",
+            }}
+            onMouseEnter={e => e.currentTarget.style.transform = "translateY(-50%) scale(1.1)"}
+            onMouseLeave={e => e.currentTarget.style.transform = "translateY(-50%) scale(1)"}
+          >
+            {dir > 0 ? "›" : "‹"}
+          </button>
+        );
+      };
 
       return (
-        <div style={{position:"relative", margin:"0 1rem"}}>
+        <div ref={wrapRef} style={{position: "relative", margin: isMobileW ? "0" : "0 1.2rem"}}>
           <ArrowBtn dir={-1} show={canScrollL} />
           <div
             ref={trackRef}
@@ -1196,19 +1261,20 @@
               overflowY: "hidden",
               scrollSnapType: "x mandatory",
               WebkitOverflowScrolling: "touch",
-              cursor: "grab",
-              paddingBottom: 16,
-              paddingLeft: 4,
-              paddingRight: 4,
-              scrollbarWidth: "thin",
+              cursor: isMobileW ? "default" : "grab",
+              paddingBottom: isMobileW ? 10 : 16,
+              paddingLeft: isMobileW ? 16 : 4,
+              paddingRight: isMobileW ? 16 : 4,
+              scrollbarWidth: isMobileW ? "none" : "thin",
               scrollbarColor: "var(--primary-light) var(--primary-soft)",
+              msOverflowStyle: isMobileW ? "none" : "auto",
               userSelect: "none",
             }}
           >
             {React.Children.map(children, child => (
               <div style={{
                 flexShrink: 0,
-                width: itemWidth || "auto",
+                width: cardW || "auto",
                 scrollSnapAlign: "start",
                 pointerEvents: isDragging ? "none" : "auto",
               }}>
@@ -1249,10 +1315,10 @@
       const VIDEO_W = 400;
 
       return (
-        <section id="gallery" className="py-24" style={{background:"var(--primary-xsoft)"}}>
+        <section id="gallery" className="py-14 md:py-24" style={{background:"var(--primary-xsoft)"}}>
           {/* Heading inside max-w */}
           <div className="max-w-6xl mx-auto px-5">
-            <div className="text-center mb-12">
+            <div className="text-center mb-8 md:mb-12">
               <h2 className="font-display mb-3" style={{color:"var(--text-main)", fontSize:"clamp(1.9rem, 4vw, 2.5rem)"}}>
                 {t.heading}
               </h2>
@@ -1272,7 +1338,7 @@
           </div>
 
           {/* Carousel — full width, padding on sides */}
-          <div className="px-6 lg:px-12">
+          <div className="sm:px-4 md:px-8 lg:px-12">
 
             {/* Loading */}
             {loading && (
@@ -1390,8 +1456,8 @@
             )}
 
             {/* Scroll hint */}
-            {!loading && ((tab==="photos" && imgs.length > 3) || (tab==="videos" && vids.length > 2)) && (
-              <p className="text-center text-sm mt-5 px-4" style={{color:"var(--text-muted)"}}>
+            {!loading && ((tab==="photos" && imgs.length > 0) || (tab==="videos" && vids.length > 0)) && (
+              <p className="text-center text-xs sm:text-sm mt-4 px-4 hidden sm:block" style={{color:"var(--text-muted)"}}>
                 ← {lang==="vi" ? "Kéo ngang hoặc dùng mũi tên để xem thêm" : "Drag or use arrows to see more"} →
               </p>
             )}
@@ -1466,9 +1532,9 @@
         : t.items;
 
       return (
-        <section id="faq" className="py-24" style={{background:"linear-gradient(160deg, #F5F6FF 0%, #EEF0FF 50%, #F0EEFF 100%)"}}>
-          <div className="max-w-3xl mx-auto px-5">
-            <div className="text-center mb-14">
+        <section id="faq" className="py-14 md:py-24" style={{background:"linear-gradient(160deg, #F5F6FF 0%, #EEF0FF 50%, #F0EEFF 100%)"}}>
+          <div className="max-w-3xl mx-auto px-4 sm:px-5">
+            <div className="text-center mb-10 md:mb-14">
               <h2 className="font-display mb-3" style={{color:"var(--text-main)", fontSize:"clamp(1.9rem, 4vw, 2.5rem)"}}>{t.heading}</h2>
               <p className="text-lg" style={{color:"var(--text-sub)"}}>{t.sub}</p>
             </div>
@@ -1476,7 +1542,7 @@
               {items.map((item, i) => (
                 <div key={i} className="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md overflow-hidden transition-shadow">
                   <button
-                    className="w-full flex items-center gap-4 px-6 py-5 text-left group"
+                    className="w-full flex items-center gap-3 px-4 py-4 sm:px-6 sm:py-5 text-left group"
                     onClick={() => setOpenIdx(openIdx===i ? null : i)}>
                     <span className="flex-shrink-0 w-8 h-8 rounded-full font-extrabold text-sm flex items-center justify-center" style={{background:"var(--primary-soft)", color:"var(--primary)"}}>
                       {i+1}
@@ -1489,7 +1555,7 @@
                     </span>
                   </button>
                   <div className={`accordion-body ${openIdx===i ? "open":""}`}>
-                    <div className="px-6 pb-5 pt-2 leading-loose border-t" style={{color:"var(--text-sub)", borderColor:"var(--primary-soft)", fontSize:"1rem", lineHeight:1.8}}>
+                    <div className="px-4 sm:px-6 pb-4 sm:pb-5 pt-2 leading-loose border-t" style={{color:"var(--text-sub)", borderColor:"var(--primary-soft)", fontSize:"1rem", lineHeight:1.8}}>
                       {item.a}
                     </div>
                   </div>
@@ -1590,15 +1656,15 @@
       const course = result!==null ? courses[result] : null;
 
       return (
-        <section id="quiz" className="py-24" style={{background:"#FFFFFF"}}>
+        <section id="quiz" className="py-14 md:py-24" style={{background:"#FFFFFF"}}>
           <div className="max-w-2xl mx-auto px-5">
-            <div className="text-center mb-12">
+            <div className="text-center mb-8 md:mb-12">
               <h2 className="font-display mb-3" style={{color:"var(--text-main)", fontSize:"clamp(1.9rem, 4vw, 2.5rem)"}}>{t.heading}</h2>
               <p className="text-lg" style={{color:"var(--text-sub)"}}>{t.sub}</p>
             </div>
 
             {!done ? (
-              <div className="rounded-3xl p-8 shadow-2xl border border-sky-100"
+              <div className="rounded-3xl p-5 sm:p-7 md:p-8 shadow-2xl border border-sky-100"
                 style={{background:"linear-gradient(145deg, var(--primary-xsoft), var(--primary-soft))"}}>
                 {/* Progress bar */}
                 <div className="mb-8">
@@ -1681,7 +1747,7 @@
       return (
         <footer className="pt-16 pb-8" style={{background:"linear-gradient(160deg, #020D6B 0%, #031383 40%, #0A0F4F 100%)"}}>
           <div className="max-w-6xl mx-auto px-5">
-            <div className="grid md:grid-cols-3 gap-10 mb-12">
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 mb-10">
               <div>
                 <div className="font-display text-3xl mb-4" style={{color:"#A5AEFF"}}>🔊 Be Heard</div>
                 <p className="text-sm leading-relaxed mb-5" style={{color:"rgba(255,255,255,0.6)"}}>{t.tagline}</p>
@@ -1770,7 +1836,7 @@
       }
 
       return (
-        <div className="min-h-screen hero-bg flex items-center justify-center px-4">
+        <div className="min-h-screen hero-bg flex items-start sm:items-center justify-center px-4 py-12 sm:py-0">
           <div className="bg-white rounded-3xl shadow-2xl p-10 w-full max-w-sm border border-sky-100">
             <div className="text-center mb-8">
               <div className="text-5xl mb-3">🔐</div>
@@ -2239,7 +2305,7 @@
             <div className="flex gap-3 mb-8 overflow-x-auto pb-1">
               {Object.entries(t.tabs).map(([key,label])=>(
                 <button key={key} onClick={()=>setTab(key)}
-                  className={`px-6 py-3 rounded-2xl font-extrabold text-sm whitespace-nowrap transition-all ${tab===key ? "text-white shadow-md" : "bg-white hover:bg-sky-50 border border-slate-200"}`}
+                  className={`px-4 sm:px-6 py-2.5 sm:py-3 rounded-2xl font-extrabold text-sm whitespace-nowrap transition-all ${tab===key ? "text-white shadow-md" : "bg-white hover:bg-sky-50 border border-slate-200"}`}
                   style={tab===key ? {background:"linear-gradient(135deg, var(--primary), var(--primary-light))"} : {color:"var(--text-sub)"}}>
                   {label}
                 </button>
