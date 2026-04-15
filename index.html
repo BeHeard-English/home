@@ -798,9 +798,9 @@
               </div>
 
               {/* Stats */}
-              <div className="grid grid-cols-3 gap-2 sm:flex sm:flex-wrap sm:gap-3 md:gap-5 max-w-xs sm:max-w-none">
+              <div className="flex justify-center sm:justify-start flex-wrap gap-2 sm:gap-3 md:gap-5">
                 {stats.map((s,i) => (
-                  <div key={i} className="text-center bg-white rounded-xl sm:rounded-2xl px-3 sm:px-5 py-2 sm:py-3 shadow-sm border border-slate-100">
+                  <div key={i} className="text-center bg-white rounded-xl sm:rounded-2xl px-4 sm:px-5 py-2 sm:py-3 shadow-sm border border-slate-100 flex-1 sm:flex-none min-w-0">
                     <div className="font-display text-3xl" style={{color:"var(--primary)"}}>{s.n}</div>
                     <div className="text-sm font-semibold" style={{color:"var(--text-muted)"}}>{s.l}</div>
                   </div>
@@ -926,13 +926,16 @@
                     </li>
                   ))}
                 </ul>
-                <button
+                <a
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSf6xlHtyJKB1JkQ_3zxplovWNwVdg9El1jXHZ5xmjDs6C7TLA/viewform?usp=share_link&ouid=114423969008470252830"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-full py-3 rounded-xl font-extrabold text-white text-sm
-                    transition-all hover:opacity-90 hover:shadow-lg active:scale-95"
-                  style={{background:`linear-gradient(135deg, ${color}, ${color}BB)`}}
+                    transition-all hover:opacity-90 hover:shadow-lg active:scale-95 flex items-center justify-center"
+                  style={{background:`linear-gradient(135deg, ${color}, ${color}BB)`, textDecoration:"none"}}
                   onClick={e => e.stopPropagation()}>
                   {t.enroll}
-                </button>
+                </a>
               </div>
             </div>
           </div>
