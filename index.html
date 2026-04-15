@@ -882,7 +882,7 @@
                 <span style={{fontSize:"0.45rem", opacity:0.8, letterSpacing:"0.05em"}}>LV</span>
                 <span style={{fontSize:"1rem", lineHeight:1}}>{lv.levelNum}</span>
               </div>
-              <span className="flex-1 font-extrabold leading-snug" style={{color:"var(--text-main)", fontSize:"0.97rem"}}>
+              <span className="flex-1 font-extrabold leading-snug" style={{color:"var(--text-main)", fontSize:"1.1rem"}}>
                 {lv.name}
               </span>
               <div className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center
@@ -896,24 +896,24 @@
             <div className="px-3 sm:px-4 pb-3 sm:pb-4 space-y-2" style={{borderTop:`1px solid ${colorBorder}44`}}>
               <div className="flex items-center gap-2 pt-3">
                 <span className="w-[4.5rem] text-xs font-extrabold uppercase tracking-wide flex-shrink-0"
-                  style={{color:"var(--text-muted)"}}>Cấp độ</span>
-                <span className="text-xs font-bold px-2.5 py-0.5 rounded-full truncate"
-                  style={{background:colorLight, color}}>{lv.level}</span>
+                  style={{color:"var(--text-muted)", fontSize:"0.75rem"}}>Cấp độ</span>
+                <span className="font-bold px-2.5 py-0.5 rounded-full truncate"
+                  style={{background:colorLight, color, fontSize:"0.85rem"}}>{lv.level}</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="w-[4.5rem] text-xs font-extrabold uppercase tracking-wide flex-shrink-0"
-                  style={{color:"var(--text-muted)"}}>Học phí</span>
-                <span className="font-extrabold text-sm" style={{color}}>{lv.tui}</span>
+                  style={{color:"var(--text-muted)", fontSize:"0.75rem"}}>Học phí</span>
+                <span className="font-extrabold" style={{color, fontSize:"1rem"}}>{lv.tui}</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="w-[4.5rem] text-xs font-extrabold uppercase tracking-wide flex-shrink-0"
-                  style={{color:"var(--text-muted)"}}>Thời lượng</span>
-                <span className="text-sm font-semibold" style={{color:"var(--text-sub)"}}>{lv.dur}</span>
+                  style={{color:"var(--text-muted)", fontSize:"0.75rem"}}>Thời lượng</span>
+                <span className="font-semibold" style={{color:"var(--text-sub)", fontSize:"0.95rem"}}>{lv.dur}</span>
               </div>
               <div className="flex items-start gap-2">
                 <span className="w-[4.5rem] text-xs font-extrabold uppercase tracking-wide flex-shrink-0 mt-0.5"
-                  style={{color:"var(--text-muted)"}}>Dành cho</span>
-                <span className="text-xs leading-relaxed italic" style={{color:"var(--text-sub)"}}>{lv.target}</span>
+                  style={{color:"var(--text-muted)", fontSize:"0.75rem"}}>Dành cho</span>
+                <span className="leading-relaxed italic" style={{color:"var(--text-sub)", fontSize:"0.88rem"}}>{lv.target}</span>
               </div>
             </div>
 
@@ -924,7 +924,7 @@
                   style={{color:"var(--text-muted)"}}>📋 {t.lCon}</p>
                 <ul className="space-y-1.5 mb-4">
                   {lv.content.map((item, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm" style={{color:"var(--text-sub)"}}>
+                    <li key={i} className="flex items-start gap-2" style={{color:"var(--text-sub)", fontSize:"0.95rem"}}>
                       <span className="font-extrabold flex-shrink-0 mt-0.5" style={{color}}>✓</span>
                       {item}
                     </li>
