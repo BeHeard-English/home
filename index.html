@@ -177,10 +177,6 @@
 
     /* ── Tablet (640–1023px) tweaks ─────────────────────── */
     @media (min-width: 640px) and (max-width: 1023px) {
-      /* Level card: less side padding on tablet to fit 2 cols cleanly */
-      .courses-grid > div > div {
-        font-size: 0.9rem;
-      }
       /* Ensure course group tabs stay on one row */
       .courses-tabs { overflow-x: auto; }
     }
@@ -970,12 +966,7 @@
       // Column logic per breakpoint and number of levels
       function getGridCols(numLevels) {
         if (isMobile) return "1fr";
-        if (isTablet) {
-          // 2-level courses: 2 cols; 3-level courses: 2 cols on tablet (3rd wraps below)
-          return numLevels <= 2
-            ? "repeat(2, minmax(0,1fr))"
-            : "repeat(2, minmax(0,1fr))";
-        }
+        // tablet & desktop: always 1 row with equal columns
         return `repeat(${numLevels}, minmax(0, 1fr))`;
       }
 
@@ -1330,6 +1321,10 @@
       const [loading, setLoading] = React.useState(true);
       const [lightbox, setLightbox] = React.useState(null);
       const [vw, setVw] = React.useState(window.innerWidth);
+      const [hoveredVidId, setHoveredVidId] = React.useState(null);
+      const [mobileAutoVidId, setMobileAutoVidId] = React.useState(null);
+      const videoSectionRef = React.useRef(null);
+      const isMobile = vw < 640;
 
       React.useEffect(() => {
         const fn = () => setVw(window.innerWidth);
@@ -1355,6 +1350,25 @@
         window.addEventListener("keydown", fn);
         return () => window.removeEventListener("keydown", fn);
       }, []);
+
+      // Mobile: auto-play first video when section scrolls into view
+      React.useEffect(() => {
+        if (!isMobile || tab !== "videos" || vids.length === 0) return;
+        const el = videoSectionRef.current;
+        if (!el) return;
+        const obs = new IntersectionObserver(
+          ([entry]) => {
+            if (entry.isIntersecting) {
+              setMobileAutoVidId(vids[0].id);
+            } else {
+              setMobileAutoVidId(null);
+            }
+          },
+          { threshold: 0.45 }
+        );
+        obs.observe(el);
+        return () => obs.disconnect();
+      }, [isMobile, tab, vids]);
 
       const PHOTO_W = 420;
       const VIDEO_W = 400;
@@ -1457,25 +1471,43 @@
                   <p className="font-semibold" style={{color:"var(--text-muted)"}}>{t.noVideos}</p>
                 </div>
               ) : (
+                <div ref={videoSectionRef}>
                 <HScroll itemWidth={VIDEO_W} gap={20}>
-                  {vids.map(vid => (
+                  {vids.map(vid => {
+                    const isPlaying = isMobile
+                      ? mobileAutoVidId === vid.id
+                      : hoveredVidId === vid.id;
+                    const src = isPlaying
+                      ? `https://www.youtube.com/embed/${vid.videoId}?autoplay=1&mute=1&rel=0&playsinline=1`
+                      : `https://www.youtube.com/embed/${vid.videoId}?rel=0`;
+                    return (
                     <div
                       key={vid.id}
                       style={{
                         width: VIDEO_W,
                         borderRadius: 18,
                         overflow: "hidden",
-                        boxShadow: "0 4px 20px rgba(3,19,131,0.10)",
+                        boxShadow: isPlaying
+                          ? "0 12px 36px rgba(3,19,131,0.22)"
+                          : "0 4px 20px rgba(3,19,131,0.10)",
                         background: "#fff",
                         transition: "transform 0.2s ease, box-shadow 0.2s ease",
                       }}
-                      onMouseEnter={e => { e.currentTarget.style.transform="translateY(-5px)"; e.currentTarget.style.boxShadow="0 12px 32px rgba(3,19,131,0.18)"; }}
-                      onMouseLeave={e => { e.currentTarget.style.transform="none"; e.currentTarget.style.boxShadow="0 4px 20px rgba(3,19,131,0.10)"; }}
+                      onMouseEnter={e => {
+                        if (!isMobile) setHoveredVidId(vid.id);
+                        e.currentTarget.style.transform="translateY(-5px)";
+                      }}
+                      onMouseLeave={e => {
+                        if (!isMobile) setHoveredVidId(null);
+                        e.currentTarget.style.transform="none";
+                        e.currentTarget.style.boxShadow="0 4px 20px rgba(3,19,131,0.10)";
+                      }}
                     >
                       {/* 16:9 iframe */}
                       <div style={{position:"relative", paddingBottom:"56.25%", background:"#0D0F2B"}}>
                         <iframe
-                          src={`https://www.youtube.com/embed/${vid.videoId}?rel=0`}
+                          key={src}
+                          src={src}
                           title={vid.title || "Class video"}
                           style={{position:"absolute", inset:0, width:"100%", height:"100%", border:"none"}}
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -1495,8 +1527,10 @@
                         </div>
                       )}
                     </div>
-                  ))}
+                    );
+                  })}
                 </HScroll>
+                </div>
               )
             )}
 
