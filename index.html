@@ -173,6 +173,7 @@
     .courses-grid {
       display: grid;
       gap: 0;
+      align-items: stretch;
     }
 
     /* ── Tablet (640–1023px) tweaks ─────────────────────── */
@@ -309,7 +310,7 @@
         nav: { home:"Home", courses:"Courses", roadmap:"Roadmap", gallery:"Gallery", faq:"FAQ", quiz:"Quiz", admin:"Admin" },
         hero: {
           badge:"🎉 Start Speaking from Day 1!",
-          h1a:"Find Your Voice.", h1b:"Be Heard.",
+          h1a:"Find Your Voice", h1b:"Be Heard",
           sub:"Practical English courses for Vietnamese learners. Real conversations, real confidence — from Day 1.",
           cta1:"✨ Take the Quiz", cta2:"View Courses",
           stat1:"100+", stat1l:"Students",
@@ -523,7 +524,7 @@ items: [
         nav: { home:"Trang Chủ", courses:"Khóa Học", roadmap:"Lộ Trình", gallery:"Thư Viện", faq:"FAQ", quiz:"Kiểm Tra", admin:"Quản Trị" },
         hero: {
           badge:"🎉 Hãy bắt đầu hành trình Tiếng Anh của bạn!",
-          h1a:"Để tiếng nói của bạn", h1b:"được lắng nghe.",
+          h1a:"Học tiếng Anh", h1b:"hiệu quả",
           sub:"Khóa tiếng Anh thực tiễn dành cho người Việt. Giao tiếp thực tế, tự tin thực sự từ Ngày đầu tiên.",
           cta1:"✨ Làm Bài Kiểm Tra", cta2:"Xem Khóa Học",
           stat1:"100+", stat1l:"Học Viên",
@@ -933,7 +934,7 @@ items: [
               <div className="absolute top-12 right-0 bg-white rounded-2xl px-4 py-3 shadow-xl border-2 border-sky-100 animate-float"
                 style={{animationDelay:"1.2s",zIndex:20}}>
                 <p className="font-display text-sm font-bold" style={{color:"var(--primary)"}}>Hello! 👋</p>
-                <p className="text-xs text-slate-400 font-semibold">I can do this!</p>
+                <p className="text-xs text-slate-400 font-semibold">Are you ready?</p>
               </div>
               <div className="absolute bottom-24 left-4 bg-white rounded-2xl px-4 py-3 shadow-xl border-2 border-mint animate-float"
                 style={{animationDelay:"2s",zIndex:20,borderColor:"#A7F3D0"}}>
@@ -965,7 +966,7 @@ items: [
         }
       }, [isHighlighted]);
       return (
-        <div ref={cardRef} className="relative flex flex-col" style={{minWidth:0}}>
+        <div ref={cardRef} className="relative flex flex-col" style={{minWidth:0, height:"100%"}}>
 
           {/* ── Arrow between cards — absolute, desktop only ── */}
           {!isLast && (
@@ -1033,11 +1034,11 @@ items: [
             </div>
 
             {/* Expandable detail */}
-            <div style={{maxHeight: open ? "440px" : "0", overflow:"hidden", transition:"max-height 0.4s ease"}}>
-              <div className="px-4 pb-5 pt-3" style={{borderTop:`1px solid ${colorBorder}44`}}>
+            <div className="flex-1 flex flex-col" style={{maxHeight: open ? "600px" : "0", overflow:"hidden", transition:"max-height 0.4s ease"}}>
+              <div className="flex flex-col flex-1 px-4 pb-5 pt-3" style={{borderTop:`1px solid ${colorBorder}44`}}>
                 <p className="text-xs font-extrabold uppercase tracking-widest mb-3"
                   style={{color:"var(--text-muted)"}}>📋 {t.lCon}</p>
-                <ul className="space-y-1.5 mb-4">
+                <ul className="flex-1 space-y-1.5 mb-4">
                   {lv.content.map((item, i) => (
                     <li key={i} className="flex items-start gap-2" style={{color:"var(--text-sub)", fontSize:"0.95rem"}}>
                       <span className="font-extrabold flex-shrink-0 mt-0.5" style={{color}}>✓</span>
@@ -1049,7 +1050,7 @@ items: [
                   href="https://docs.google.com/forms/d/e/1FAIpQLSf6xlHtyJKB1JkQ_3zxplovWNwVdg9El1jXHZ5xmjDs6C7TLA/viewform?usp=share_link&ouid=114423969008470252830"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-3 rounded-xl font-extrabold text-white text-sm
+                  className="w-full py-3 rounded-xl font-extrabold text-white text-sm mt-auto
                     transition-all hover:opacity-90 hover:shadow-lg active:scale-95 flex items-center justify-center"
                   style={{background:`linear-gradient(135deg, ${color}, ${color}BB)`, textDecoration:"none"}}
                   onClick={e => e.stopPropagation()}>
@@ -1985,10 +1986,18 @@ items: [
               <div>
                 <div className="font-display text-3xl mb-4" style={{color:"#A5AEFF"}}>🔊 Be Heard</div>
                 <p className="text-sm leading-relaxed mb-5" style={{color:"rgba(255,255,255,0.6)"}}>{t.tagline}</p>
-                <div className="flex gap-3">
-                  {["fb","ig","yt","tk"].map(s=>(
+                <div className="flex flex-wrap gap-3">
+                  <a
+                    href="https://www.facebook.com/beheard.englishcenter/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-4 py-2 rounded-xl font-extrabold text-sm transition-all hover:scale-105 hover:brightness-110"
+                    style={{background:"#1877F2", color:"#fff", textDecoration:"none"}}>
+                    📘 Fanpage
+                  </a>
+                  {["ig","yt","tk"].map(s=>(
                     <a key={s} href="#" className="w-9 h-9 rounded-xl flex items-center justify-center text-sm transition-all hover:scale-110" style={{background:"rgba(255,255,255,0.1)"}}>
-                      {s==="fb"?"📘":s==="ig"?"📸":s==="yt"?"▶️":"🎵"}
+                      {s==="ig"?"📸":s==="yt"?"▶️":"🎵"}
                     </a>
                   ))}
                 </div>
